@@ -2,8 +2,10 @@ import { ReactNode, useState, useEffect } from "react";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { AppSidebar } from "./AppSidebar";
 import { Button } from "@/components/ui/button";
-import { Moon, Sun, Bell, Plus } from "lucide-react";
+import { Moon, Sun, Bell, Plus, Bot } from "lucide-react";
 import Footer from "./Footer";
+import AIChatSidebar from "@/components/chat/AIChatSidebar";
+import ChatToggleButton from "@/components/chat/ChatToggleButton";
 
 interface DashboardLayoutProps {
   children: ReactNode;
@@ -11,6 +13,7 @@ interface DashboardLayoutProps {
 
 export function DashboardLayout({ children }: DashboardLayoutProps) {
   const [isDark, setIsDark] = useState(false);
+  const [isChatOpen, setIsChatOpen] = useState(false);
 
   useEffect(() => {
     // Check for saved theme preference or default to light mode
@@ -29,12 +32,16 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
     localStorage.setItem('theme', newTheme ? 'dark' : 'light');
   };
 
+  const toggleChat = () => {
+    setIsChatOpen(!isChatOpen);
+  };
+
   return (
     <SidebarProvider>
       <div className="min-h-screen flex w-full bg-gcds-background-primary">
         <AppSidebar />
         
-        <div className="flex-1 flex flex-col min-h-screen">
+        <div className={`flex-1 flex flex-col min-h-screen transition-all duration-300 ${isChatOpen ? 'lg:mr-96 md:mr-80 sm:mr-0' : ''}`}>
           {/* Compact Header */}
           <header className="sticky top-0 z-50 bg-gcds-background-primary/95 backdrop-blur supports-[backdrop-filter]:bg-gcds-background-primary/60 border-b border-gcds-border-secondary">
             <div className="flex items-center justify-between h-14 px-4">
@@ -53,6 +60,24 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
                   className="h-8 w-8 p-0 hover:bg-gcds-background-accent"
                 >
                   <Bell className="h-4 w-4 text-gcds-text-secondary" />
+                </Button>
+                
+                <Button
+                  variant={isChatOpen ? "default" : "ghost"}
+                  size="sm"
+                  onClick={toggleChat}
+                  className={`h-8 px-3 text-xs font-medium transition-all duration-200 ${
+                    isChatOpen 
+                      ? "bg-gcds-color-blue-600 text-white hover:bg-gcds-color-blue-700" 
+                      : "hover:bg-gcds-background-accent text-gcds-text-secondary hover:text-gcds-text-primary"
+                  }`}
+                  aria-label={isChatOpen ? "Close AI Assistant" : "Open AI Assistant"}
+                >
+                  <Bot className="h-4 w-4 mr-2" />
+                  AI Assistant
+                  {isChatOpen && (
+                    <div className="ml-2 w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+                  )}
                 </Button>
                 
                 <Button
@@ -84,6 +109,10 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
           {/* Footer */}
           <Footer />
         </div>
+
+        {/* AI Chat Components */}
+        <AIChatSidebar isOpen={isChatOpen} onToggle={toggleChat} />
+        {!isChatOpen && <ChatToggleButton onClick={toggleChat} />}
       </div>
     </SidebarProvider>
   );
