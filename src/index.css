@@ -1,0 +1,199 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* GC Design System Tokens - Government of Canada styling */
+
+@layer base {
+  :root {
+    /* Legacy shadcn tokens for compatibility */
+    --background: 0 0% 98%;
+    --foreground: 222 16% 13%;
+    --card: 0 0% 100%;
+    --card-foreground: 222 16% 13%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222 16% 13%;
+    --primary: 208 100% 15%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 210 40% 96%;
+    --secondary-foreground: 222 16% 13%;
+    --muted: 210 40% 96%;
+    --muted-foreground: 215 16% 47%;
+    --accent: 210 40% 96%;
+    --accent-foreground: 222 16% 13%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 220 13% 91%;
+    --input: 220 13% 91%;
+    --ring: 208 100% 15%;
+
+    /* GC Design System Base Tokens */
+    --gcds-color-white: 0 0% 100%;
+    --gcds-color-black: 0 0% 0%;
+    --gcds-color-grayscale-50: 0 0% 96%;
+    --gcds-color-grayscale-100: 0 0% 94%;
+    --gcds-color-grayscale-200: 0 0% 87%;
+    --gcds-color-grayscale-300: 0 0% 80%;
+    --gcds-color-grayscale-400: 0 0% 64%;
+    --gcds-color-grayscale-500: 0 0% 45%;
+    --gcds-color-grayscale-600: 0 0% 32%;
+    --gcds-color-grayscale-700: 0 0% 22%;
+    --gcds-color-grayscale-800: 0 0% 13%;
+    --gcds-color-grayscale-900: 0 0% 7%;
+    
+    --gcds-color-blue-50: 208 100% 97%;
+    --gcds-color-blue-100: 208 85% 94%;
+    --gcds-color-blue-200: 208 85% 87%;
+    --gcds-color-blue-300: 208 85% 75%;
+    --gcds-color-blue-400: 208 85% 60%;
+    --gcds-color-blue-500: 208 85% 45%;
+    --gcds-color-blue-600: 208 85% 35%;
+    --gcds-color-blue-700: 208 100% 25%;
+    --gcds-color-blue-800: 208 100% 18%;
+    --gcds-color-blue-900: 208 100% 15%;
+    
+    --gcds-color-red-50: 0 86% 97%;
+    --gcds-color-red-100: 0 93% 94%;
+    --gcds-color-red-200: 0 96% 89%;
+    --gcds-color-red-300: 0 94% 82%;
+    --gcds-color-red-400: 0 91% 71%;
+    --gcds-color-red-500: 0 84% 60%;
+    --gcds-color-red-600: 0 72% 51%;
+    --gcds-color-red-700: 0 74% 42%;
+    --gcds-color-red-800: 0 70% 35%;
+    --gcds-color-red-900: 0 63% 31%;
+
+    /* GC Design System Global Tokens */
+    --gcds-text-primary: 208 100% 15%;
+    --gcds-text-secondary: 0 0% 32%;
+    --gcds-text-light: 0 0% 45%;
+    --gcds-text-link: 208 85% 35%;
+    --gcds-text-link-hover: 208 100% 25%;
+    --gcds-text-danger: 0 74% 42%;
+    --gcds-text-success: 142 76% 36%;
+
+    --gcds-background-primary: 0 0% 100%;
+    --gcds-background-secondary: 0 0% 96%;
+    --gcds-background-accent: 208 100% 97%;
+    --gcds-background-danger: 0 86% 97%;
+    --gcds-background-success: 142 76% 96%;
+
+    --gcds-border-primary: 0 0% 87%;
+    --gcds-border-secondary: 0 0% 94%;
+    --gcds-border-accent: 208 85% 87%;
+    --gcds-border-focus: 208 85% 60%;
+
+    --gcds-focus-border: 208 85% 60%;
+    --gcds-focus-text: 208 100% 15%;
+
+    /* GC Design System Component Tokens */
+    --gcds-button-primary-default-background: 208 100% 15%;
+    --gcds-button-primary-default-text: 0 0% 100%;
+    --gcds-button-primary-default-border: 208 100% 15%;
+    --gcds-button-primary-hover-background: 208 100% 18%;
+    --gcds-button-primary-hover-text: 0 0% 100%;
+    --gcds-button-primary-focus-background: 208 100% 15%;
+
+    --gcds-button-secondary-default-background: 0 0% 100%;
+    --gcds-button-secondary-default-text: 208 100% 15%;
+    --gcds-button-secondary-default-border: 208 100% 15%;
+    --gcds-button-secondary-hover-background: 208 100% 97%;
+    --gcds-button-secondary-hover-text: 208 100% 15%;
+
+    /* Spacing tokens */
+    --gcds-spacing-100: 0.25rem;
+    --gcds-spacing-200: 0.5rem;
+    --gcds-spacing-300: 0.75rem;
+    --gcds-spacing-400: 1rem;
+    --gcds-spacing-500: 1.25rem;
+    --gcds-spacing-600: 1.5rem;
+    --gcds-spacing-700: 1.75rem;
+    --gcds-spacing-800: 2rem;
+    --gcds-spacing-900: 2.25rem;
+    --gcds-spacing-1000: 2.5rem;
+
+    /* Font size tokens */
+    --gcds-font-sizes-caption: 0.75rem;
+    --gcds-font-sizes-text: 1rem;
+    --gcds-font-sizes-h6: 1.125rem;
+    --gcds-font-sizes-h5: 1.25rem;
+    --gcds-font-sizes-h4: 1.5rem;
+    --gcds-font-sizes-h3: 1.875rem;
+    --gcds-font-sizes-h2: 2.25rem;
+    --gcds-font-sizes-h1: 3rem;
+
+    --radius: 0.5rem;
+
+    --sidebar-background: 0 0% 98%;
+
+    --sidebar-foreground: 240 5.3% 26.1%;
+
+    --sidebar-primary: 240 5.9% 10%;
+
+    --sidebar-primary-foreground: 0 0% 98%;
+
+    --sidebar-accent: 240 4.8% 95.9%;
+
+    --sidebar-accent-foreground: 240 5.9% 10%;
+
+    --sidebar-border: 220 13% 91%;
+
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+
+  .dark {
+    --background: 222 47% 11%;
+    --foreground: 210 40% 98%;
+
+    --card: 222 47% 13%;
+    --card-foreground: 210 40% 98%;
+
+    --popover: 222 47% 13%;
+    --popover-foreground: 210 40% 98%;
+
+    --primary: 0 100% 60%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 217 91% 65%;
+    --secondary-foreground: 0 0% 100%;
+
+    --muted: 217 33% 17%;
+    --muted-foreground: 215 20% 65%;
+
+    --accent: 217 33% 20%;
+    --accent-foreground: 217 91% 65%;
+
+    --destructive: 0 63% 31%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 217 33% 17%;
+    --input: 217 33% 17%;
+    --ring: 0 100% 60%;
+    
+    /* Dark mode gradients */
+    --gradient-hero: linear-gradient(135deg, hsl(0 100% 60% / 0.2), hsl(217 91% 65% / 0.2));
+    --gradient-card: linear-gradient(145deg, hsl(222 47% 13%), hsl(217 33% 17%));
+    
+    /* Dark mode shadows */
+    --shadow-card: 0 2px 10px hsl(0 0% 0% / 0.3);
+    --shadow-card-hover: 0 4px 20px hsl(0 0% 0% / 0.4);
+    --sidebar-background: 240 5.9% 10%;
+    --sidebar-foreground: 240 4.8% 95.9%;
+    --sidebar-primary: 224.3 76.3% 48%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 240 3.7% 15.9%;
+    --sidebar-accent-foreground: 240 4.8% 95.9%;
+    --sidebar-border: 240 3.7% 15.9%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+  }
+}

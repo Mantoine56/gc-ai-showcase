@@ -1,0 +1,19 @@
+<svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect width="32" height="32" rx="4" fill="#0F3460"/>
+  
+  <!-- Simplified maple leaf -->
+  <path d="M16 6L17.5 9.5L21 8.5L19.5 12L23 13L19.5 14.5L21 18L17.5 17L16 20.5L14.5 17L11 18L12.5 14.5L9 13L12.5 12L11 8.5L14.5 9.5L16 6Z" fill="#FF0000"/>
+  
+  <!-- AI circuit pattern overlay -->
+  <g opacity="0.3">
+    <circle cx="7" cy="7" r="1.5" fill="#00D4FF"/>
+    <circle cx="25" cy="7" r="1.5" fill="#00D4FF"/>
+    <circle cx="7" cy="25" r="1.5" fill="#00D4FF"/>
+    <circle cx="25" cy="25" r="1.5" fill="#00D4FF"/>
+    <line x1="7" y1="7" x2="16" y2="16" stroke="#00D4FF" stroke-width="1"/>
+    <line x1="25" y1="7" x2="16" y2="16" stroke="#00D4FF" stroke-width="1"/>
+    <line x1="7" y1="25" x2="16" y2="16" stroke="#00D4FF" stroke-width="1"/>
+    <line x1="25" y1="25" x2="16" y2="16" stroke="#00D4FF" stroke-width="1"/>
+  </g>
+</svg>
