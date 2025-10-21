@@ -1,0 +1,80 @@
+[
+  {
+    "id": "chatbot-assistant",
+    "title": "Citizen Service Chatbot",
+    "department": "Service Canada",
+    "description": "AI-powered chatbot helping citizens navigate government services and answer common questions about benefits, immigration, and taxes.",
+    "tags": ["NLP", "Customer Service", "React", "Python"],
+    "techStack": ["React", "Python", "FastAPI", "OpenAI GPT"],
+    "demoUrl": "https://hf.co/spaces/demo/chatbot",
+    "repoUrl": "https://github.com/gc-ai/chatbot-assistant",
+    "image": "/api/placeholder/400/200",
+    "featured": true,
+    "status": "Production"
+  },
+  {
+    "id": "document-classifier",
+    "title": "Document Intelligence System", 
+    "department": "Canada Revenue Agency",
+    "description": "Automated document classification and information extraction from tax forms and financial documents using computer vision.",
+    "tags": ["Computer Vision", "OCR", "TensorFlow", "Document Processing"],
+    "techStack": ["Python", "TensorFlow", "OpenCV", "FastAPI"],
+    "demoUrl": "https://gradio.app/demo/document-ai",
+    "repoUrl": "https://github.com/gc-ai/document-classifier",
+    "image": "/api/placeholder/400/200",
+    "featured": true,
+    "status": "Beta"
+  },
+  {
+    "id": "language-translator",
+    "title": "Real-time Translation Service",
+    "department": "Canadian Heritage",
+    "description": "Real-time translation service supporting English and French for government communications and citizen interactions.",
+    "tags": ["NLP", "Translation", "Bilingual", "API"],
+    "techStack": ["Python", "Transformers", "FastAPI", "Docker"],
+    "demoUrl": "https://hf.co/spaces/demo/translator",
+    "repoUrl": "https://github.com/gc-ai/translator",
+    "image": "/api/placeholder/400/200",
+    "featured": false,
+    "status": "Production"
+  },
+  {
+    "id": "fraud-detection",
+    "title": "Fraud Detection Engine",
+    "department": "Public Safety Canada",
+    "description": "Machine learning system for detecting fraudulent activities in government benefit applications and financial transactions.",
+    "tags": ["Machine Learning", "Fraud Detection", "Anomaly Detection", "Security"],
+    "techStack": ["Python", "Scikit-learn", "PostgreSQL", "MLflow"],
+    "demoUrl": "https://gradio.app/demo/fraud-detection",
+    "repoUrl": "https://github.com/gc-ai/fraud-detection",
+    "image": "/api/placeholder/400/200",
+    "featured": true,
+    "status": "Pilot"
+  },
+  {
+    "id": "policy-analyzer",
+    "title": "Policy Impact Analyzer",
+    "department": "Privy Council Office",
+    "description": "AI tool for analyzing potential impacts of policy changes using historical data and predictive modeling.",
+    "tags": ["Data Analytics", "Policy", "Predictive Modeling", "Visualization"],
+    "techStack": ["R", "Shiny", "Python", "Tableau"],
+    "demoUrl": "https://shiny.app/demo/policy-analyzer",
+    "repoUrl": "https://github.com/gc-ai/policy-analyzer",
+    "image": "/api/placeholder/400/200",
+    "featured": false,
+    "status": "Research"
+  },
+  {
+    "id": "accessibility-checker",
+    "title": "Web Accessibility Validator",
+    "department": "Treasury Board Secretariat",
+    "description": "Automated accessibility testing tool ensuring government websites meet WCAG 2.1 AA standards.",
+    "tags": ["Accessibility", "Web Testing", "WCAG", "Automation"],
+    "techStack": ["JavaScript", "Puppeteer", "Node.js", "React"],
+    "demoUrl": "https://gc-accessibility.netlify.app",
+    "repoUrl": "https://github.com/gc-ai/accessibility-checker",
+    "image": "/api/placeholder/400/200",
+    "featured": false,
+    "status": "Production"
+  }
+]

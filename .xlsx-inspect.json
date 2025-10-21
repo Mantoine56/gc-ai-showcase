@@ -1,0 +1,128 @@
+{
+  "workbook": {
+    "sheetNames": [
+      "GC"
+    ]
+  },
+  "sheets": {
+    "GC": {
+      "headers": [
+        "AI Register ID (TBS use only)",
+        "Name of AI system ",
+        "Service Inventory ID ",
+        "Government organization",
+        "Purpose of AI system ",
+        "AI system primary users",
+        "Developed by",
+        "Vendor name ",
+        "AI system status",
+        "Status date ",
+        "AI system capabilities",
+        "Automated decision system",
+        "Algorithmic Impact Assessment",
+        "Data sources",
+        "Involves personal information",
+        "Personal Information Banks",
+        "Notification of AI",
+        "Access to Information request",
+        "AI system results",
+        "Source 1 (TBS use only)",
+        "Source 2 (TBS use only)"
+      ],
+      "sample": [
+        [
+          "To be assigned when register complete",
+          "Identifies the name of the AI system. Where available, please provide the official project, system or tool name. If no official name exists, please provide a short descriptive title. Max 50 characters including spaces",
+          "Identifies the unique number assigned to a service in the GC Service Inventory. Leave blank if not applicable",
+          "Identifies the department or agency responsible for the AI system",
+          "Provides a brief description of the system and the reasons AI is being used. Include business problem that prompted exploration of AI use and the objective of system. Please spell out acronyms and abbreviations. Max 1000 characters including spaces",
+          "Identifies whether the primary users of the AI system are GC employees, members of the public, both, or neither",
+          "Identifies the developer of the system. If more than one option applies but parts of system were procured, please choose \"vendor\" and state vendor name in column H. Choose \"other\" for systems involving non-vendor external developers (e.g.,academia, civil society)",
+          "Provides the name of the vendor from whom the AI system was procured. If no vendor, state \"Not applicable\"",
+          "Identifies the current status of the AI system: i.e., whether the AI system is in development, in production, or retired. Choose \"In development\" for any current exploration, experimentation, or pilot.",
+          "Identifies the calendar year the AI system entered this status: e.g., if pilot began in 2021, or system was retired in 2019",
+          "Identifies the capabilities of the AI system. Max 300 characters",
+          "Identifies whether the AI system makes administrative decisions or related assessments about clients. For information on definition of an automated decision system, please see Directive on Automated Decision Making",
+          "Provides the unique number assigned to completed Algorithmic Impact Assessments (AIA) on the Open Government Portal. If this does not apply, state \"Not applicable.\"",
+          "Describes the sources of the data used to train and as inputs for the AI system. Give names of datasets if available, or describe type and source of data used.",
+          "Identifies whether the AI system uses or creates personal information ",
+          "Identifies the Personal Information Banks associated with the activity. If no PIB exists, please state \"Not applicable\"",
+          "Identifies whether users are notified that they are interacting with an AI system",
+          "Identifies any access to information request number relating to the AI system ",
+          "Describes the expected or actual results of the implementation of the AI system. Max 500 characters including spaces"
+        ],
+        [
+          "To be assigned when register complete",
+          "AgPal Chat",
+          null,
+          "Agriculture and Agri-Food Canada",
+          "AgPal and generative AI is making it easier for anyone to find information about more than 400 federal, provincial, territorial, and municipal programs and services that support the sustainable growth and competitiveness of the sector. AgPal Chat allows users to find information on the programs and services available to them quicker, giving them easier and better access to funding and support tailored to their needs. ",
+          "Members of public",
+          "Government of Canada",
+          "Not applicable",
+          "In production",
+          2024,
+          "Generative AI chatbot",
+          "No",
+          "Not applicable",
+          null,
+          "Yes",
+          "Public Communications PSU 914",
+          "Yes",
+          " AAFC_A-2024-00061, AAFC_A-2024-00060"
+        ],
+        [
+          "To be assigned when register complete",
+          "Document Detective",
+          null,
+          "Agriculture and Agri-Food Canada",
+          "Built upon SSC’s automated tool, AAFC’s Document Detective Tool is a smart system that helps the Access to Information and Privacy (ATIP) team streamline and accelerate the process of finding identical or very similar documents. The tool’s scalable and flexible architecture ensures that it can grow with our needs and can be used in different areas without needing major changes for process optimization and efficiency. Discussions are underway to scale the tool in other departments.",
+          "Employees",
+          "Government of Canada",
+          "Not applicable",
+          "In production",
+          2023,
+          "Document extraction",
+          "No",
+          "Not applicable",
+          null,
+          "No",
+          null,
+          null,
+          null,
+          "Since its implementation in July 2023, it reduced manual work by upwards of 70%. "
+        ],
+        [
+          "To be assigned when register complete",
+          "Milo",
+          null,
+          "Agriculture and Agri-Food Canada",
+          "Milo is an internal, enterprise IT chatbot first launched in 2019 that helps users get the technical help they need. It interoperates with the IT ticketing system to streamline IT requests and provides users with answers to frequently asked IT questions. At the beginning of 2024, AAFC started implementing improvements to the chatbot, leveraging the power of AI to further streamline processes, enabling users to get the help they need in an even more natural and conversational manner.    ",
+          "Employees",
+          null,
+          null,
+          null,
+          null,
+          "Generative AI chatbot",
+          "No",
+          "Not applicable"
+        ],
+        [
+          "To be assigned when register complete",
+          "Annual Crop Inventory Map",
+          null,
+          "Agriculture and Agri-Food Canada",
+          "Since 2009, the Annual Crop Inventory Map is one of AAFC's most downloaded open datasets and is used for sustainability reporting, policy, and programming by providing metrics of land use and environmental change over time. A more complex AI model is under development to reduce model training datam  field collection effort, and annual costs. AAFC and NRCan are evaluating Quantum Computing technologies and advanced machine learning for Earth Observation data classification for future work.",
+          "Both employees and public",
+          "Government of Canada",
+          "Not applicable",
+          "In development",
+          null,
+          null,
+          "No",
+          "Not applicable"
+        ]
+      ]
+    }
+  }
+}
