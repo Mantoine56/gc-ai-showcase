@@ -1,269 +1,507 @@
 import { useParams, Link } from 'react-router-dom';
+import { DashboardLayout } from '@/components/layout/DashboardLayout';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Card, CardContent } from '@/components/ui/card';
-import { ArrowLeft, ExternalLink, Github, Play, Users, Calendar } from 'lucide-react';
-import Header from '@/components/layout/Header';
-import Footer from '@/components/layout/Footer';
-import projectsData from '@/data/projects.json';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Separator } from '@/components/ui/separator';
+import {
+  ArrowLeft,
+  Building2,
+  Calendar,
+  Shield,
+  User,
+  Users,
+  Code,
+  Database,
+  FileText,
+  CheckCircle,
+  XCircle,
+  AlertTriangle,
+  Star,
+  TrendingUp,
+} from 'lucide-react';
+import { useProject } from '@/hooks/useProjects';
+import { ProjectStatus, PrimaryUsers, DevelopedBy } from '@/types';
 
 const ProjectDetail = () => {
-  const { id } = useParams();
-  const project = projectsData.find(p => p.id === id);
+  const { id } = useParams<{ id: string }>();
+  const { data: project, isLoading, error } = useProject(id!);
 
-  if (!project) {
+  if (isLoading) {
     return (
-      <div className="min-h-screen bg-background">
-        <Header />
-        <main className="container mx-auto px-4 py-16">
-          <div className="text-center">
-            <h1 className="text-2xl font-bold mb-4">Project Not Found</h1>
-            <p className="text-muted-foreground mb-8">The project you're looking for doesn't exist.</p>
-            <Button asChild>
-              <Link to="/">
-                <ArrowLeft className="mr-2 h-4 w-4" />
-                Back to Projects
-              </Link>
-            </Button>
+      <DashboardLayout>
+        <div className="p-6 space-y-6">
+          <div className="animate-pulse space-y-6">
+            <div className="h-8 bg-muted rounded w-1/4"></div>
+            <div className="h-12 bg-muted rounded w-3/4"></div>
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+              <div className="lg:col-span-2 space-y-4">
+                <div className="h-64 bg-muted rounded"></div>
+                <div className="h-64 bg-muted rounded"></div>
+              </div>
+              <div className="space-y-4">
+                <div className="h-64 bg-muted rounded"></div>
+              </div>
+            </div>
           </div>
-        </main>
-        <Footer />
-      </div>
+        </div>
+      </DashboardLayout>
     );
   }
 
-  const getStatusColor = (status: string) => {
+  if (error || !project) {
+    return (
+      <DashboardLayout>
+        <div className="p-6">
+          <div className="text-center py-12">
+            <h1 className="text-2xl font-bold mb-4">Project Not Found</h1>
+            <p className="text-muted-foreground mb-8">
+              The project you're looking for doesn't exist or has been removed.
+            </p>
+            <Button asChild>
+              <Link to="/">
+                <ArrowLeft className="mr-2 h-4 w-4" />
+                Back to Dashboard
+              </Link>
+            </Button>
+          </div>
+        </div>
+      </DashboardLayout>
+    );
+  }
+
+  const getStatusColor = (status: ProjectStatus) => {
     switch (status) {
-      case 'Production':
+      case ProjectStatus.InProduction:
         return 'bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-300';
-      case 'Beta':
-        return 'bg-blue-100 text-blue-800 dark:bg-blue-900/20 dark:text-blue-300';
-      case 'Pilot':
+      case ProjectStatus.InDevelopment:
         return 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/20 dark:text-yellow-300';
-      case 'Research':
-        return 'bg-purple-100 text-purple-800 dark:bg-purple-900/20 dark:text-purple-300';
+      case ProjectStatus.Retired:
+        return 'bg-gray-100 text-gray-800 dark:bg-gray-900/20 dark:text-gray-300';
       default:
         return 'bg-gray-100 text-gray-800 dark:bg-gray-900/20 dark:text-gray-300';
     }
   };
 
+  const getStatusLabel = (status: ProjectStatus) => {
+    switch (status) {
+      case ProjectStatus.InProduction:
+        return 'In Production';
+      case ProjectStatus.InDevelopment:
+        return 'In Development';
+      case ProjectStatus.Retired:
+        return 'Retired';
+      default:
+        return status;
+    }
+  };
+
+  const getPrimaryUsersLabel = (users: PrimaryUsers) => {
+    switch (users) {
+      case PrimaryUsers.Employees:
+        return 'Government Employees';
+      case PrimaryUsers.MembersOfPublic:
+        return 'Members of the Public';
+      case PrimaryUsers.Both:
+        return 'Both Employees and Public';
+      case PrimaryUsers.Neither:
+        return 'Neither';
+      default:
+        return users;
+    }
+  };
+
+  const getDevelopedByLabel = (dev: DevelopedBy) => {
+    switch (dev) {
+      case DevelopedBy.Government:
+        return 'Government (In-house)';
+      case DevelopedBy.Vendor:
+        return 'Vendor';
+      case DevelopedBy.Other:
+        return 'Other';
+      default:
+        return dev;
+    }
+  };
+
+  const capabilities = project.capabilities
+    ? project.capabilities.split(',').map(c => c.trim())
+    : [];
+
+  const dataSources = project.dataSources
+    ? project.dataSources.split(',').map(d => d.trim())
+    : [];
+
+  const personalInformationBanks = project.personalInformationBanks
+    ? project.personalInformationBanks.split(',').map(p => p.trim())
+    : [];
+
   return (
-    <div className="min-h-screen bg-background">
-      <Header />
-      
-      <main className="container mx-auto px-4 py-8">
-        {/* Breadcrumbs */}
-        <div className="mb-8">
+    <DashboardLayout>
+      <div className="p-6 space-y-6">
+        {/* Breadcrumb */}
+        <div>
           <Button variant="ghost" asChild className="pl-0">
             <Link to="/">
               <ArrowLeft className="mr-2 h-4 w-4" />
-              Back to Projects
+              Back to Dashboard
             </Link>
           </Button>
         </div>
 
         {/* Project Header */}
-        <div className="mb-12">
-          <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
-            <div className="space-y-4">
-              <div className="flex items-center gap-3">
-                <Badge className={getStatusColor(project.status)}>
-                  {project.status}
-                </Badge>
-                {project.featured && (
-                  <Badge variant="outline" className="text-primary border-primary">
-                    Featured
-                  </Badge>
-                )}
+        <div className="space-y-4">
+          <div className="flex flex-wrap items-center gap-2">
+            <Badge className={getStatusColor(project.status)}>
+              {getStatusLabel(project.status)}
+            </Badge>
+            {project.featured && (
+              <Badge variant="outline" className="text-yellow-600 border-yellow-600">
+                <Star className="h-3 w-3 mr-1" />
+                Featured
+              </Badge>
+            )}
+            {project.isAutomatedDecisionSystem && (
+              <Badge variant="outline" className="text-blue-600 border-blue-600">
+                <Shield className="h-3 w-3 mr-1" />
+                Automated Decision System
+              </Badge>
+            )}
+            {project.involvesPersonalInfo && (
+              <Badge variant="outline" className="text-purple-600 border-purple-600">
+                <User className="h-3 w-3 mr-1" />
+                Involves Personal Information
+              </Badge>
+            )}
+          </div>
+
+          <div>
+            <h1 className="text-3xl lg:text-4xl font-bold text-gcds-text-primary">
+              {project.name}
+            </h1>
+            <div className="flex flex-wrap items-center gap-4 mt-3 text-muted-foreground">
+              <div className="flex items-center gap-2">
+                <Building2 className="h-4 w-4" />
+                <span>{project.organization?.nameEN || 'Unknown Organization'}</span>
               </div>
-              
-              <h1 className="text-4xl md:text-5xl font-bold text-foreground">
-                {project.title}
-              </h1>
-              
-              <div className="flex items-center gap-4 text-muted-foreground">
-                <div className="flex items-center gap-2">
-                  <Users className="h-4 w-4" />
-                  {project.department}
-                </div>
+              {project.statusYear && (
                 <div className="flex items-center gap-2">
                   <Calendar className="h-4 w-4" />
-                  Last updated: Dec 2024
+                  <span>Since {project.statusYear}</span>
                 </div>
-              </div>
-            </div>
-
-            {/* Action Buttons */}
-            <div className="flex flex-col sm:flex-row gap-3">
-              {project.demoUrl && (
-                <Button size="lg" asChild>
-                  <a 
-                    href={project.demoUrl} 
-                    target="_blank" 
-                    rel="noopener noreferrer"
-                    className="flex items-center"
-                  >
-                    <Play className="mr-2 h-5 w-5" />
-                    Launch Demo
-                  </a>
-                </Button>
               )}
-              
-              {project.repoUrl && (
-                <Button variant="outline" size="lg" asChild>
-                  <a 
-                    href={project.repoUrl} 
-                    target="_blank" 
-                    rel="noopener noreferrer"
-                    className="flex items-center"
-                  >
-                    <Github className="mr-2 h-5 w-5" />
-                    View Source
-                  </a>
-                </Button>
+              {project.aiRegisterId && (
+                <div className="flex items-center gap-2">
+                  <Code className="h-4 w-4" />
+                  <span className="font-mono text-xs">{project.aiRegisterId}</span>
+                </div>
               )}
             </div>
           </div>
         </div>
 
-        {/* Main Content */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* Main Content Column */}
-          <div className="lg:col-span-2 space-y-8">
-            {/* Description */}
+        {/* Main Content Grid */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          {/* Main Content */}
+          <div className="lg:col-span-2 space-y-6">
+            {/* Overview */}
             <Card>
-              <CardContent className="p-6">
-                <h2 className="text-2xl font-bold mb-4">Overview</h2>
-                <p className="text-muted-foreground leading-relaxed text-lg">
+              <CardHeader>
+                <CardTitle>Overview</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-muted-foreground leading-relaxed">
                   {project.description}
                 </p>
               </CardContent>
             </Card>
 
-            {/* Demo Embed */}
-            {project.demoUrl && (
+            {/* Capabilities */}
+            {capabilities.length > 0 && (
               <Card>
-                <CardContent className="p-6">
-                  <div className="flex items-center justify-between mb-4">
-                    <h2 className="text-2xl font-bold">Live Demo</h2>
-                    <Button variant="outline" size="sm" asChild>
-                      <a 
-                        href={project.demoUrl} 
-                        target="_blank" 
-                        rel="noopener noreferrer"
-                        className="flex items-center"
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <TrendingUp className="h-5 w-5" />
+                    Capabilities
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="flex flex-wrap gap-2">
+                    {capabilities.map((capability, index) => (
+                      <Badge
+                        key={index}
+                        variant="secondary"
+                        className="text-sm px-3 py-1"
                       >
-                        <ExternalLink className="mr-2 h-4 w-4" />
-                        Open in New Tab
-                      </a>
-                    </Button>
-                  </div>
-                  <div className="bg-muted rounded-lg p-8 text-center">
-                    <p className="text-muted-foreground">
-                      Interactive demo would be embedded here
-                    </p>
-                    <p className="text-sm text-muted-foreground mt-2">
-                      (Hugging Face Space or Gradio interface)
-                    </p>
+                        {capability}
+                      </Badge>
+                    ))}
                   </div>
                 </CardContent>
               </Card>
             )}
 
-            {/* Additional Information */}
+            {/* Outcomes */}
+            {project.outcomes && (
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <CheckCircle className="h-5 w-5 text-green-600" />
+                    Outcomes & Impact
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-muted-foreground leading-relaxed">
+                    {project.outcomes}
+                  </p>
+                </CardContent>
+              </Card>
+            )}
+
+            {/* Data & Privacy */}
             <Card>
-              <CardContent className="p-6">
-                <h2 className="text-2xl font-bold mb-4">Key Features</h2>
-                <ul className="space-y-2 text-muted-foreground">
-                  <li>• Advanced machine learning algorithms</li>
-                  <li>• Real-time processing capabilities</li>
-                  <li>• Scalable cloud-native architecture</li>
-                  <li>• Compliance with GC security standards</li>
-                  <li>• Bilingual support (English/French)</li>
-                </ul>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <Database className="h-5 w-5" />
+                  Data & Privacy
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div>
+                  <h4 className="font-semibold text-sm mb-2">Data Sources</h4>
+                  {dataSources.length > 0 ? (
+                    <div className="space-y-1">
+                      {dataSources.map((source, index) => (
+                        <div key={index} className="text-sm text-muted-foreground">
+                          • {source}
+                        </div>
+                      ))}
+                    </div>
+                  ) : (
+                    <p className="text-sm text-muted-foreground">Not specified</p>
+                  )}
+                </div>
+
+                <Separator />
+
+                <div>
+                  <h4 className="font-semibold text-sm mb-2">Personal Information</h4>
+                  <div className="flex items-center gap-2 text-sm">
+                    {project.involvesPersonalInfo ? (
+                      <>
+                        <CheckCircle className="h-4 w-4 text-green-600" />
+                        <span>This system involves personal information</span>
+                      </>
+                    ) : (
+                      <>
+                        <XCircle className="h-4 w-4 text-gray-400" />
+                        <span>This system does not involve personal information</span>
+                      </>
+                    )}
+                  </div>
+                  {personalInformationBanks.length > 0 && (
+                    <div className="mt-2 space-y-1">
+                      <p className="text-xs text-muted-foreground font-semibold">
+                        Personal Information Banks:
+                      </p>
+                      {personalInformationBanks.map((bank, index) => (
+                        <div key={index} className="text-xs text-muted-foreground">
+                          • {bank}
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+
+                <Separator />
+
+                <div>
+                  <h4 className="font-semibold text-sm mb-2">User Notification</h4>
+                  <div className="flex items-center gap-2 text-sm">
+                    {project.hasUserNotification ? (
+                      <>
+                        <CheckCircle className="h-4 w-4 text-green-600" />
+                        <span>Users are notified about AI use</span>
+                      </>
+                    ) : (
+                      <>
+                        <XCircle className="h-4 w-4 text-gray-400" />
+                        <span>No user notification implemented</span>
+                      </>
+                    )}
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Compliance & Governance */}
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <Shield className="h-5 w-5" />
+                  Compliance & Governance
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div>
+                  <h4 className="font-semibold text-sm mb-2">
+                    Automated Decision System (ADS)
+                  </h4>
+                  <div className="flex items-center gap-2 text-sm">
+                    {project.isAutomatedDecisionSystem ? (
+                      <>
+                        <AlertTriangle className="h-4 w-4 text-yellow-600" />
+                        <span>This is an Automated Decision System</span>
+                      </>
+                    ) : (
+                      <>
+                        <CheckCircle className="h-4 w-4 text-gray-400" />
+                        <span>Not an Automated Decision System</span>
+                      </>
+                    )}
+                  </div>
+                </div>
+
+                {project.openGovAiaId && (
+                  <>
+                    <Separator />
+                    <div>
+                      <h4 className="font-semibold text-sm mb-2">
+                        Open Government AIA ID
+                      </h4>
+                      <p className="text-sm text-muted-foreground font-mono">
+                        {project.openGovAiaId}
+                      </p>
+                    </div>
+                  </>
+                )}
+
+                {project.atipRequestRefs && (
+                  <>
+                    <Separator />
+                    <div>
+                      <h4 className="font-semibold text-sm mb-2">ATIP Request References</h4>
+                      <p className="text-sm text-muted-foreground">
+                        {project.atipRequestRefs}
+                      </p>
+                    </div>
+                  </>
+                )}
               </CardContent>
             </Card>
           </div>
 
           {/* Sidebar */}
           <div className="space-y-6">
-            {/* Technologies */}
+            {/* Quick Info */}
             <Card>
-              <CardContent className="p-6">
-                <h3 className="font-bold mb-4">Tech Stack</h3>
-                <div className="space-y-3">
-                  {project.techStack.map((tech) => (
-                    <div 
-                      key={tech}
-                      className="flex items-center justify-between p-2 bg-muted rounded-md"
-                    >
-                      <span className="text-sm font-medium">{tech}</span>
+              <CardHeader>
+                <CardTitle>Quick Info</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div>
+                  <h4 className="text-xs font-semibold text-muted-foreground uppercase mb-1">
+                    Organization
+                  </h4>
+                  <p className="text-sm font-medium">
+                    {project.organization?.nameEN || 'Unknown'}
+                  </p>
+                  {project.organization?.acronym && (
+                    <p className="text-xs text-muted-foreground">
+                      {project.organization.acronym}
+                    </p>
+                  )}
+                </div>
+
+                <Separator />
+
+                <div>
+                  <h4 className="text-xs font-semibold text-muted-foreground uppercase mb-1">
+                    Primary Users
+                  </h4>
+                  <div className="flex items-center gap-2">
+                    <Users className="h-4 w-4 text-muted-foreground" />
+                    <p className="text-sm">{getPrimaryUsersLabel(project.primaryUsers)}</p>
+                  </div>
+                </div>
+
+                <Separator />
+
+                <div>
+                  <h4 className="text-xs font-semibold text-muted-foreground uppercase mb-1">
+                    Developed By
+                  </h4>
+                  <p className="text-sm">{getDevelopedByLabel(project.developedBy)}</p>
+                  {project.vendorName && (
+                    <p className="text-xs text-muted-foreground mt-1">
+                      Vendor: {project.vendorName}
+                    </p>
+                  )}
+                </div>
+
+                <Separator />
+
+                <div>
+                  <h4 className="text-xs font-semibold text-muted-foreground uppercase mb-1">
+                    Status
+                  </h4>
+                  <Badge className={getStatusColor(project.status)}>
+                    {getStatusLabel(project.status)}
+                  </Badge>
+                  {project.statusYear && (
+                    <p className="text-xs text-muted-foreground mt-1">
+                      Since {project.statusYear}
+                    </p>
+                  )}
+                </div>
+
+                {project.serviceInventoryId && (
+                  <>
+                    <Separator />
+                    <div>
+                      <h4 className="text-xs font-semibold text-muted-foreground uppercase mb-1">
+                        Service Inventory ID
+                      </h4>
+                      <p className="text-xs font-mono text-muted-foreground">
+                        {project.serviceInventoryId}
+                      </p>
                     </div>
-                  ))}
-                </div>
+                  </>
+                )}
               </CardContent>
             </Card>
 
-            {/* Tags */}
+            {/* Metadata */}
             <Card>
-              <CardContent className="p-6">
-                <h3 className="font-bold mb-4">Categories</h3>
-                <div className="flex flex-wrap gap-2">
-                  {project.tags.map((tag) => (
-                    <Badge key={tag} variant="outline" className="text-xs">
-                      {tag}
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <FileText className="h-5 w-5" />
+                  Metadata
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-3 text-xs text-muted-foreground">
+                <div>
+                  <span className="font-semibold">Created:</span>{' '}
+                  {new Date(project.createdAt).toLocaleDateString()}
+                </div>
+                <div>
+                  <span className="font-semibold">Last Updated:</span>{' '}
+                  {new Date(project.updatedAt).toLocaleDateString()}
+                </div>
+                {project.moderationState && (
+                  <div>
+                    <span className="font-semibold">Status:</span>{' '}
+                    <Badge variant="outline" className="text-xs ml-1">
+                      {project.moderationState}
                     </Badge>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
-
-            {/* Quick Stats */}
-            <Card>
-              <CardContent className="p-6">
-                <h3 className="font-bold mb-4">Project Stats</h3>
-                <div className="space-y-4">
-                  <div className="flex justify-between">
-                    <span className="text-sm text-muted-foreground">Status</span>
-                    <Badge className={getStatusColor(project.status)}>
-                      {project.status}
-                    </Badge>
                   </div>
-                  <div className="flex justify-between">
-                    <span className="text-sm text-muted-foreground">Department</span>
-                    <span className="text-sm font-medium">{project.department}</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-sm text-muted-foreground">License</span>
-                    <span className="text-sm font-medium">MIT</span>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-
-            {/* Contact */}
-            <Card>
-              <CardContent className="p-6">
-                <h3 className="font-bold mb-4">Get Involved</h3>
-                <p className="text-sm text-muted-foreground mb-4">
-                  Interested in contributing or learning more?
-                </p>
-                <div className="space-y-2">
-                  <Button variant="outline" size="sm" className="w-full justify-start">
-                    Join Slack Channel
-                  </Button>
-                  <Button variant="outline" size="sm" className="w-full justify-start">
-                    Email Team
-                  </Button>
-                </div>
+                )}
               </CardContent>
             </Card>
           </div>
         </div>
-      </main>
-
-      <Footer />
-    </div>
+      </div>
+    </DashboardLayout>
   );
 };
 

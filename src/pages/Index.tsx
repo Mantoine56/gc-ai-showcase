@@ -7,7 +7,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Input } from '@/components/ui/input';
 import { Search } from 'lucide-react';
 import { TrendingUp, Star, Clock, BarChart3, Building2 } from 'lucide-react';
-import { useProjects } from '@/hooks/useProjects';
+import { useProjects, useGlobalStats } from '@/hooks/useProjects';
 import { useOrganizations } from '@/hooks/useOrganizations';
 import { ProjectFilters, ProjectStatus } from '@/types';
 
@@ -46,6 +46,7 @@ const Index = () => {
   // Fetch projects from API
   const { data: projectsResponse, isLoading, error } = useProjects(filters);
   const { data: organizations } = useOrganizations();
+  const { data: globalStats } = useGlobalStats();
 
   const projects = projectsResponse?.data || [];
   const pagination = projectsResponse?.pagination;
@@ -180,11 +181,11 @@ const Index = () => {
     setPage(1);
   };
 
-  // Get stats from the data
-  const totalProjects = pagination?.total || 0;
-  const totalDepartments = organizations?.length || 0;
-  const totalFeatured = projects.filter(p => p.featured).length;
-  const totalInProduction = projects.filter(p => p.status === ProjectStatus.InProduction).length;
+  // Get stats from global statistics API
+  const totalProjects = globalStats?.total || 0;
+  const totalDepartments = globalStats?.organizations || 0;
+  const totalFeatured = globalStats?.featured || 0;
+  const totalInProduction = globalStats?.inProduction || 0;
 
   return (
     <DashboardLayout>

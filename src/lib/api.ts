@@ -107,6 +107,18 @@ export const projectsApi = {
   async getStats(id: string): Promise<{ codeRequests: number }> {
     return fetchAPI(`/projects/${id}/stats`);
   },
+
+  /**
+   * Get global project statistics
+   */
+  async getGlobalStats(): Promise<{
+    total: number;
+    featured: number;
+    inProduction: number;
+    organizations: number;
+  }> {
+    return fetchAPI('/projects/stats');
+  },
 };
 
 /**

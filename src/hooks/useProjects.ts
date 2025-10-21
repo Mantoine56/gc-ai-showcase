@@ -142,3 +142,14 @@ export function useProjectStats(id: string) {
     enabled: !!id,
   });
 }
+
+/**
+ * Hook to fetch global project statistics
+ */
+export function useGlobalStats() {
+  return useQuery({
+    queryKey: [...projectKeys.all, 'global-stats'] as const,
+    queryFn: () => projectsApi.getGlobalStats(),
+    staleTime: 1000 * 60 * 5, // 5 minutes
+  });
+}

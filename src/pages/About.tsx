@@ -1,5 +1,4 @@
-import Header from '@/components/layout/Header';
-import Footer from '@/components/layout/Footer';
+import { DashboardLayout } from '@/components/layout/DashboardLayout';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -48,10 +47,8 @@ const About = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background">
-      <Header />
-      
-      <main className="container mx-auto px-4 py-16">
+    <DashboardLayout>
+      <div className="container mx-auto px-4 py-16">
         {/* Page Header */}
         <div className="text-center mb-16">
           <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-6">
@@ -218,10 +215,8 @@ const About = () => {
             </CardContent>
           </Card>
         </div>
-      </main>
-
-      <Footer />
-    </div>
+      </div>
+    </DashboardLayout>
   );
 };
 

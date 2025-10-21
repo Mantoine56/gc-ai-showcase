@@ -138,6 +138,13 @@ export interface PaginatedResponse<T> {
   };
 }
 
+export interface ProjectStats {
+  total: number;
+  featured: number;
+  inProduction: number;
+  organizations: number;
+}
+
 export interface ApiError {
   error: string;
   message?: string;

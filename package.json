@@ -17,6 +17,7 @@
     "db:push": "prisma db push --schema=server/prisma/schema.prisma",
     "db:migrate": "prisma migrate dev --schema=server/prisma/schema.prisma",
     "db:seed": "tsx server/prisma/seed.ts",
+    "db:seed:excel": "tsx server/prisma/seed-from-excel.ts",
     "db:studio": "prisma studio --schema=server/prisma/schema.prisma"
   },
   "dependencies": {

@@ -10,6 +10,47 @@ import {
 
 const router = Router();
 
+// GET /api/projects/stats - Get global statistics
+router.get(
+  '/stats',
+  asyncHandler(async (req, res) => {
+    // Get total count
+    const total = await prisma.project.count({
+      where: { moderationState: 'Published' },
+    });
+
+    // Get featured count
+    const featured = await prisma.project.count({
+      where: {
+        moderationState: 'Published',
+        featured: true,
+      },
+    });
+
+    // Get in production count
+    const inProduction = await prisma.project.count({
+      where: {
+        moderationState: 'Published',
+        status: 'InProduction',
+      },
+    });
+
+    // Get unique organizations count
+    const organizations = await prisma.project.findMany({
+      where: { moderationState: 'Published' },
+      select: { organizationId: true },
+      distinct: ['organizationId'],
+    });
+
+    res.json({
+      total,
+      featured,
+      inProduction,
+      organizations: organizations.length,
+    });
+  })
+);
+
 // GET /api/projects - List projects with filtering, search, and pagination
 router.get(
   '/',
