@@ -1,117 +1,123 @@
-import { useState, useEffect, useMemo } from 'react';
-import Fuse from 'fuse.js';
+import { useState, useMemo } from 'react';
 import { DashboardLayout } from '@/components/layout/DashboardLayout';
 import SearchAndFilter from '@/components/projects/SearchAndFilter';
+import AdvancedFilters from '@/components/projects/AdvancedFilters';
 import ProjectGrid from '@/components/projects/ProjectGrid';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Input } from '@/components/ui/input';
+import { Search } from 'lucide-react';
 import { TrendingUp, Star, Clock, BarChart3, Building2 } from 'lucide-react';
-import projectsData from '@/data/projects.json';
-
-interface Project {
-  id: string;
-  title: string;
-  department: string;
-  description: string;
-  tags: string[];
-  techStack: string[];
-  demoUrl?: string;
-  repoUrl?: string;
-  image?: string;
-  featured?: boolean;
-  status: 'Research' | 'Pilot' | 'Beta' | 'Production';
-}
+import { useProjects } from '@/hooks/useProjects';
+import { useOrganizations } from '@/hooks/useOrganizations';
+import { ProjectFilters, ProjectStatus } from '@/types';
 
 const Index = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedDepartments, setSelectedDepartments] = useState<string[]>([]);
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const [selectedStatuses, setSelectedStatuses] = useState<ProjectStatus[]>([]);
+  const [filterADS, setFilterADS] = useState(false);
+  const [filterPersonalInfo, setFilterPersonalInfo] = useState(false);
+  const [sortBy, setSortBy] = useState<string>('createdAt');
+  const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('desc');
   const [activeTab, setActiveTab] = useState('all');
+  const [page, setPage] = useState(1);
 
-  const projects: Project[] = projectsData as Project[];
+  // Build filters for API
+  const filters: ProjectFilters = useMemo(() => {
+    const f: ProjectFilters = {
+      query: searchQuery || undefined,
+      organizationId: selectedDepartments.length === 1 ? selectedDepartments[0] : undefined,
+      status: selectedStatuses.length === 1 ? selectedStatuses[0] : undefined,
+      page,
+      limit: 20,
+      sortBy: sortBy as any,
+      sortOrder,
+    };
 
-  // Initialize fuse.js for fuzzy search
-  const fuse = useMemo(() => {
-    return new Fuse(projects, {
-      keys: ['title', 'description', 'department', 'tags', 'techStack'],
-      threshold: 0.3,
-      includeScore: true,
-    });
-  }, [projects]);
+    // Add featured filter for featured tab
+    if (activeTab === 'featured') {
+      f.featured = true;
+    }
 
-  // Get unique departments and tags
+    return f;
+  }, [searchQuery, selectedDepartments, selectedStatuses, page, activeTab, sortBy, sortOrder]);
+
+  // Fetch projects from API
+  const { data: projectsResponse, isLoading, error } = useProjects(filters);
+  const { data: organizations } = useOrganizations();
+
+  const projects = projectsResponse?.data || [];
+  const pagination = projectsResponse?.pagination;
+
+  // Get unique departments/organizations for filters
   const availableDepartments = useMemo(() => {
-    return [...new Set(projects.map(p => p.department))].sort();
-  }, [projects]);
+    if (!organizations) return [];
+    return organizations.map(org => ({
+      id: org.id,
+      name: org.nameEN,
+    }));
+  }, [organizations]);
 
-  const availableTags = useMemo(() => {
-    const allTags = projects.flatMap(p => [...p.tags, ...p.techStack]);
-    return [...new Set(allTags)].sort();
-  }, [projects]);
-
-  // Filter projects based on search and filters
+  // Filter projects client-side for additional filters not in API
   const filteredProjects = useMemo(() => {
-    let filtered = projects;
+    let filtered = [...projects];
 
-    // Apply text search
-    if (searchQuery.trim()) {
-      const results = fuse.search(searchQuery);
-      filtered = results.map(result => result.item);
+    // Filter by ADS
+    if (filterADS) {
+      filtered = filtered.filter(p => p.isAutomatedDecisionSystem);
     }
 
-    // Apply department filter
-    if (selectedDepartments.length > 0) {
-      filtered = filtered.filter(project => 
-        selectedDepartments.includes(project.department)
-      );
+    // Filter by Personal Info
+    if (filterPersonalInfo) {
+      filtered = filtered.filter(p => p.involvesPersonalInfo);
     }
 
-    // Apply tag filter
-    if (selectedTags.length > 0) {
-      filtered = filtered.filter(project => 
-        selectedTags.some(tag => 
-          project.tags.includes(tag) || project.techStack.includes(tag)
-        )
-      );
+    // Filter by multiple statuses (client-side)
+    if (selectedStatuses.length > 1) {
+      filtered = filtered.filter(p => selectedStatuses.includes(p.status));
+    }
+
+    // Filter by multiple departments (client-side)
+    if (selectedDepartments.length > 1) {
+      filtered = filtered.filter(p => selectedDepartments.includes(p.organizationId));
     }
 
     return filtered;
-  }, [projects, searchQuery, selectedDepartments, selectedTags, fuse]);
+  }, [projects, filterADS, filterPersonalInfo, selectedStatuses, selectedDepartments]);
 
-  // Handle department filter toggle
-  const handleDepartmentToggle = (department: string) => {
-    setSelectedDepartments(prev => 
-      prev.includes(department) 
-        ? prev.filter(d => d !== department)
-        : [...prev, department]
-    );
-  };
+  // For MVP, we'll use a simplified tag system based on capabilities
+  const availableTags = useMemo(() => {
+    const tags = new Set<string>();
+    projects.forEach(project => {
+      if (project.capabilities) {
+        // Extract keywords from capabilities
+        const keywords = project.capabilities.split(',').map(k => k.trim());
+        keywords.forEach(k => tags.add(k));
+      }
+    });
+    return Array.from(tags).sort();
+  }, [projects]);
 
-  // Handle tag filter toggle
-  const handleTagToggle = (tag: string) => {
-    setSelectedTags(prev => 
-      prev.includes(tag) 
-        ? prev.filter(t => t !== tag)
-        : [...prev, tag]
-    );
-  };
-
-  // Get featured and trending projects
+  // Filter projects for different tabs
   const featuredProjects = useMemo(() => {
-    return filteredProjects.filter(project => project.featured);
+    return filteredProjects.filter(p => p.featured);
   }, [filteredProjects]);
 
   const trendingProjects = useMemo(() => {
-    // For demo purposes, sort by status priority
-    const statusPriority = { 'Production': 4, 'Beta': 3, 'Pilot': 2, 'Research': 1 };
+    // Sort by status priority
+    const statusPriority: Record<ProjectStatus, number> = {
+      [ProjectStatus.InProduction]: 4,
+      [ProjectStatus.InDevelopment]: 2,
+      [ProjectStatus.Retired]: 1,
+    };
     return [...filteredProjects]
       .sort((a, b) => (statusPriority[b.status] || 0) - (statusPriority[a.status] || 0))
       .slice(0, 6);
   }, [filteredProjects]);
 
   const recentProjects = useMemo(() => {
-    // For demo purposes, reverse the array to simulate recent additions
-    return [...filteredProjects].reverse().slice(0, 6);
+    return [...filteredProjects].slice(0, 6);
   }, [filteredProjects]);
 
   const getTabProjects = () => {
@@ -127,11 +133,58 @@ const Index = () => {
     }
   };
 
-  // Simulate loading
-  useEffect(() => {
-    const timer = setTimeout(() => setIsLoading(false), 1000);
-    return () => clearTimeout(timer);
-  }, []);
+  // Handle department filter toggle
+  const handleDepartmentToggle = (departmentId: string) => {
+    setSelectedDepartments(prev =>
+      prev.includes(departmentId)
+        ? prev.filter(d => d !== departmentId)
+        : [...prev, departmentId]
+    );
+    setPage(1); // Reset to first page when filter changes
+  };
+
+  // Handle tag filter toggle (for future use)
+  const handleTagToggle = (tag: string) => {
+    setSelectedTags(prev =>
+      prev.includes(tag)
+        ? prev.filter(t => t !== tag)
+        : [...prev, tag]
+    );
+    setPage(1);
+  };
+
+  // Handle status filter toggle
+  const handleStatusToggle = (status: ProjectStatus) => {
+    setSelectedStatuses(prev =>
+      prev.includes(status)
+        ? prev.filter(s => s !== status)
+        : [...prev, status]
+    );
+    setPage(1);
+  };
+
+  // Handle sort change
+  const handleSortChange = (newSortBy: string, newSortOrder: 'asc' | 'desc') => {
+    setSortBy(newSortBy);
+    setSortOrder(newSortOrder);
+    setPage(1);
+  };
+
+  // Clear all filters
+  const handleClearAllFilters = () => {
+    setSearchQuery('');
+    setSelectedDepartments([]);
+    setSelectedStatuses([]);
+    setFilterADS(false);
+    setFilterPersonalInfo(false);
+    setPage(1);
+  };
+
+  // Get stats from the data
+  const totalProjects = pagination?.total || 0;
+  const totalDepartments = organizations?.length || 0;
+  const totalFeatured = projects.filter(p => p.featured).length;
+  const totalInProduction = projects.filter(p => p.status === ProjectStatus.InProduction).length;
 
   return (
     <DashboardLayout>
@@ -142,10 +195,10 @@ const Index = () => {
           <div>
             <h1 className="text-2xl font-bold text-gcds-text-primary">AI Projects Dashboard</h1>
             <p className="text-gcds-text-secondary mt-2">
-              Discover and explore {projects.length} AI initiatives across Government of Canada departments
+              Discover and explore {totalProjects} AI initiatives across Government of Canada departments
             </p>
           </div>
-          
+
           {/* Enhanced Stats Cards */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-4 gap-4 lg:gap-5 xl:gap-6">
             {/* Total Projects Card */}
@@ -155,12 +208,12 @@ const Index = () => {
                   <BarChart3 className="h-5 w-5 lg:h-6 lg:w-6 text-gcds-color-blue-700" />
                 </div>
                 <div className="min-w-0 flex-1">
-                  <div className="text-xl lg:text-2xl xl:text-3xl font-bold text-gcds-text-primary">{projects.length}</div>
+                  <div className="text-xl lg:text-2xl xl:text-3xl font-bold text-gcds-text-primary">{totalProjects}</div>
                   <div className="text-xs lg:text-sm font-medium text-gcds-text-secondary mt-1">Total Projects</div>
                 </div>
               </div>
             </div>
-            
+
             {/* Departments Card */}
             <div className="bg-gcds-background-primary rounded-lg p-4 lg:p-5 xl:p-6 border border-gcds-border-secondary hover:border-gcds-border-accent transition-all duration-200 hover:shadow-lg">
               <div className="flex items-center gap-3 lg:gap-4">
@@ -168,12 +221,12 @@ const Index = () => {
                   <Building2 className="h-5 w-5 lg:h-6 lg:w-6 text-gcds-color-blue-700" />
                 </div>
                 <div className="min-w-0 flex-1">
-                  <div className="text-xl lg:text-2xl xl:text-3xl font-bold text-gcds-text-primary">{availableDepartments.length}</div>
+                  <div className="text-xl lg:text-2xl xl:text-3xl font-bold text-gcds-text-primary">{totalDepartments}</div>
                   <div className="text-xs lg:text-sm font-medium text-gcds-text-secondary mt-1">Departments</div>
                 </div>
               </div>
             </div>
-            
+
             {/* Featured Projects Card */}
             <div className="bg-gcds-background-primary rounded-lg p-4 lg:p-5 xl:p-6 border border-gcds-border-secondary hover:border-gcds-border-accent transition-all duration-200 hover:shadow-lg">
               <div className="flex items-center gap-3 lg:gap-4">
@@ -181,12 +234,12 @@ const Index = () => {
                   <Star className="h-5 w-5 lg:h-6 lg:w-6 text-gcds-color-blue-700" />
                 </div>
                 <div className="min-w-0 flex-1">
-                  <div className="text-xl lg:text-2xl xl:text-3xl font-bold text-gcds-text-primary">{featuredProjects.length}</div>
+                  <div className="text-xl lg:text-2xl xl:text-3xl font-bold text-gcds-text-primary">{totalFeatured}</div>
                   <div className="text-xs lg:text-sm font-medium text-gcds-text-secondary mt-1">Featured</div>
                 </div>
               </div>
             </div>
-            
+
             {/* In Production Card */}
             <div className="bg-gcds-background-primary rounded-lg p-4 lg:p-5 xl:p-6 border border-gcds-border-secondary hover:border-gcds-border-accent transition-all duration-200 hover:shadow-lg">
               <div className="flex items-center gap-3 lg:gap-4">
@@ -194,7 +247,7 @@ const Index = () => {
                   <TrendingUp className="h-5 w-5 lg:h-6 lg:w-6 text-gcds-color-blue-700" />
                 </div>
                 <div className="min-w-0 flex-1">
-                  <div className="text-xl lg:text-2xl xl:text-3xl font-bold text-gcds-text-primary">{projects.filter(p => p.status === 'Production').length}</div>
+                  <div className="text-xl lg:text-2xl xl:text-3xl font-bold text-gcds-text-primary">{totalInProduction}</div>
                   <div className="text-xs lg:text-sm font-medium text-gcds-text-secondary mt-1">In Production</div>
                 </div>
               </div>
@@ -202,17 +255,39 @@ const Index = () => {
           </div>
         </div>
 
-        {/* Search and Filter */}
+        {/* Search Bar */}
         <div className="bg-gcds-background-primary rounded-lg border border-gcds-border-secondary p-4">
-          <SearchAndFilter
-            searchQuery={searchQuery}
-            onSearchChange={setSearchQuery}
+          <div className="relative max-w-2xl mx-auto">
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-muted-foreground" />
+            <Input
+              type="text"
+              placeholder="Search AI systems by name, description, or capabilities..."
+              value={searchQuery}
+              onChange={(e) => {
+                setSearchQuery(e.target.value);
+                setPage(1);
+              }}
+              className="pl-10 pr-4 h-12 text-base bg-card shadow-sm"
+            />
+          </div>
+        </div>
+
+        {/* Advanced Filters */}
+        <div className="bg-gcds-background-primary rounded-lg border border-gcds-border-secondary p-4">
+          <AdvancedFilters
+            selectedStatuses={selectedStatuses}
+            onStatusToggle={handleStatusToggle}
+            filterADS={filterADS}
+            onADSToggle={() => setFilterADS(!filterADS)}
+            filterPersonalInfo={filterPersonalInfo}
+            onPersonalInfoToggle={() => setFilterPersonalInfo(!filterPersonalInfo)}
             selectedDepartments={selectedDepartments}
             onDepartmentToggle={handleDepartmentToggle}
-            selectedTags={selectedTags}
-            onTagToggle={handleTagToggle}
             availableDepartments={availableDepartments}
-            availableTags={availableTags}
+            sortBy={sortBy}
+            sortOrder={sortOrder}
+            onSortChange={handleSortChange}
+            onClearAll={handleClearAllFilters}
           />
         </div>
 
@@ -221,7 +296,7 @@ const Index = () => {
           <TabsList className="grid w-full grid-cols-4 lg:w-fit lg:grid-cols-4">
             <TabsTrigger value="all" className="flex items-center gap-2">
               <BarChart3 className="h-4 w-4" />
-              All ({filteredProjects.length})
+              All ({pagination?.total || 0})
             </TabsTrigger>
             <TabsTrigger value="featured" className="flex items-center gap-2">
               <Star className="h-4 w-4" />
@@ -236,33 +311,38 @@ const Index = () => {
               Recent ({recentProjects.length})
             </TabsTrigger>
           </TabsList>
-          
+
           <TabsContent value="all" className="mt-6">
-            <ProjectGrid 
-              projects={filteredProjects}
+            <ProjectGrid
+              projects={getTabProjects()}
               isLoading={isLoading}
               searchQuery={searchQuery}
             />
+            {error && (
+              <div className="text-center py-8 text-gcds-text-danger">
+                Error loading projects: {(error as Error).message}
+              </div>
+            )}
           </TabsContent>
-          
+
           <TabsContent value="featured" className="mt-6">
-            <ProjectGrid 
+            <ProjectGrid
               projects={featuredProjects}
               isLoading={isLoading}
               searchQuery={searchQuery}
             />
           </TabsContent>
-          
+
           <TabsContent value="trending" className="mt-6">
-            <ProjectGrid 
+            <ProjectGrid
               projects={trendingProjects}
               isLoading={isLoading}
               searchQuery={searchQuery}
             />
           </TabsContent>
-          
+
           <TabsContent value="recent" className="mt-6">
-            <ProjectGrid 
+            <ProjectGrid
               projects={recentProjects}
               isLoading={isLoading}
               searchQuery={searchQuery}

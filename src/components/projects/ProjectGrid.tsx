@@ -1,20 +1,7 @@
 import ProjectCard from './ProjectCard';
 import { Skeleton } from '@/components/ui/skeleton';
 import { AlertCircle } from 'lucide-react';
-
-interface Project {
-  id: string;
-  title: string;
-  department: string;
-  description: string;
-  tags: string[];
-  techStack: string[];
-  demoUrl?: string;
-  repoUrl?: string;
-  image?: string;
-  featured?: boolean;
-  status: 'Research' | 'Pilot' | 'Beta' | 'Production';
-}
+import { Project } from '@/types';
 
 interface ProjectGridProps {
   projects: Project[];
@@ -50,7 +37,7 @@ const ProjectGrid = ({ projects, isLoading = false, searchQuery = '' }: ProjectG
           No projects found
         </h3>
         <p className="text-muted-foreground max-w-md mx-auto">
-          {searchQuery 
+          {searchQuery
             ? `No projects match your search for "${searchQuery}". Try adjusting your filters or search terms.`
             : "No projects match your current filters. Try adjusting your selection."
           }

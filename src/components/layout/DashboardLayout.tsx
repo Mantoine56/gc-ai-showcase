@@ -1,10 +1,11 @@
-import { ReactNode, useState, useEffect } from "react";
+import { ReactNode, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { AppSidebar } from "./AppSidebar";
 import { Button } from "@/components/ui/button";
-import { Moon, Sun, Bell, Plus, Bot } from "lucide-react";
+import { Bell, Plus, Bot } from "lucide-react";
 import Footer from "./Footer";
-import AIChatSidebar from "@/components/chat/AIChatSidebar";
+import EnhancedAIChatSidebar from "@/components/chat/EnhancedAIChatSidebar";
 import ChatToggleButton from "@/components/chat/ChatToggleButton";
 
 interface DashboardLayoutProps {
@@ -12,25 +13,8 @@ interface DashboardLayoutProps {
 }
 
 export function DashboardLayout({ children }: DashboardLayoutProps) {
-  const [isDark, setIsDark] = useState(false);
+  const navigate = useNavigate();
   const [isChatOpen, setIsChatOpen] = useState(false);
-
-  useEffect(() => {
-    // Check for saved theme preference or default to light mode
-    const savedTheme = localStorage.getItem('theme');
-    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    const shouldBeDark = savedTheme === 'dark' || (!savedTheme && prefersDark);
-    
-    setIsDark(shouldBeDark);
-    document.documentElement.classList.toggle('dark', shouldBeDark);
-  }, []);
-
-  const toggleTheme = () => {
-    const newTheme = !isDark;
-    setIsDark(newTheme);
-    document.documentElement.classList.toggle('dark', newTheme);
-    localStorage.setItem('theme', newTheme ? 'dark' : 'light');
-  };
 
   const toggleChat = () => {
     setIsChatOpen(!isChatOpen);
@@ -61,14 +45,14 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
                 >
                   <Bell className="h-4 w-4 text-gcds-text-secondary" />
                 </Button>
-                
+
                 <Button
                   variant={isChatOpen ? "default" : "ghost"}
                   size="sm"
                   onClick={toggleChat}
                   className={`h-8 px-3 text-xs font-medium transition-all duration-200 ${
-                    isChatOpen 
-                      ? "bg-gcds-color-blue-600 text-white hover:bg-gcds-color-blue-700" 
+                    isChatOpen
+                      ? "bg-gcds-color-blue-600 text-white hover:bg-gcds-color-blue-700"
                       : "hover:bg-gcds-background-accent text-gcds-text-secondary hover:text-gcds-text-primary"
                   }`}
                   aria-label={isChatOpen ? "Close AI Assistant" : "Open AI Assistant"}
@@ -79,19 +63,10 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
                     <div className="ml-2 w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
                   )}
                 </Button>
-                
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={toggleTheme}
-                  className="h-8 w-8 p-0 hover:bg-gcds-background-accent"
-                  aria-label={isDark ? "Switch to light mode" : "Switch to dark mode"}
-                >
-                  {isDark ? <Sun className="h-4 w-4 text-gcds-text-secondary" /> : <Moon className="h-4 w-4 text-gcds-text-secondary" />}
-                </Button>
-                
+
                 <Button
                   size="sm"
+                  onClick={() => navigate('/submit')}
                   className="bg-gcds-button-primary-default-background text-gcds-button-primary-default-text hover:bg-gcds-button-primary-hover-background h-8 px-3 text-xs"
                 >
                   <Plus className="h-3 w-3 mr-1" />
@@ -111,7 +86,7 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
         </div>
 
         {/* AI Chat Components */}
-        <AIChatSidebar isOpen={isChatOpen} onToggle={toggleChat} />
+        <EnhancedAIChatSidebar isOpen={isChatOpen} onToggle={toggleChat} />
         {!isChatOpen && <ChatToggleButton onClick={toggleChat} />}
       </div>
     </SidebarProvider>
