@@ -2,36 +2,10 @@ import { DashboardLayout } from '@/components/layout/DashboardLayout';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
-import { ExternalLink, BookOpen, Code, Shield, Users } from 'lucide-react';
+import { ExternalLink, BookOpen, FileSpreadsheet, Shield, Users, Upload } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 const Resources = () => {
-  const starterRepos = [
-    {
-      name: "MLflow Starter",
-      description: "Complete MLflow setup for model tracking and deployment",
-      url: "https://github.com/gc-ai/mlflow-starter",
-      language: "Python"
-    },
-    {
-      name: "Gitea Self-Hosted",
-      description: "Self-hosted Git service configuration for GC environments",
-      url: "https://github.com/gc-ai/gitea-config",
-      language: "Docker"
-    },
-    {
-      name: "AI API Template",
-      description: "FastAPI template with authentication and monitoring",
-      url: "https://github.com/gc-ai/api-template",
-      language: "Python"
-    },
-    {
-      name: "React Dashboard",
-      description: "Government-compliant dashboard template",
-      url: "https://github.com/gc-ai/dashboard-template",
-      language: "TypeScript"
-    }
-  ];
-
   const policies = [
     {
       title: "Directive on Automated Decision-Making",
@@ -79,11 +53,11 @@ const Resources = () => {
         {/* Page Header */}
         <div className="text-center mb-16">
           <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-6">
-            Resources & Documentation
+            Resources & Guidance
           </h1>
           <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-            Everything you need to start building AI solutions within the Government of Canada ecosystem. 
-            From starter templates to policy guidelines.
+            Essential resources for submitting AI projects, understanding compliance requirements,
+            and navigating Government of Canada AI policies and guidelines.
           </p>
         </div>
 
@@ -91,33 +65,33 @@ const Resources = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
           <Card className="text-center hover:shadow-card-hover transition-all duration-300">
             <CardContent className="p-6">
-              <Code className="h-12 w-12 text-primary mx-auto mb-4" />
-              <h3 className="font-bold mb-2">Starter Repos</h3>
-              <p className="text-sm text-muted-foreground">Ready-to-use templates</p>
+              <Upload className="h-12 w-12 text-gcds-color-blue-700 mx-auto mb-4" />
+              <h3 className="font-bold mb-2">Submit Projects</h3>
+              <p className="text-sm text-muted-foreground">Add your AI initiative</p>
             </CardContent>
           </Card>
-          
+
           <Card className="text-center hover:shadow-card-hover transition-all duration-300">
             <CardContent className="p-6">
-              <Shield className="h-12 w-12 text-secondary mx-auto mb-4" />
-              <h3 className="font-bold mb-2">Policy Docs</h3>
-              <p className="text-sm text-muted-foreground">Compliance guidelines</p>
+              <Shield className="h-12 w-12 text-gcds-color-purple-700 mx-auto mb-4" />
+              <h3 className="font-bold mb-2">Compliance</h3>
+              <p className="text-sm text-muted-foreground">Policy & guidelines</p>
             </CardContent>
           </Card>
-          
+
           <Card className="text-center hover:shadow-card-hover transition-all duration-300">
             <CardContent className="p-6">
-              <BookOpen className="h-12 w-12 text-primary mx-auto mb-4" />
+              <FileSpreadsheet className="h-12 w-12 text-gcds-color-green-700 mx-auto mb-4" />
+              <h3 className="font-bold mb-2">Import/Export</h3>
+              <p className="text-sm text-muted-foreground">Excel data management</p>
+            </CardContent>
+          </Card>
+
+          <Card className="text-center hover:shadow-card-hover transition-all duration-300">
+            <CardContent className="p-6">
+              <BookOpen className="h-12 w-12 text-gcds-color-blue-700 mx-auto mb-4" />
               <h3 className="font-bold mb-2">Design System</h3>
-              <p className="text-sm text-muted-foreground">UI/UX standards</p>
-            </CardContent>
-          </Card>
-          
-          <Card className="text-center hover:shadow-card-hover transition-all duration-300">
-            <CardContent className="p-6">
-              <Users className="h-12 w-12 text-secondary mx-auto mb-4" />
-              <h3 className="font-bold mb-2">Community</h3>
-              <p className="text-sm text-muted-foreground">Connect & collaborate</p>
+              <p className="text-sm text-muted-foreground">GCDS standards</p>
             </CardContent>
           </Card>
         </div>
@@ -125,42 +99,58 @@ const Resources = () => {
         {/* Accordion Sections */}
         <div className="max-w-4xl mx-auto">
           <Accordion type="single" collapsible className="space-y-4">
-            {/* Starter Repositories */}
-            <AccordionItem value="starter-repos" className="border border-border rounded-lg px-6">
+            {/* How to Submit Projects */}
+            <AccordionItem value="submit-projects" className="border border-border rounded-lg px-6">
               <AccordionTrigger className="text-xl font-bold hover:no-underline">
                 <div className="flex items-center gap-3">
-                  <Code className="h-6 w-6 text-primary" />
-                  Starter Repositories
+                  <Upload className="h-6 w-6 text-gcds-color-blue-700" />
+                  How to Submit Your AI Project
                 </div>
               </AccordionTrigger>
               <AccordionContent className="pt-4">
                 <p className="text-muted-foreground mb-6">
-                  Pre-configured repositories to jumpstart your AI projects with GC-compliant setups.
+                  GC AI Hub provides transparency and discoverability for AI initiatives across the Government of Canada.
+                  Follow these steps to add your project to the registry.
                 </p>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  {starterRepos.map((repo) => (
-                    <Card key={repo.name} className="hover:shadow-card-hover transition-all duration-300">
-                      <CardHeader>
-                        <CardTitle className="text-lg flex items-center justify-between">
-                          {repo.name}
-                          <span className="text-xs bg-muted text-muted-foreground px-2 py-1 rounded">
-                            {repo.language}
-                          </span>
-                        </CardTitle>
-                      </CardHeader>
-                      <CardContent>
-                        <p className="text-sm text-muted-foreground mb-4">
-                          {repo.description}
-                        </p>
-                        <Button variant="outline" size="sm" asChild>
-                          <a href={repo.url} target="_blank" rel="noopener noreferrer">
-                            <ExternalLink className="mr-2 h-4 w-4" />
-                            View Repository
-                          </a>
-                        </Button>
-                      </CardContent>
-                    </Card>
-                  ))}
+                <div className="space-y-6">
+                  <div>
+                    <h4 className="font-semibold mb-3 text-gcds-text-primary">Submission Process</h4>
+                    <ol className="list-decimal list-inside space-y-2 text-sm text-muted-foreground">
+                      <li>Click the "Add Project" button in the top navigation</li>
+                      <li>Complete the 5-step submission wizard:
+                        <ul className="list-disc list-inside ml-6 mt-1 space-y-1">
+                          <li>Step 1: Project identity and organization</li>
+                          <li>Step 2: Purpose, description, and capabilities</li>
+                          <li>Step 3: Compliance requirements (ADS, PIB)</li>
+                          <li>Step 4: Operational details and status</li>
+                          <li>Step 5: Review and submit</li>
+                        </ul>
+                      </li>
+                      <li>Review all information in the final step</li>
+                      <li>Submit for publication to the registry</li>
+                    </ol>
+                  </div>
+
+                  <div>
+                    <h4 className="font-semibold mb-3 text-gcds-text-primary">Required Information</h4>
+                    <ul className="list-disc list-inside space-y-2 text-sm text-muted-foreground">
+                      <li>Project name and description</li>
+                      <li>Organization/department</li>
+                      <li>AI capabilities and use cases</li>
+                      <li>Primary users (employees, public, or both)</li>
+                      <li>Development status and timeline</li>
+                      <li>Compliance details (ADS, PIB, privacy)</li>
+                    </ul>
+                  </div>
+
+                  <div className="flex flex-col sm:flex-row gap-3">
+                    <Button asChild className="bg-gcds-color-blue-700 hover:bg-gcds-color-blue-800">
+                      <Link to="/submit">
+                        <Upload className="mr-2 h-4 w-4" />
+                        Submit a Project
+                      </Link>
+                    </Button>
+                  </div>
                 </div>
               </AccordionContent>
             </AccordionItem>
@@ -169,7 +159,7 @@ const Resources = () => {
             <AccordionItem value="policies" className="border border-border rounded-lg px-6">
               <AccordionTrigger className="text-xl font-bold hover:no-underline">
                 <div className="flex items-center gap-3">
-                  <Shield className="h-6 w-6 text-secondary" />
+                  <Shield className="h-6 w-6 text-gcds-color-purple-700" />
                   GC AI Policies & Guidelines
                 </div>
               </AccordionTrigger>
@@ -205,7 +195,7 @@ const Resources = () => {
             <AccordionItem value="design" className="border border-border rounded-lg px-6">
               <AccordionTrigger className="text-xl font-bold hover:no-underline">
                 <div className="flex items-center gap-3">
-                  <BookOpen className="h-6 w-6 text-primary" />
+                  <BookOpen className="h-6 w-6 text-gcds-color-blue-700" />
                   Design Guidelines
                 </div>
               </AccordionTrigger>
@@ -237,46 +227,58 @@ const Resources = () => {
               </AccordionContent>
             </AccordionItem>
 
-            {/* How to Contribute */}
-            <AccordionItem value="contribute" className="border border-border rounded-lg px-6">
+            {/* Excel Import/Export */}
+            <AccordionItem value="data-management" className="border border-border rounded-lg px-6">
               <AccordionTrigger className="text-xl font-bold hover:no-underline">
                 <div className="flex items-center gap-3">
-                  <Users className="h-6 w-6 text-secondary" />
-                  How to Contribute
+                  <FileSpreadsheet className="h-6 w-6 text-gcds-color-green-700" />
+                  Excel Import & Export
                 </div>
               </AccordionTrigger>
               <AccordionContent className="pt-4">
                 <p className="text-muted-foreground mb-6">
-                  Join the GC AI community and help build the future of government AI solutions.
+                  Manage multiple projects efficiently using Excel spreadsheets for bulk import and export operations.
                 </p>
                 <div className="space-y-6">
                   <div>
-                    <h4 className="font-semibold mb-3">Adding Your Project</h4>
-                    <ol className="list-decimal list-inside space-y-2 text-sm text-muted-foreground">
-                      <li>Fork the GC AI Hub repository</li>
-                      <li>Add your project to the projects.json file</li>
-                      <li>Include demo links and documentation</li>
-                      <li>Submit a pull request for review</li>
-                    </ol>
-                  </div>
-                  
-                  <div>
-                    <h4 className="font-semibold mb-3">Community Guidelines</h4>
+                    <h4 className="font-semibold mb-3 text-gcds-text-primary">Exporting Projects</h4>
+                    <p className="text-sm text-muted-foreground mb-2">
+                      Export all registry data to Excel format for reporting, analysis, or backup purposes:
+                    </p>
                     <ul className="list-disc list-inside space-y-2 text-sm text-muted-foreground">
-                      <li>All projects must be open source</li>
-                      <li>Follow GC coding standards and accessibility requirements</li>
-                      <li>Include proper documentation and setup instructions</li>
-                      <li>Respect privacy and security guidelines</li>
+                      <li>Access via API endpoint: <code className="bg-muted px-1 py-0.5 rounded">/api/registry/export</code></li>
+                      <li>Includes all project fields and metadata</li>
+                      <li>Bilingual organization names (English/French)</li>
+                      <li>Compatible with Excel, Google Sheets, and other spreadsheet tools</li>
                     </ul>
                   </div>
 
-                  <div className="flex flex-col sm:flex-row gap-3">
-                    <Button>
-                      Submit Your Project
-                    </Button>
-                    <Button variant="outline">
-                      Join Slack Community
-                    </Button>
+                  <div>
+                    <h4 className="font-semibold mb-3 text-gcds-text-primary">Importing Projects</h4>
+                    <p className="text-sm text-muted-foreground mb-2">
+                      Bulk import or update multiple projects using Excel spreadsheets:
+                    </p>
+                    <ul className="list-disc list-inside space-y-2 text-sm text-muted-foreground">
+                      <li>Use exported file as a template</li>
+                      <li>Add new rows for new projects</li>
+                      <li>Update existing rows (matched by AI Register ID)</li>
+                      <li>Validate data before import</li>
+                      <li>Receive detailed import results (created/updated/errors)</li>
+                    </ul>
+                  </div>
+
+                  <div>
+                    <h4 className="font-semibold mb-3 text-gcds-text-primary">Required Fields</h4>
+                    <div className="grid grid-cols-2 gap-2 text-sm text-muted-foreground">
+                      <div>• Project Name</div>
+                      <div>• Organization ID</div>
+                      <div>• Description</div>
+                      <div>• Capabilities</div>
+                      <div>• Primary Users</div>
+                      <div>• Developed By</div>
+                      <div>• Status</div>
+                      <div>• Status Year</div>
+                    </div>
                   </div>
                 </div>
               </AccordionContent>
