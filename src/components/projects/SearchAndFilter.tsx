@@ -65,6 +65,9 @@ const SearchAndFilter = ({
           variant="outline"
           onClick={() => setShowFilters(!showFilters)}
           className="gap-2"
+          aria-expanded={showFilters}
+          aria-controls="filter-panel"
+          aria-label={`Filters ${activeFiltersCount > 0 ? `(${activeFiltersCount} active)` : ''}`}
         >
           <Filter className="h-4 w-4" />
           Filters
@@ -81,6 +84,7 @@ const SearchAndFilter = ({
             size="sm"
             onClick={clearAllFilters}
             className="gap-2 text-muted-foreground hover:text-foreground"
+            aria-label={`Clear all ${activeFiltersCount} filter${activeFiltersCount > 1 ? 's' : ''}`}
           >
             <X className="h-4 w-4" />
             Clear all
@@ -90,7 +94,7 @@ const SearchAndFilter = ({
 
       {/* Filters */}
       {showFilters && (
-        <div className="max-w-4xl mx-auto p-6 bg-card rounded-lg shadow-card border border-border">
+        <div id="filter-panel" className="max-w-4xl mx-auto p-6 bg-card rounded-lg shadow-card border border-border" role="region" aria-label="Filter options">
           <div className="space-y-6">
             {/* Departments */}
             <div>
@@ -99,14 +103,27 @@ const SearchAndFilter = ({
               </h3>
               <div className="flex flex-wrap gap-2">
                 {availableDepartments.map((department) => (
-                  <Badge
+                  <button
                     key={department}
-                    variant={selectedDepartments.includes(department) ? "default" : "outline"}
-                    className="cursor-pointer hover:opacity-80 transition-opacity px-3 py-1"
+                    type="button"
                     onClick={() => onDepartmentToggle(department)}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        onDepartmentToggle(department);
+                      }
+                    }}
+                    aria-pressed={selectedDepartments.includes(department)}
+                    aria-label={`${selectedDepartments.includes(department) ? 'Remove' : 'Add'} ${department} filter`}
+                    className="focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 rounded-md"
                   >
-                    {department}
-                  </Badge>
+                    <Badge
+                      variant={selectedDepartments.includes(department) ? "default" : "outline"}
+                      className="cursor-pointer hover:opacity-80 transition-opacity px-3 py-1"
+                    >
+                      {department}
+                    </Badge>
+                  </button>
                 ))}
               </div>
             </div>
@@ -118,14 +135,27 @@ const SearchAndFilter = ({
               </h3>
               <div className="flex flex-wrap gap-2">
                 {availableTags.map((tag) => (
-                  <Badge
+                  <button
                     key={tag}
-                    variant={selectedTags.includes(tag) ? "default" : "outline"}
-                    className="cursor-pointer hover:opacity-80 transition-opacity px-3 py-1"
+                    type="button"
                     onClick={() => onTagToggle(tag)}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        onTagToggle(tag);
+                      }
+                    }}
+                    aria-pressed={selectedTags.includes(tag)}
+                    aria-label={`${selectedTags.includes(tag) ? 'Remove' : 'Add'} ${tag} filter`}
+                    className="focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 rounded-md"
                   >
-                    {tag}
-                  </Badge>
+                    <Badge
+                      variant={selectedTags.includes(tag) ? "default" : "outline"}
+                      className="cursor-pointer hover:opacity-80 transition-opacity px-3 py-1"
+                    >
+                      {tag}
+                    </Badge>
+                  </button>
                 ))}
               </div>
             </div>

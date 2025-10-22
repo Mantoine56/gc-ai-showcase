@@ -103,6 +103,9 @@ const Header = () => {
               size="sm"
               className="md:hidden h-9 w-9 p-0"
               onClick={() => setIsMenuOpen(!isMenuOpen)}
+              aria-expanded={isMenuOpen}
+              aria-controls="mobile-menu"
+              aria-label={isMenuOpen ? "Close navigation menu" : "Open navigation menu"}
             >
               {isMenuOpen ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
             </Button>
@@ -111,8 +114,8 @@ const Header = () => {
 
         {/* Mobile Navigation */}
         {isMenuOpen && (
-          <div className="md:hidden border-t border-border">
-            <nav className="py-4 space-y-2">
+          <div id="mobile-menu" className="md:hidden border-t border-border">
+            <nav className="py-4 space-y-2" aria-label="Mobile navigation">
               {navigation.map((item) => (
                 <Link
                   key={item.name}
@@ -123,6 +126,7 @@ const Header = () => {
                       : 'text-muted-foreground hover:text-foreground hover:bg-accent'
                   }`}
                   onClick={() => setIsMenuOpen(false)}
+                  aria-current={isActive(item.href) ? 'page' : undefined}
                 >
                   {item.name}
                 </Link>

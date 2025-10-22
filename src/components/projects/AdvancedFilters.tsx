@@ -55,6 +55,13 @@ export default function AdvancedFilters({
 }: AdvancedFiltersProps) {
   const [showFilters, setShowFilters] = useState(false);
 
+  // Handle ESC key to close filters
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === 'Escape' && showFilters) {
+      setShowFilters(false);
+    }
+  };
+
   const activeFiltersCount =
     selectedStatuses.length +
     selectedDepartments.length +
@@ -90,10 +97,11 @@ export default function AdvancedFilters({
         <div
           className="fixed inset-0 z-40"
           onClick={() => setShowFilters(false)}
+          aria-hidden="true"
         />
       )}
 
-      <div className="relative">
+      <div className="relative" onKeyDown={handleKeyDown}>
         {/* Filter Controls Bar */}
         <div className="flex items-center justify-between gap-4 flex-wrap">
         <div className="flex items-center gap-3">
@@ -101,6 +109,9 @@ export default function AdvancedFilters({
             variant={showFilters ? "default" : "outline"}
             onClick={() => setShowFilters(!showFilters)}
             className="gap-2"
+            aria-expanded={showFilters}
+            aria-controls="advanced-filter-panel"
+            aria-label={`Advanced filters ${activeFiltersCount > 0 ? `(${activeFiltersCount} active)` : ''}`}
           >
             <Filter className="h-4 w-4" />
             Filters
@@ -117,6 +128,7 @@ export default function AdvancedFilters({
               size="sm"
               onClick={onClearAll}
               className="gap-2 text-muted-foreground hover:text-foreground"
+              aria-label={`Clear all ${activeFiltersCount} filter${activeFiltersCount > 1 ? 's' : ''}`}
             >
               <X className="h-4 w-4" />
               Clear all
@@ -154,7 +166,7 @@ export default function AdvancedFilters({
 
       {/* Filters Panel - Absolutely positioned to overlay content */}
       {showFilters && (
-        <div className="absolute top-full left-0 right-0 mt-2 p-6 bg-card rounded-lg shadow-lg border border-border space-y-6 z-50">
+        <div id="advanced-filter-panel" className="absolute top-full left-0 right-0 mt-2 p-6 bg-card rounded-lg shadow-lg border border-border space-y-6 z-50" role="region" aria-label="Advanced filter options">
           {/* Project Status */}
           <div>
             <div className="flex items-center gap-2 mb-3">
@@ -163,18 +175,31 @@ export default function AdvancedFilters({
             </div>
             <div className="flex flex-wrap gap-2">
               {Object.values(ProjectStatus).map((status) => (
-                <Badge
+                <button
                   key={status}
-                  variant={selectedStatuses.includes(status) ? "default" : "outline"}
-                  className={`cursor-pointer transition-all px-3 py-1.5 ${
-                    selectedStatuses.includes(status)
-                      ? `${getStatusColor(status)} hover:brightness-95`
-                      : 'hover:bg-accent hover:text-accent-foreground'
-                  }`}
+                  type="button"
                   onClick={() => onStatusToggle(status)}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                      e.preventDefault();
+                      onStatusToggle(status);
+                    }
+                  }}
+                  aria-pressed={selectedStatuses.includes(status)}
+                  aria-label={`${selectedStatuses.includes(status) ? 'Remove' : 'Add'} ${getStatusLabel(status)} status filter`}
+                  className="focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 rounded-md"
                 >
-                  {getStatusLabel(status)}
-                </Badge>
+                  <Badge
+                    variant={selectedStatuses.includes(status) ? "default" : "outline"}
+                    className={`cursor-pointer transition-all px-3 py-1.5 ${
+                      selectedStatuses.includes(status)
+                        ? `${getStatusColor(status)} hover:brightness-95`
+                        : 'hover:bg-accent hover:text-accent-foreground'
+                    }`}
+                  >
+                    {getStatusLabel(status)}
+                  </Badge>
+                </button>
               ))}
             </div>
           </div>
@@ -188,30 +213,56 @@ export default function AdvancedFilters({
               <h3 className="text-sm font-semibold text-foreground">Compliance & Governance</h3>
             </div>
             <div className="flex flex-wrap gap-2">
-              <Badge
-                variant={filterADS ? "default" : "outline"}
-                className={`cursor-pointer transition-all px-3 py-1.5 ${
-                  filterADS
-                    ? 'bg-gcds-color-blue-100 text-gcds-color-blue-900 hover:brightness-95'
-                    : 'hover:bg-accent hover:text-accent-foreground'
-                }`}
+              <button
+                type="button"
                 onClick={onADSToggle}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    onADSToggle();
+                  }
+                }}
+                aria-pressed={filterADS}
+                aria-label={`${filterADS ? 'Remove' : 'Add'} Automated Decision System filter`}
+                className="focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 rounded-md"
               >
-                <Shield className="h-3 w-3 mr-1" />
-                Automated Decision System
-              </Badge>
-              <Badge
-                variant={filterPersonalInfo ? "default" : "outline"}
-                className={`cursor-pointer transition-all px-3 py-1.5 ${
-                  filterPersonalInfo
-                    ? 'bg-gcds-color-purple-100 text-gcds-color-purple-900 hover:brightness-95'
-                    : 'hover:bg-accent hover:text-accent-foreground'
-                }`}
+                <Badge
+                  variant={filterADS ? "default" : "outline"}
+                  className={`cursor-pointer transition-all px-3 py-1.5 ${
+                    filterADS
+                      ? 'bg-gcds-color-blue-100 text-gcds-color-blue-900 hover:brightness-95'
+                      : 'hover:bg-accent hover:text-accent-foreground'
+                  }`}
+                >
+                  <Shield className="h-3 w-3 mr-1" />
+                  Automated Decision System
+                </Badge>
+              </button>
+              <button
+                type="button"
                 onClick={onPersonalInfoToggle}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    onPersonalInfoToggle();
+                  }
+                }}
+                aria-pressed={filterPersonalInfo}
+                aria-label={`${filterPersonalInfo ? 'Remove' : 'Add'} Personal Information filter`}
+                className="focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 rounded-md"
               >
-                <User className="h-3 w-3 mr-1" />
-                Involves Personal Info
-              </Badge>
+                <Badge
+                  variant={filterPersonalInfo ? "default" : "outline"}
+                  className={`cursor-pointer transition-all px-3 py-1.5 ${
+                    filterPersonalInfo
+                      ? 'bg-gcds-color-purple-100 text-gcds-color-purple-900 hover:brightness-95'
+                      : 'hover:bg-accent hover:text-accent-foreground'
+                  }`}
+                >
+                  <User className="h-3 w-3 mr-1" />
+                  Involves Personal Info
+                </Badge>
+              </button>
             </div>
           </div>
 

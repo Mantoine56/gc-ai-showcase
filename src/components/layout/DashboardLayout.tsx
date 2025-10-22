@@ -27,6 +27,14 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
   return (
     <SidebarProvider>
       <div className="min-h-screen flex w-full bg-[hsl(var(--gcds-background-primary))]">
+        {/* Skip to main content link for keyboard users */}
+        <a
+          href="#main-content"
+          className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[100] focus:px-4 focus:py-2 focus:bg-[hsl(var(--gcds-button-primary-default-background))] focus:text-[hsl(var(--gcds-button-primary-default-text))] focus:rounded-md focus:shadow-lg focus:outline-none focus:ring-2 focus:ring-[hsl(var(--gcds-focus-text))]"
+        >
+          {t('accessibility.skipToMainContent')}
+        </a>
+
         <AppSidebar />
         
         <div className={`flex-1 flex flex-col min-h-screen transition-all duration-[var(--gcds-transition-base)] ${isChatOpen ? 'lg:mr-96 md:mr-80 sm:mr-0' : ''}`}>
@@ -77,7 +85,7 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
                   <Bot className="h-4 w-4 mr-2" />
                   <span className="hidden sm:inline">{t('header.aiAssistant')}</span>
                   {isChatOpen && (
-                    <div className="ml-2 w-2 h-2 bg-[hsl(142_76%_36%)] rounded-full animate-pulse"></div>
+                    <div className="ml-2 w-2 h-2 bg-gcds-color-green-600 rounded-full animate-pulse"></div>
                   )}
                 </Button>
 
@@ -95,7 +103,7 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
           </header>
 
           {/* Main Content */}
-          <main className="flex-1 bg-[hsl(var(--gcds-background-secondary))]">
+          <main id="main-content" className="flex-1 bg-[hsl(var(--gcds-background-secondary))]">
             {children}
           </main>
 

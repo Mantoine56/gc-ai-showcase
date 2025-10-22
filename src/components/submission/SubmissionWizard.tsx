@@ -183,38 +183,42 @@ export default function SubmissionWizard({
       </Card>
 
       {/* Step Indicators */}
-      <div className="hidden md:flex justify-between">
+      <nav aria-label="Form progress" className="hidden md:flex justify-between">
         {STEPS.map((step, index) => (
           <div
             key={step.id}
             className={`flex-1 ${index < STEPS.length - 1 ? 'border-r border-border' : ''}`}
           >
-            <div
-              className={`flex flex-col items-center p-4 cursor-pointer transition-colors ${
+            <button
+              type="button"
+              className={`w-full flex flex-col items-center p-4 transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 rounded-md ${
                 currentStep === step.id
                   ? 'text-primary'
                   : currentStep > step.id
-                  ? 'text-green-600'
+                  ? 'text-gcds-color-green-600'
                   : 'text-muted-foreground'
-              }`}
-              onClick={() => setCurrentStep(step.id)}
+              } ${currentStep < step.id ? 'cursor-not-allowed' : 'cursor-pointer hover:bg-accent'}`}
+              onClick={() => currentStep >= step.id && setCurrentStep(step.id)}
+              disabled={currentStep < step.id}
+              aria-current={currentStep === step.id ? 'step' : undefined}
+              aria-label={`Step ${step.id}: ${step.name}${currentStep === step.id ? ' (current)' : currentStep > step.id ? ' (completed)' : ' (upcoming)'}`}
             >
               <div
                 className={`w-10 h-10 rounded-full flex items-center justify-center mb-2 ${
                   currentStep === step.id
                     ? 'bg-primary text-primary-foreground'
                     : currentStep > step.id
-                    ? 'bg-green-600 text-white'
+                    ? 'bg-gcds-color-green-600 text-white'
                     : 'bg-muted text-muted-foreground'
                 }`}
               >
                 {currentStep > step.id ? <Check className="h-5 w-5" /> : step.id}
               </div>
               <div className="text-xs font-medium text-center">{step.name}</div>
-            </div>
+            </button>
           </div>
         ))}
-      </div>
+      </nav>
 
       {/* Form Content */}
       <Card>

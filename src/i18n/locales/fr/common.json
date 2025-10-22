@@ -77,5 +77,16 @@
     "language": "Langue",
     "english": "English",
     "french": "Français"
+  },
+  "accessibility": {
+    "skipToMainContent": "Passer au contenu principal",
+    "toggleMenu": "Basculer le menu",
+    "closeDialog": "Fermer la boîte de dialogue",
+    "gridView": "Vue en grille",
+    "tableView": "Vue en tableau",
+    "sortBy": "Trier par",
+    "filterBy": "Filtrer par",
+    "loading": "Chargement du contenu",
+    "noResults": "Aucun résultat trouvé"
   }
 }

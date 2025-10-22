@@ -9,6 +9,7 @@ import ProjectDetail from "./pages/ProjectDetail";
 import SubmitProject from "./pages/SubmitProject";
 import Resources from "./pages/Resources";
 import About from "./pages/About";
+import Accessibility from "./pages/Accessibility";
 import NotFound from "./pages/NotFound";
 import AdminStats from "./pages/AdminStats";
 
@@ -27,6 +28,7 @@ const App = () => (
           <Route path="/submit" element={<SubmitProject />} />
           <Route path="/resources" element={<Resources />} />
           <Route path="/about" element={<About />} />
+          <Route path="/accessibility" element={<Accessibility />} />
           <Route path="/admin/stats" element={<AdminStats />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />

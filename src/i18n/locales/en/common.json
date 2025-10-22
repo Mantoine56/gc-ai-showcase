@@ -77,5 +77,16 @@
     "language": "Language",
     "english": "English",
     "french": "Français"
+  },
+  "accessibility": {
+    "skipToMainContent": "Skip to main content",
+    "toggleMenu": "Toggle menu",
+    "closeDialog": "Close dialog",
+    "gridView": "Grid view",
+    "tableView": "Table view",
+    "sortBy": "Sort by",
+    "filterBy": "Filter by",
+    "loading": "Loading content",
+    "noResults": "No results found"
   }
 }

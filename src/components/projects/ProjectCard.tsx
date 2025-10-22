@@ -89,15 +89,27 @@ const ProjectCard = ({ project }: ProjectCardProps) => {
           </div>
           <div className="flex items-center gap-1.5 flex-wrap">
             {project.isAutomatedDecisionSystem && (
-              <Badge variant="outline" className="text-gcds-color-blue-700 border-gcds-color-blue-700 bg-gcds-color-blue-50 shadow-sm text-xs px-2.5 py-0.5" title="Automated Decision System">
-                <Shield className="h-3 w-3 mr-1" />
-                ADS
+              <Badge
+                variant="outline"
+                className="text-gcds-color-blue-700 border-gcds-color-blue-700 bg-gcds-color-blue-50 shadow-sm text-xs px-2.5 py-0.5"
+                title="Automated Decision System"
+                aria-label="Automated Decision System"
+              >
+                <Shield className="h-3 w-3 mr-1" aria-hidden="true" />
+                <span aria-hidden="true">ADS</span>
+                <span className="sr-only">Automated Decision System</span>
               </Badge>
             )}
             {project.involvesPersonalInfo && (
-              <Badge variant="outline" className="text-gcds-color-purple-700 border-gcds-color-purple-700 bg-gcds-color-purple-50 shadow-sm text-xs px-2.5 py-0.5" title="Involves Personal Information">
-                <User className="h-3 w-3 mr-1" />
-                PI
+              <Badge
+                variant="outline"
+                className="text-gcds-color-purple-700 border-gcds-color-purple-700 bg-gcds-color-purple-50 shadow-sm text-xs px-2.5 py-0.5"
+                title="Involves Personal Information"
+                aria-label="Involves Personal Information"
+              >
+                <User className="h-3 w-3 mr-1" aria-hidden="true" />
+                <span aria-hidden="true">PI</span>
+                <span className="sr-only">Personal Information</span>
               </Badge>
             )}
           </div>

@@ -135,10 +135,22 @@ const EnhancedAIChatSidebar = ({ isOpen, onToggle }: EnhancedAIChatSidebarProps)
     handleSendMessage(suggestion);
   };
 
+  // Handle ESC key to close sidebar
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === 'Escape') {
+      onToggle();
+    }
+  };
+
   if (!isOpen) return null;
 
   return (
-    <div className="fixed right-0 top-0 h-full w-96 lg:w-96 md:w-80 sm:w-full bg-gcds-background-primary border-l border-gcds-border-secondary shadow-xl z-50 flex flex-col">
+    <aside
+      className="fixed right-0 top-0 h-full w-96 lg:w-96 md:w-80 sm:w-full bg-gcds-background-primary border-l border-gcds-border-secondary shadow-xl z-50 flex flex-col"
+      role="region"
+      aria-label="AI Chat Assistant"
+      onKeyDown={handleKeyDown}
+    >
       {/* Chat Header */}
       <div className="flex items-center justify-between p-4 border-b border-gcds-border-secondary bg-gradient-to-r from-gcds-color-blue-50 to-gcds-color-blue-100">
         <div className="flex items-center gap-3">
@@ -159,6 +171,7 @@ const EnhancedAIChatSidebar = ({ isOpen, onToggle }: EnhancedAIChatSidebarProps)
             size="sm"
             onClick={onToggle}
             className="h-8 w-8 p-0"
+            aria-label="Close AI assistant"
           >
             <X className="h-4 w-4" />
           </Button>
@@ -177,7 +190,7 @@ const EnhancedAIChatSidebar = ({ isOpen, onToggle }: EnhancedAIChatSidebarProps)
 
           {/* Chat Messages */}
           <ScrollArea className="flex-1 p-4" ref={scrollAreaRef}>
-            <div className="space-y-4">
+            <div className="space-y-4" role="log" aria-live="polite" aria-atomic="false">
               {messages.map((msg) => (
                 <div key={msg.id} className="space-y-2">
                   <div
@@ -281,12 +294,14 @@ const EnhancedAIChatSidebar = ({ isOpen, onToggle }: EnhancedAIChatSidebarProps)
                 placeholder="Ask about AI projects, departments, or get insights..."
                 className="flex-1 border-gcds-border-secondary focus:border-gcds-color-blue-500"
                 disabled={isLoading}
+                aria-label="AI assistant chat input"
               />
               <Button
                 onClick={() => handleSendMessage()}
                 disabled={!message.trim() || isLoading}
                 size="sm"
                 className="bg-gcds-color-blue-600 hover:bg-gcds-color-blue-700 text-white px-3"
+                aria-label={isLoading ? "Sending message..." : "Send message"}
               >
                 {isLoading ? (
                   <Loader2 className="h-4 w-4 animate-spin" />
@@ -298,7 +313,7 @@ const EnhancedAIChatSidebar = ({ isOpen, onToggle }: EnhancedAIChatSidebarProps)
           </div>
         </>
       )}
-    </div>
+    </aside>
   );
 };
 

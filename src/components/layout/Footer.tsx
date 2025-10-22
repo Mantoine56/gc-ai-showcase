@@ -113,14 +113,12 @@ const Footer = () => {
                 </a>
               </li>
               <li>
-                <a
-                  href="https://www.canada.ca/en/treasury-board-secretariat/services/government-communications/federal-identity-program/technical-specifications/accessibility.html"
-                  target="_blank"
-                  rel="noopener noreferrer"
+                <Link
+                  to="/accessibility"
                   className="text-muted-foreground hover:text-foreground transition-colors"
                 >
                   {t('footer.accessibilityStatement')}
-                </a>
+                </Link>
               </li>
             </ul>
           </div>

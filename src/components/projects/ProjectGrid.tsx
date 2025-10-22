@@ -15,7 +15,7 @@ const ProjectGrid = ({ projects, isLoading = false, searchQuery = '' }: ProjectG
 
   if (isLoading) {
     return (
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6" role="status" aria-live="polite" aria-label={t('accessibility.loading', { ns: 'common' })}>
         {[...Array(8)].map((_, i) => (
           <div key={i} className="space-y-3">
             <Skeleton className="h-48 w-full rounded-lg" />
@@ -26,15 +26,16 @@ const ProjectGrid = ({ projects, isLoading = false, searchQuery = '' }: ProjectG
             </div>
           </div>
         ))}
+        <span className="sr-only">{t('accessibility.loading', { ns: 'common' })}</span>
       </div>
     );
   }
 
   if (projects.length === 0) {
     return (
-      <div className="text-center py-12">
+      <div className="text-center py-12" role="status" aria-live="polite">
         <div className="mx-auto w-24 h-24 bg-muted rounded-full flex items-center justify-center mb-4">
-          <AlertCircle className="h-12 w-12 text-muted-foreground" />
+          <AlertCircle className="h-12 w-12 text-muted-foreground" aria-hidden="true" />
         </div>
         <h3 className="text-lg font-semibold text-foreground mb-2">
           {t('projectGrid.noProjects')}

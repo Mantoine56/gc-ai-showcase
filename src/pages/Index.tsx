@@ -373,12 +373,14 @@ const Index = () => {
 
             <div className="flex items-center gap-3 w-full lg:w-auto">
               {/* View Toggle */}
-              <div className="flex items-center gap-1 bg-muted p-1 rounded-lg">
+              <div className="flex items-center gap-1 bg-muted p-1 rounded-lg" role="group" aria-label={t('accessibility.sortBy')}>
                 <Button
                   variant={viewMode === 'grid' ? 'default' : 'ghost'}
                   size="sm"
                   onClick={() => setViewMode('grid')}
                   className={`h-7 px-3 ${viewMode === 'grid' ? 'shadow-sm' : ''}`}
+                  aria-pressed={viewMode === 'grid'}
+                  aria-label={t('accessibility.gridView')}
                 >
                   <LayoutGrid className="h-4 w-4" />
                 </Button>
@@ -387,6 +389,8 @@ const Index = () => {
                   size="sm"
                   onClick={() => setViewMode('table')}
                   className={`h-7 px-3 ${viewMode === 'table' ? 'shadow-sm' : ''}`}
+                  aria-pressed={viewMode === 'table'}
+                  aria-label={t('accessibility.tableView')}
                 >
                   <Table className="h-4 w-4" />
                 </Button>

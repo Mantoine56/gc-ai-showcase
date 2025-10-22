@@ -144,19 +144,24 @@ export function ProjectsTable({ projects, isLoading, sortBy, sortOrder, onSortCh
 
   const SortIcon = ({ field }: { field: SortField }) => {
     if (sortBy !== field) {
-      return <ArrowUpDown className="ml-2 h-4 w-4 text-muted-foreground" />;
+      return <ArrowUpDown className="ml-2 h-4 w-4 text-muted-foreground" aria-hidden="true" />;
     }
     return sortOrder === 'asc' ? (
-      <ArrowUp className="ml-2 h-4 w-4" />
+      <ArrowUp className="ml-2 h-4 w-4" aria-hidden="true" />
     ) : (
-      <ArrowDown className="ml-2 h-4 w-4" />
+      <ArrowDown className="ml-2 h-4 w-4" aria-hidden="true" />
     );
+  };
+
+  const getSortLabel = (field: string) => {
+    if (sortBy !== field) return `Sort by ${field}`;
+    return `Sorted by ${field} ${sortOrder === 'asc' ? 'ascending' : 'descending'}. Click to reverse.`;
   };
 
   if (isLoading) {
     return (
-      <div className="text-center py-12">
-        <div className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-current border-r-transparent"></div>
+      <div className="text-center py-12" role="status" aria-live="polite">
+        <div className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-current border-r-transparent" aria-hidden="true"></div>
         <p className="mt-4 text-muted-foreground">Loading projects...</p>
       </div>
     );
@@ -171,7 +176,7 @@ export function ProjectsTable({ projects, isLoading, sortBy, sortOrder, onSortCh
         </div>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="outline" size="sm" className="gap-2">
+            <Button variant="outline" size="sm" className="gap-2" aria-haspopup="menu" aria-label="Toggle column visibility">
               <Settings2 className="h-4 w-4" />
               Columns
             </Button>
@@ -198,11 +203,12 @@ export function ProjectsTable({ projects, isLoading, sortBy, sortOrder, onSortCh
           <TableHeader>
             <TableRow>
               {visibleColumns.includes('name') && (
-                <TableHead className="w-[250px]">
+                <TableHead className="w-[250px]" scope="col" aria-sort={sortBy === 'name' ? (sortOrder === 'asc' ? 'ascending' : 'descending') : 'none'}>
                   <Button
                     variant="ghost"
                     onClick={() => handleSort('name')}
                     className="h-auto p-0 hover:bg-transparent font-semibold"
+                    aria-label={getSortLabel('name')}
                   >
                     Project Name
                     <SortIcon field="name" />
@@ -210,11 +216,12 @@ export function ProjectsTable({ projects, isLoading, sortBy, sortOrder, onSortCh
                 </TableHead>
               )}
               {visibleColumns.includes('organization') && (
-                <TableHead>
+                <TableHead scope="col" aria-sort={sortBy === 'organization' ? (sortOrder === 'asc' ? 'ascending' : 'descending') : 'none'}>
                   <Button
                     variant="ghost"
                     onClick={() => handleSort('organization')}
                     className="h-auto p-0 hover:bg-transparent font-semibold"
+                    aria-label={getSortLabel('organization')}
                   >
                     Organization
                     <SortIcon field="organization" />
@@ -222,11 +229,12 @@ export function ProjectsTable({ projects, isLoading, sortBy, sortOrder, onSortCh
                 </TableHead>
               )}
               {visibleColumns.includes('status') && (
-                <TableHead>
+                <TableHead scope="col" aria-sort={sortBy === 'status' ? (sortOrder === 'asc' ? 'ascending' : 'descending') : 'none'}>
                   <Button
                     variant="ghost"
                     onClick={() => handleSort('status')}
                     className="h-auto p-0 hover:bg-transparent font-semibold"
+                    aria-label={getSortLabel('status')}
                   >
                     Status
                     <SortIcon field="status" />
@@ -234,11 +242,12 @@ export function ProjectsTable({ projects, isLoading, sortBy, sortOrder, onSortCh
                 </TableHead>
               )}
               {visibleColumns.includes('statusYear') && (
-                <TableHead className="w-[100px]">
+                <TableHead className="w-[100px]" scope="col" aria-sort={sortBy === 'statusYear' ? (sortOrder === 'asc' ? 'ascending' : 'descending') : 'none'}>
                   <Button
                     variant="ghost"
                     onClick={() => handleSort('statusYear')}
                     className="h-auto p-0 hover:bg-transparent font-semibold"
+                    aria-label={getSortLabel('statusYear')}
                   >
                     Year
                     <SortIcon field="statusYear" />
@@ -246,30 +255,31 @@ export function ProjectsTable({ projects, isLoading, sortBy, sortOrder, onSortCh
                 </TableHead>
               )}
               {visibleColumns.includes('capabilities') && (
-                <TableHead className="w-[200px]">Capabilities</TableHead>
+                <TableHead className="w-[200px]" scope="col">Capabilities</TableHead>
               )}
               {visibleColumns.includes('primaryUsers') && (
-                <TableHead>Primary Users</TableHead>
+                <TableHead scope="col">Primary Users</TableHead>
               )}
               {visibleColumns.includes('developedBy') && (
-                <TableHead>Developed By</TableHead>
+                <TableHead scope="col">Developed By</TableHead>
               )}
               {visibleColumns.includes('compliance') && (
-                <TableHead>Compliance</TableHead>
+                <TableHead scope="col">Compliance</TableHead>
               )}
               {visibleColumns.includes('createdAt') && (
-                <TableHead>
+                <TableHead scope="col" aria-sort={sortBy === 'createdAt' ? (sortOrder === 'asc' ? 'ascending' : 'descending') : 'none'}>
                   <Button
                     variant="ghost"
                     onClick={() => handleSort('createdAt')}
                     className="h-auto p-0 hover:bg-transparent font-semibold"
+                    aria-label={getSortLabel('createdAt')}
                   >
                     Created
                     <SortIcon field="createdAt" />
                   </Button>
                 </TableHead>
               )}
-              <TableHead className="w-[100px] text-right">Actions</TableHead>
+              <TableHead className="w-[100px] text-right" scope="col">Actions</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -295,7 +305,7 @@ export function ProjectsTable({ projects, isLoading, sortBy, sortOrder, onSortCh
                           {project.name}
                         </Link>
                         {project.featured && (
-                          <Star className="h-3 w-3 text-gcds-color-yellow-500 fill-gcds-color-yellow-500" />
+                          <Star className="h-3 w-3 text-gcds-color-yellow-500 fill-gcds-color-yellow-500" aria-label="Featured project" />
                         )}
                       </div>
                       <div className="text-xs text-muted-foreground mt-1 line-clamp-1">
@@ -370,18 +380,22 @@ export function ProjectsTable({ projects, isLoading, sortBy, sortOrder, onSortCh
                           <Badge
                             variant="outline"
                             className="text-xs w-fit text-gcds-color-blue-700 border-gcds-color-blue-700"
+                            aria-label="Automated Decision System"
                           >
-                            <Shield className="h-3 w-3 mr-1" />
-                            ADS
+                            <Shield className="h-3 w-3 mr-1" aria-hidden="true" />
+                            <span aria-hidden="true">ADS</span>
+                            <span className="sr-only">Automated Decision System</span>
                           </Badge>
                         )}
                         {project.involvesPersonalInfo && (
                           <Badge
                             variant="outline"
                             className="text-xs w-fit text-gcds-color-purple-700 border-gcds-color-purple-700"
+                            aria-label="Involves Personal Information"
                           >
-                            <User className="h-3 w-3 mr-1" />
-                            PI
+                            <User className="h-3 w-3 mr-1" aria-hidden="true" />
+                            <span aria-hidden="true">PI</span>
+                            <span className="sr-only">Personal Information</span>
                           </Badge>
                         )}
                       </div>
@@ -393,7 +407,7 @@ export function ProjectsTable({ projects, isLoading, sortBy, sortOrder, onSortCh
                     </TableCell>
                   )}
                   <TableCell className="text-right">
-                    <Button asChild size="sm" variant="ghost">
+                    <Button asChild size="sm" variant="ghost" aria-label={`View details for ${project.name}`}>
                       <Link to={`/project/${project.id}`}>
                         <Eye className="h-4 w-4" />
                       </Link>

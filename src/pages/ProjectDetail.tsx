@@ -37,7 +37,7 @@ const ProjectDetail = () => {
   if (isLoading) {
     return (
       <DashboardLayout>
-        <div className="p-6 space-y-6">
+        <div className="p-6 space-y-6" role="status" aria-live="polite">
           <div className="animate-pulse space-y-6">
             <div className="h-8 bg-muted rounded w-1/4"></div>
             <div className="h-12 bg-muted rounded w-3/4"></div>
@@ -51,6 +51,7 @@ const ProjectDetail = () => {
               </div>
             </div>
           </div>
+          <span className="sr-only">Loading project details...</span>
         </div>
       </DashboardLayout>
     );
@@ -60,14 +61,14 @@ const ProjectDetail = () => {
     return (
       <DashboardLayout>
         <div className="p-6">
-          <div className="text-center py-12">
+          <div className="text-center py-12" role="status" aria-live="polite">
             <h1 className="text-2xl font-bold mb-4">{t('projectDetail.notFound')}</h1>
             <p className="text-muted-foreground mb-8">
               {t('projectDetail.notFoundMessage')}
             </p>
             <Button asChild>
               <Link to="/">
-                <ArrowLeft className="mr-2 h-4 w-4" />
+                <ArrowLeft className="mr-2 h-4 w-4" aria-hidden="true" />
                 {t('projectDetail.backToDashboard')}
               </Link>
             </Button>
@@ -128,14 +129,23 @@ const ProjectDetail = () => {
     <DashboardLayout>
       <div className="p-6 space-y-6">
         {/* Breadcrumb */}
-        <div>
-          <Button variant="ghost" asChild className="pl-0">
-            <Link to="/">
-              <ArrowLeft className="mr-2 h-4 w-4" />
-              {t('projectDetail.backToDashboard')}
-            </Link>
-          </Button>
-        </div>
+        <nav aria-label="Breadcrumb">
+          <ol className="flex items-center gap-2 text-sm">
+            <li>
+              <Link
+                to="/"
+                className="text-muted-foreground hover:text-foreground transition-colors inline-flex items-center gap-2"
+              >
+                <ArrowLeft className="h-4 w-4" aria-hidden="true" />
+                {t('projectDetail.backToDashboard')}
+              </Link>
+            </li>
+            <li aria-hidden="true" className="text-muted-foreground">/</li>
+            <li aria-current="page" className="font-medium text-foreground">
+              {projectName}
+            </li>
+          </ol>
+        </nav>
 
         {/* Project Header */}
         <div className="space-y-3">
