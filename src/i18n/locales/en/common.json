@@ -25,17 +25,21 @@
   "footer": {
     "brandDescription": "A comprehensive registry and transparency platform for artificial intelligence initiatives across the Government of Canada.",
     "quickLinks": "Quick Links",
-    "government": "Government",
+    "government": "Government Resources",
     "browseProjects": "Browse Projects",
+    "featuredProjects": "Featured Projects",
+    "openSourceProjects": "Open Source Projects",
+    "submitProject": "Submit Your Project",
     "aboutRoadmap": "About & Roadmap",
     "canadaCa": "Canada.ca",
     "gcDesignSystem": "GC Design System",
-    "aiDataPolicy": "AI & Data Policy",
-    "accessibilityStatement": "Accessibility Statement",
+    "directiveAutomatedDecision": "Directive on Automated Decision-Making",
+    "algorithmicImpactAssessment": "Algorithmic Impact Assessment",
+    "accessibilityStatement": "Accessibility",
     "copyright": "© {{year}} Government of Canada",
-    "license": "MIT Licensed",
-    "contact": "Contact: gc-ai-hub@canada.ca",
-    "builtWith": "Built with ❤️ for the GC community"
+    "license": "Open Government License - Canada",
+    "contact": "Contact Us",
+    "builtWith": "Built for transparency and collaboration"
   },
   "sidebar": {
     "projects": "Projects",

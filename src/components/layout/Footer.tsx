@@ -41,6 +41,21 @@ const Footer = () => {
                 </Link>
               </li>
               <li>
+                <Link to="/?tab=featured" className="text-muted-foreground hover:text-foreground transition-colors">
+                  {t('footer.featuredProjects')}
+                </Link>
+              </li>
+              <li>
+                <Link to="/?tab=opensource" className="text-muted-foreground hover:text-foreground transition-colors">
+                  {t('footer.openSourceProjects')}
+                </Link>
+              </li>
+              <li>
+                <Link to="/submit" className="text-muted-foreground hover:text-foreground transition-colors">
+                  {t('footer.submitProject')}
+                </Link>
+              </li>
+              <li>
                 <Link to="/resources" className="text-muted-foreground hover:text-foreground transition-colors">
                   {t('nav.resources')}
                 </Link>
@@ -50,16 +65,6 @@ const Footer = () => {
                   {t('footer.aboutRoadmap')}
                 </Link>
               </li>
-              <li>
-                <a
-                  href="https://github.com/gc-ai"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-muted-foreground hover:text-foreground transition-colors"
-                >
-                  {t('header.githubRepo')}
-                </a>
-              </li>
             </ul>
           </div>
 
@@ -67,6 +72,26 @@ const Footer = () => {
           <div>
             <h3 className="font-semibold mb-4">{t('footer.government')}</h3>
             <ul className="space-y-2 text-sm">
+              <li>
+                <a
+                  href="https://www.canada.ca/en/government/system/digital-government/digital-government-innovations/responsible-use-ai.html"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-muted-foreground hover:text-foreground transition-colors"
+                >
+                  {t('footer.directiveAutomatedDecision')}
+                </a>
+              </li>
+              <li>
+                <a
+                  href="https://www.canada.ca/en/government/system/digital-government/digital-government-innovations/responsible-use-ai/algorithmic-impact-assessment.html"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-muted-foreground hover:text-foreground transition-colors"
+                >
+                  {t('footer.algorithmicImpactAssessment')}
+                </a>
+              </li>
               <li>
                 <a
                   href="https://canada.ca"
@@ -89,17 +114,7 @@ const Footer = () => {
               </li>
               <li>
                 <a
-                  href="https://www.tbs-sct.gc.ca/pol/doc-eng.aspx?id=32592"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-muted-foreground hover:text-foreground transition-colors"
-                >
-                  {t('footer.aiDataPolicy')}
-                </a>
-              </li>
-              <li>
-                <a
-                  href="https://accessibility.canada.ca"
+                  href="https://www.canada.ca/en/treasury-board-secretariat/services/government-communications/federal-identity-program/technical-specifications/accessibility.html"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-muted-foreground hover:text-foreground transition-colors"
@@ -118,14 +133,21 @@ const Footer = () => {
           <div className="flex flex-wrap gap-4">
             <span>{t('footer.copyright', { year: currentYear })}</span>
             <span>•</span>
-            <span>{t('footer.license')}</span>
-            <span>•</span>
             <a
-              href="mailto:gc-ai-hub@canada.ca"
+              href="https://open.canada.ca/en/open-government-licence-canada"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-foreground transition-colors"
+            >
+              {t('footer.license')}
+            </a>
+            <span>•</span>
+            <Link
+              to="/about"
               className="hover:text-foreground transition-colors"
             >
               {t('footer.contact')}
-            </a>
+            </Link>
           </div>
           <div className="text-xs">
             {t('footer.builtWith')}
