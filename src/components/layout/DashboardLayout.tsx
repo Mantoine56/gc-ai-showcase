@@ -35,17 +35,14 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
                 
                 {/* GC AI Hub Branding */}
                 <div className="flex items-center gap-[var(--gcds-spacing-300)]">
-                  <img 
-                    src={gcLogo} 
-                    alt="Government of Canada" 
+                  <img
+                    src={gcLogo}
+                    alt="Government of Canada"
                     className="h-8 w-8 flex-shrink-0"
                   />
-                  <div className="hidden sm:flex flex-col">
-                    <span className="text-[length:var(--gcds-font-sizes-h6)] font-bold text-[hsl(var(--gcds-text-primary))] leading-tight">
+                  <div className="hidden sm:flex">
+                    <span className="text-[length:var(--gcds-font-sizes-h6)] font-bold text-[hsl(var(--gcds-text-primary))]">
                       GC AI Hub
-                    </span>
-                    <span className="text-[length:var(--gcds-font-sizes-caption)] text-[hsl(var(--gcds-text-secondary))] leading-tight">
-                      Innovation Hub
                     </span>
                   </div>
                 </div>

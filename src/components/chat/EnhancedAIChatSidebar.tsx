@@ -157,14 +157,6 @@ const EnhancedAIChatSidebar = ({ isOpen, onToggle }: EnhancedAIChatSidebarProps)
           <Button
             variant="ghost"
             size="sm"
-            onClick={() => setIsMinimized(!isMinimized)}
-            className="h-8 w-8 p-0"
-          >
-            {isMinimized ? <Maximize2 className="h-4 w-4" /> : <Minimize2 className="h-4 w-4" />}
-          </Button>
-          <Button
-            variant="ghost"
-            size="sm"
             onClick={onToggle}
             className="h-8 w-8 p-0"
           >
@@ -303,9 +295,6 @@ const EnhancedAIChatSidebar = ({ isOpen, onToggle }: EnhancedAIChatSidebarProps)
                 )}
               </Button>
             </div>
-            <p className="text-xs text-gcds-text-secondary mt-2 px-1">
-              AI Assistant for Government of Canada AI projects
-            </p>
           </div>
         </>
       )}
