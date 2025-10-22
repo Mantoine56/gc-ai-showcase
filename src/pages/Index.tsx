@@ -3,6 +3,7 @@ import { DashboardLayout } from '@/components/layout/DashboardLayout';
 import SearchAndFilter from '@/components/projects/SearchAndFilter';
 import AdvancedFilters from '@/components/projects/AdvancedFilters';
 import ProjectGrid from '@/components/projects/ProjectGrid';
+import { ProjectPagination } from '@/components/projects/ProjectPagination';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Input } from '@/components/ui/input';
 import { Search } from 'lucide-react';
@@ -328,6 +329,20 @@ const Index = () => {
           {error && (
             <div className="text-center py-8 text-gcds-text-danger">
               Error loading projects: {(error as Error).message}
+            </div>
+          )}
+
+          {/* Pagination and Results Info - only show for "all" tab */}
+          {activeTab === 'all' && pagination && !isLoading && (
+            <div className="mt-8 space-y-4">
+              <ProjectPagination
+                currentPage={pagination.page}
+                totalPages={pagination.totalPages}
+                onPageChange={setPage}
+              />
+              <div className="text-center text-sm text-muted-foreground">
+                Showing {((pagination.page - 1) * pagination.limit) + 1} - {Math.min(pagination.page * pagination.limit, pagination.total)} of {pagination.total} projects
+              </div>
             </div>
           )}
         </div>
