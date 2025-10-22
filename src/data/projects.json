@@ -10,11 +10,26 @@
     "repoUrl": "https://github.com/gc-ai/chatbot-assistant",
     "image": "/api/placeholder/400/200",
     "featured": true,
-    "status": "Production"
+    "status": "Production",
+    "contacts": [
+      {
+        "name": "Sarah Chen",
+        "email": "sarah.chen@servicecanada.gc.ca",
+        "role": "Primary",
+        "title": "Product Manager",
+        "phone": "613-555-0101"
+      },
+      {
+        "name": "Marcus Johnson",
+        "email": "marcus.johnson@servicecanada.gc.ca",
+        "role": "Technical",
+        "title": "Lead AI Developer"
+      }
+    ]
   },
   {
     "id": "document-classifier",
-    "title": "Document Intelligence System", 
+    "title": "Document Intelligence System",
     "department": "Canada Revenue Agency",
     "description": "Automated document classification and information extraction from tax forms and financial documents using computer vision.",
     "tags": ["Computer Vision", "OCR", "TensorFlow", "Document Processing"],
@@ -23,7 +38,28 @@
     "repoUrl": "https://github.com/gc-ai/document-classifier",
     "image": "/api/placeholder/400/200",
     "featured": true,
-    "status": "Beta"
+    "status": "Beta",
+    "contacts": [
+      {
+        "name": "Dr. Amélie Dubois",
+        "email": "amelie.dubois@cra-arc.gc.ca",
+        "role": "Primary",
+        "title": "Senior Research Scientist"
+      },
+      {
+        "name": "David Park",
+        "email": "david.park@cra-arc.gc.ca",
+        "role": "Technical",
+        "title": "ML Engineering Lead",
+        "phone": "613-555-0202"
+      },
+      {
+        "name": "Jennifer Martinez",
+        "email": "jennifer.martinez@cra-arc.gc.ca",
+        "role": "Business",
+        "title": "Director, Digital Innovation"
+      }
+    ]
   },
   {
     "id": "language-translator",
@@ -36,7 +72,28 @@
     "repoUrl": "https://github.com/gc-ai/translator",
     "image": "/api/placeholder/400/200",
     "featured": false,
-    "status": "Production"
+    "status": "Production",
+    "contacts": [
+      {
+        "name": "Marie-Claire Fontaine",
+        "email": "marie-claire.fontaine@pch.gc.ca",
+        "role": "Primary",
+        "title": "Directrice, Services linguistiques",
+        "phone": "613-555-0404"
+      },
+      {
+        "name": "James O'Brien",
+        "email": "james.obrien@pch.gc.ca",
+        "role": "Technical",
+        "title": "Senior NLP Engineer"
+      },
+      {
+        "name": "Sophie Lavoie",
+        "email": "sophie.lavoie@pch.gc.ca",
+        "role": "Business",
+        "title": "Manager, Digital Language Services"
+      }
+    ]
   },
   {
     "id": "fraud-detection",
@@ -49,7 +106,16 @@
     "repoUrl": "https://github.com/gc-ai/fraud-detection",
     "image": "/api/placeholder/400/200",
     "featured": true,
-    "status": "Pilot"
+    "status": "Pilot",
+    "contacts": [
+      {
+        "name": "Robert Thompson",
+        "email": "robert.thompson@publicsafety.gc.ca",
+        "role": "Primary",
+        "title": "Chief Data Scientist",
+        "phone": "613-555-0303"
+      }
+    ]
   },
   {
     "id": "policy-analyzer",
@@ -62,7 +128,23 @@
     "repoUrl": "https://github.com/gc-ai/policy-analyzer",
     "image": "/api/placeholder/400/200",
     "featured": false,
-    "status": "Research"
+    "status": "Research",
+    "contacts": [
+      {
+        "name": "Dr. Katherine Morrison",
+        "email": "katherine.morrison@pco-bcp.gc.ca",
+        "role": "Primary",
+        "title": "Senior Policy Analyst",
+        "phone": "613-555-0505"
+      },
+      {
+        "name": "Ahmed Hassan",
+        "email": "ahmed.hassan@pco-bcp.gc.ca",
+        "role": "Technical",
+        "title": "Data Science Lead",
+        "phone": "613-555-0506"
+      }
+    ]
   },
   {
     "id": "accessibility-checker",
@@ -75,6 +157,27 @@
     "repoUrl": "https://github.com/gc-ai/accessibility-checker",
     "image": "/api/placeholder/400/200",
     "featured": false,
-    "status": "Production"
+    "status": "Production",
+    "contacts": [
+      {
+        "name": "Lisa Rodriguez",
+        "email": "lisa.rodriguez@tbs-sct.gc.ca",
+        "role": "Primary",
+        "title": "Accessibility Program Lead",
+        "phone": "613-555-0707"
+      },
+      {
+        "name": "Michael Zhang",
+        "email": "michael.zhang@tbs-sct.gc.ca",
+        "role": "Technical",
+        "title": "Full Stack Developer"
+      },
+      {
+        "name": "Patricia Williams",
+        "email": "patricia.williams@tbs-sct.gc.ca",
+        "role": "Business",
+        "title": "Director, Digital Standards"
+      }
+    ]
   }
 ]

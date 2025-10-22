@@ -27,6 +27,20 @@ export enum ModerationState {
   Archived = 'Archived',
 }
 
+export enum ContactRole {
+  Primary = 'Primary',
+  Technical = 'Technical',
+  Business = 'Business',
+}
+
+export interface ProjectContact {
+  name: string;
+  email: string;
+  role: ContactRole;
+  title?: string;
+  phone?: string;
+}
+
 export interface Organization {
   id: string;
   nameEN: string;
@@ -78,6 +92,9 @@ export interface Project {
 
   // Outcomes
   outcomes?: string;
+
+  // Contacts
+  contacts?: ProjectContact[];
 
   // Internal fields
   source1?: string;

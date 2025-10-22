@@ -131,6 +131,9 @@ router.get(
         where,
         include: {
           organization: true,
+          contacts: {
+            orderBy: { role: 'asc' }, // Order by role: Primary, Technical, Business
+          },
         },
         orderBy,
         skip,
@@ -161,6 +164,9 @@ router.get(
       where: { id },
       include: {
         organization: true,
+        contacts: {
+          orderBy: { role: 'asc' }, // Order by role: Primary, Technical, Business
+        },
         codeRequests: {
           orderBy: { createdAt: 'desc' },
           take: 10,

@@ -1,4 +1,5 @@
 import { useState, useMemo, useEffect } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { DashboardLayout } from '@/components/layout/DashboardLayout';
 import SearchAndFilter from '@/components/projects/SearchAndFilter';
@@ -20,6 +21,7 @@ const Index = () => {
   const { t } = useTranslation('pages');
   const getField = useLocalizedField();
   const [searchQuery, setSearchQuery] = useState('');
+  const [searchParams, setSearchParams] = useSearchParams();
   const [selectedDepartments, setSelectedDepartments] = useState<string[]>([]);
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
   const [selectedStatuses, setSelectedStatuses] = useState<ProjectStatus[]>([]);
@@ -27,26 +29,25 @@ const Index = () => {
   const [filterPersonalInfo, setFilterPersonalInfo] = useState(false);
   const [sortBy, setSortBy] = useState<string>('createdAt');
   const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('desc');
-  
+
   // Get initial tab from URL parameters
   const getInitialTab = () => {
-    const params = new URLSearchParams(window.location.search);
-    return params.get('tab') || 'all';
+    const tab = searchParams.get('tab');
+    return tab || 'all';
   };
-  
-  const [activeTab, setActiveTab] = useState(getInitialTab());
+
+  const [activeTab, setActiveTab] = useState(getInitialTab);
   const [page, setPage] = useState(1);
 
-  // Update URL when tab changes
+  // Keep the active tab in sync with the current URL search params so sidebar navigation stays highlighted.
   useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
-    if (activeTab === 'all') {
-      params.delete('tab');
-    } else {
-      params.set('tab', activeTab);
-    }
-    const newUrl = params.toString() ? `?${params.toString()}` : '/';
-    window.history.replaceState({}, '', newUrl);
+    const tabFromUrl = searchParams.get('tab') || 'all';
+    setActiveTab((prev) => (prev === tabFromUrl ? prev : tabFromUrl));
+  }, [searchParams]);
+
+  // Anytime the tab changes (from tabs component or sidebar), reset pagination so results feel consistent.
+  useEffect(() => {
+    setPage(1);
   }, [activeTab]);
 
   // Load view mode from localStorage
@@ -314,15 +315,34 @@ const Index = () => {
 
           {/* Tabs & Filters Row */}
           <div className="flex flex-col lg:flex-row gap-3 items-start lg:items-center justify-between">
-            <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full lg:w-auto">
+            <Tabs
+              value={activeTab}
+              onValueChange={(value) => {
+                // Update local state first so UI responds immediately.
+                setActiveTab(value);
+
+                // Mirror the tab choice into the URL to support sidebar navigation and browser history.
+                const nextParams = new URLSearchParams(searchParams.toString());
+                if (value === 'all') {
+                  nextParams.delete('tab');
+                } else {
+                  nextParams.set('tab', value);
+                }
+                setSearchParams(nextParams, { replace: true });
+
+                // Reset pagination whenever the user switches between tab groupings.
+                setPage(1);
+              }}
+              className="w-full lg:w-auto"
+            >
               <TabsList className="grid w-full grid-cols-4 lg:w-fit lg:inline-flex h-9">
                 <TabsTrigger value="all" className="flex items-center gap-1.5 text-xs px-3">
                   <BarChart3 className="h-3.5 w-3.5" />
-                  {t('dashboard.tabs.all')} ({pagination?.total || 0})
+                  {t('dashboard.tabs.all')} ({totalProjects})
                 </TabsTrigger>
                 <TabsTrigger value="featured" className="flex items-center gap-1.5 text-xs px-3">
                   <Star className="h-3.5 w-3.5" />
-                  {t('dashboard.tabs.featured')} ({featuredProjects.length})
+                  {t('dashboard.tabs.featured')} ({totalFeatured})
                 </TabsTrigger>
                 <TabsTrigger value="trending" className="flex items-center gap-1.5 text-xs px-3">
                   <TrendingUp className="h-3.5 w-3.5" />

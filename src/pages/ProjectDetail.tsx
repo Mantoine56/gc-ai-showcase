@@ -24,6 +24,7 @@ import {
 import { useProject } from '@/hooks/useProjects';
 import { useLocalizedField } from '@/hooks/useLocalizedField';
 import { ProjectStatus, PrimaryUsers, DevelopedBy } from '@/types';
+import { ContactSection } from '@/components/projects/ContactSection';
 
 const ProjectDetail = () => {
   const { id } = useParams<{ id: string }>();
@@ -374,6 +375,14 @@ const ProjectDetail = () => {
                 )}
               </CardContent>
             </Card>
+
+            {/* Contact Section */}
+            {project.contacts && project.contacts.length > 0 && (
+              <ContactSection
+                projectName={projectName}
+                contacts={project.contacts}
+              />
+            )}
           </div>
 
           {/* Sidebar */}

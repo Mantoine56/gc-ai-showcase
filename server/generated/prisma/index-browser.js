@@ -155,6 +155,18 @@ exports.Prisma.ProjectScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.ProjectContactScalarFieldEnum = {
+  id: 'id',
+  projectId: 'projectId',
+  name: 'name',
+  email: 'email',
+  role: 'role',
+  title: 'title',
+  phone: 'phone',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.OrganizationScalarFieldEnum = {
   id: 'id',
   nameEN: 'nameEN',
@@ -231,8 +243,15 @@ exports.ModerationState = exports.$Enums.ModerationState = {
   Archived: 'Archived'
 };
 
+exports.ContactRole = exports.$Enums.ContactRole = {
+  Primary: 'Primary',
+  Technical: 'Technical',
+  Business: 'Business'
+};
+
 exports.Prisma.ModelName = {
   Project: 'Project',
+  ProjectContact: 'ProjectContact',
   Organization: 'Organization',
   User: 'User',
   CodeRequest: 'CodeRequest',

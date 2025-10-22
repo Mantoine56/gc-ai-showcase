@@ -39,6 +39,12 @@ enum ModerationState {
   Archived
 }
 
+enum ContactRole {
+  Primary
+  Technical
+  Business
+}
+
 // Main Project/AI System model
 // Maps to the Excel template from data.xlsx
 model Project {
@@ -103,6 +109,7 @@ model Project {
 
   // Relations
   codeRequests               CodeRequest[]
+  contacts                   ProjectContact[]
 
   // Indexes for search and filtering
   @@index([organizationId])
@@ -113,6 +120,25 @@ model Project {
   @@index([moderationState])
   @@index([createdAt])
   @@unique([nameEN, organizationId]) // Prevent duplicates within same org
+}
+
+// Project Contact model
+model ProjectContact {
+  id                String       @id @default(cuid())
+  projectId         String
+  project           Project      @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+  name              String       // Contact person's name
+  email             String       // Contact email address
+  role              ContactRole  // Primary, Technical, or Business contact
+  title             String?      // Job title (optional)
+  phone             String?      // Phone number (optional)
+
+  createdAt         DateTime     @default(now())
+  updatedAt         DateTime     @updatedAt
+
+  @@index([projectId])
+  @@index([role])
 }
 
 // Organization/Department model

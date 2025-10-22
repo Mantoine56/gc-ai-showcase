@@ -66,21 +66,21 @@ const ProjectCard = ({ project }: ProjectCardProps) => {
 
   return (
     <Card className={`group h-full flex flex-col transition-all duration-300 hover:shadow-lg hover:-translate-y-1 bg-gradient-card border-l-4 ${statusInfo.border} relative overflow-hidden`}>
-      {/* Featured ribbon */}
-      {project.featured && (
-        <div className="absolute top-3 -right-10 bg-gcds-color-yellow-500 text-white text-xs font-bold px-12 py-1 transform rotate-45 shadow-md z-10">
-          <Star className="h-3 w-3 inline mr-1" />
-          {t('components:projectCard.featured')}
-        </div>
-      )}
-
       <CardHeader className="space-y-4 pb-3">
         {/* Status and Compliance Badges */}
         <div className="flex items-start justify-between gap-2 flex-wrap">
-          <Badge variant="secondary" className={`${statusInfo.badge} border font-semibold shadow-sm`}>
-            <StatusIcon className="h-3.5 w-3.5 mr-1.5" />
-            {statusInfo.label}
-          </Badge>
+          <div className="flex items-center gap-1.5 flex-wrap">
+            <Badge variant="secondary" className={`${statusInfo.badge} border font-semibold shadow-sm`}>
+              <StatusIcon className="h-3.5 w-3.5 mr-1.5" />
+              {statusInfo.label}
+            </Badge>
+            {project.featured && (
+              <Badge className="bg-blue-600 hover:bg-blue-700 text-white border-blue-700 font-semibold shadow-sm">
+                <Star className="h-3 w-3 mr-1 fill-current" />
+                {t('components:projectCard.featured')}
+              </Badge>
+            )}
+          </div>
           <div className="flex items-center gap-1.5 flex-wrap">
             {project.isAutomatedDecisionSystem && (
               <Badge variant="outline" className="text-gcds-color-blue-700 border-gcds-color-blue-700 bg-gcds-color-blue-50 shadow-sm" title="Automated Decision System">

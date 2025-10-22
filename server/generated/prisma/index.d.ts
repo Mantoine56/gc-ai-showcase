@@ -19,6 +19,11 @@ export type PrismaPromise<T> = $Public.PrismaPromise<T>
  */
 export type Project = $Result.DefaultSelection<Prisma.$ProjectPayload>
 /**
+ * Model ProjectContact
+ * 
+ */
+export type ProjectContact = $Result.DefaultSelection<Prisma.$ProjectContactPayload>
+/**
  * Model Organization
  * 
  */
@@ -81,6 +86,15 @@ export const ModerationState: {
 
 export type ModerationState = (typeof ModerationState)[keyof typeof ModerationState]
 
+
+export const ContactRole: {
+  Primary: 'Primary',
+  Technical: 'Technical',
+  Business: 'Business'
+};
+
+export type ContactRole = (typeof ContactRole)[keyof typeof ContactRole]
+
 }
 
 export type PrimaryUsers = $Enums.PrimaryUsers
@@ -98,6 +112,10 @@ export const ProjectStatus: typeof $Enums.ProjectStatus
 export type ModerationState = $Enums.ModerationState
 
 export const ModerationState: typeof $Enums.ModerationState
+
+export type ContactRole = $Enums.ContactRole
+
+export const ContactRole: typeof $Enums.ContactRole
 
 /**
  * ##  Prisma Client ʲˢ
@@ -226,6 +244,16 @@ export class PrismaClient<
     * ```
     */
   get project(): Prisma.ProjectDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.projectContact`: Exposes CRUD operations for the **ProjectContact** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more ProjectContacts
+    * const projectContacts = await prisma.projectContact.findMany()
+    * ```
+    */
+  get projectContact(): Prisma.ProjectContactDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.organization`: Exposes CRUD operations for the **Organization** model.
@@ -707,6 +735,7 @@ export namespace Prisma {
 
   export const ModelName: {
     Project: 'Project',
+    ProjectContact: 'ProjectContact',
     Organization: 'Organization',
     User: 'User',
     CodeRequest: 'CodeRequest',
@@ -729,7 +758,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "project" | "organization" | "user" | "codeRequest" | "auditLog"
+      modelProps: "project" | "projectContact" | "organization" | "user" | "codeRequest" | "auditLog"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -804,6 +833,80 @@ export namespace Prisma {
           count: {
             args: Prisma.ProjectCountArgs<ExtArgs>
             result: $Utils.Optional<ProjectCountAggregateOutputType> | number
+          }
+        }
+      }
+      ProjectContact: {
+        payload: Prisma.$ProjectContactPayload<ExtArgs>
+        fields: Prisma.ProjectContactFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.ProjectContactFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProjectContactPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.ProjectContactFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProjectContactPayload>
+          }
+          findFirst: {
+            args: Prisma.ProjectContactFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProjectContactPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.ProjectContactFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProjectContactPayload>
+          }
+          findMany: {
+            args: Prisma.ProjectContactFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProjectContactPayload>[]
+          }
+          create: {
+            args: Prisma.ProjectContactCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProjectContactPayload>
+          }
+          createMany: {
+            args: Prisma.ProjectContactCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.ProjectContactCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProjectContactPayload>[]
+          }
+          delete: {
+            args: Prisma.ProjectContactDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProjectContactPayload>
+          }
+          update: {
+            args: Prisma.ProjectContactUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProjectContactPayload>
+          }
+          deleteMany: {
+            args: Prisma.ProjectContactDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.ProjectContactUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.ProjectContactUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProjectContactPayload>[]
+          }
+          upsert: {
+            args: Prisma.ProjectContactUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProjectContactPayload>
+          }
+          aggregate: {
+            args: Prisma.ProjectContactAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateProjectContact>
+          }
+          groupBy: {
+            args: Prisma.ProjectContactGroupByArgs<ExtArgs>
+            result: $Utils.Optional<ProjectContactGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.ProjectContactCountArgs<ExtArgs>
+            result: $Utils.Optional<ProjectContactCountAggregateOutputType> | number
           }
         }
       }
@@ -1200,6 +1303,7 @@ export namespace Prisma {
   }
   export type GlobalOmitConfig = {
     project?: ProjectOmit
+    projectContact?: ProjectContactOmit
     organization?: OrganizationOmit
     user?: UserOmit
     codeRequest?: CodeRequestOmit
@@ -1285,10 +1389,12 @@ export namespace Prisma {
 
   export type ProjectCountOutputType = {
     codeRequests: number
+    contacts: number
   }
 
   export type ProjectCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     codeRequests?: boolean | ProjectCountOutputTypeCountCodeRequestsArgs
+    contacts?: boolean | ProjectCountOutputTypeCountContactsArgs
   }
 
   // Custom InputTypes
@@ -1307,6 +1413,13 @@ export namespace Prisma {
    */
   export type ProjectCountOutputTypeCountCodeRequestsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: CodeRequestWhereInput
+  }
+
+  /**
+   * ProjectCountOutputType without action
+   */
+  export type ProjectCountOutputTypeCountContactsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ProjectContactWhereInput
   }
 
 
@@ -1816,6 +1929,7 @@ export namespace Prisma {
     updatedAt?: boolean
     organization?: boolean | OrganizationDefaultArgs<ExtArgs>
     codeRequests?: boolean | Project$codeRequestsArgs<ExtArgs>
+    contacts?: boolean | Project$contactsArgs<ExtArgs>
     _count?: boolean | ProjectCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["project"]>
 
@@ -1939,6 +2053,7 @@ export namespace Prisma {
   export type ProjectInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     organization?: boolean | OrganizationDefaultArgs<ExtArgs>
     codeRequests?: boolean | Project$codeRequestsArgs<ExtArgs>
+    contacts?: boolean | Project$contactsArgs<ExtArgs>
     _count?: boolean | ProjectCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type ProjectIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -1953,6 +2068,7 @@ export namespace Prisma {
     objects: {
       organization: Prisma.$OrganizationPayload<ExtArgs>
       codeRequests: Prisma.$CodeRequestPayload<ExtArgs>[]
+      contacts: Prisma.$ProjectContactPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -2386,6 +2502,7 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     organization<T extends OrganizationDefaultArgs<ExtArgs> = {}>(args?: Subset<T, OrganizationDefaultArgs<ExtArgs>>): Prisma__OrganizationClient<$Result.GetResult<Prisma.$OrganizationPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     codeRequests<T extends Project$codeRequestsArgs<ExtArgs> = {}>(args?: Subset<T, Project$codeRequestsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CodeRequestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    contacts<T extends Project$contactsArgs<ExtArgs> = {}>(args?: Subset<T, Project$contactsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProjectContactPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2868,6 +2985,30 @@ export namespace Prisma {
   }
 
   /**
+   * Project.contacts
+   */
+  export type Project$contactsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProjectContact
+     */
+    select?: ProjectContactSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ProjectContact
+     */
+    omit?: ProjectContactOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProjectContactInclude<ExtArgs> | null
+    where?: ProjectContactWhereInput
+    orderBy?: ProjectContactOrderByWithRelationInput | ProjectContactOrderByWithRelationInput[]
+    cursor?: ProjectContactWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ProjectContactScalarFieldEnum | ProjectContactScalarFieldEnum[]
+  }
+
+  /**
    * Project without action
    */
   export type ProjectDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -2883,6 +3024,1114 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: ProjectInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model ProjectContact
+   */
+
+  export type AggregateProjectContact = {
+    _count: ProjectContactCountAggregateOutputType | null
+    _min: ProjectContactMinAggregateOutputType | null
+    _max: ProjectContactMaxAggregateOutputType | null
+  }
+
+  export type ProjectContactMinAggregateOutputType = {
+    id: string | null
+    projectId: string | null
+    name: string | null
+    email: string | null
+    role: $Enums.ContactRole | null
+    title: string | null
+    phone: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type ProjectContactMaxAggregateOutputType = {
+    id: string | null
+    projectId: string | null
+    name: string | null
+    email: string | null
+    role: $Enums.ContactRole | null
+    title: string | null
+    phone: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type ProjectContactCountAggregateOutputType = {
+    id: number
+    projectId: number
+    name: number
+    email: number
+    role: number
+    title: number
+    phone: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type ProjectContactMinAggregateInputType = {
+    id?: true
+    projectId?: true
+    name?: true
+    email?: true
+    role?: true
+    title?: true
+    phone?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type ProjectContactMaxAggregateInputType = {
+    id?: true
+    projectId?: true
+    name?: true
+    email?: true
+    role?: true
+    title?: true
+    phone?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type ProjectContactCountAggregateInputType = {
+    id?: true
+    projectId?: true
+    name?: true
+    email?: true
+    role?: true
+    title?: true
+    phone?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type ProjectContactAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ProjectContact to aggregate.
+     */
+    where?: ProjectContactWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ProjectContacts to fetch.
+     */
+    orderBy?: ProjectContactOrderByWithRelationInput | ProjectContactOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: ProjectContactWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ProjectContacts from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ProjectContacts.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned ProjectContacts
+    **/
+    _count?: true | ProjectContactCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: ProjectContactMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: ProjectContactMaxAggregateInputType
+  }
+
+  export type GetProjectContactAggregateType<T extends ProjectContactAggregateArgs> = {
+        [P in keyof T & keyof AggregateProjectContact]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateProjectContact[P]>
+      : GetScalarType<T[P], AggregateProjectContact[P]>
+  }
+
+
+
+
+  export type ProjectContactGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ProjectContactWhereInput
+    orderBy?: ProjectContactOrderByWithAggregationInput | ProjectContactOrderByWithAggregationInput[]
+    by: ProjectContactScalarFieldEnum[] | ProjectContactScalarFieldEnum
+    having?: ProjectContactScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: ProjectContactCountAggregateInputType | true
+    _min?: ProjectContactMinAggregateInputType
+    _max?: ProjectContactMaxAggregateInputType
+  }
+
+  export type ProjectContactGroupByOutputType = {
+    id: string
+    projectId: string
+    name: string
+    email: string
+    role: $Enums.ContactRole
+    title: string | null
+    phone: string | null
+    createdAt: Date
+    updatedAt: Date
+    _count: ProjectContactCountAggregateOutputType | null
+    _min: ProjectContactMinAggregateOutputType | null
+    _max: ProjectContactMaxAggregateOutputType | null
+  }
+
+  type GetProjectContactGroupByPayload<T extends ProjectContactGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<ProjectContactGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof ProjectContactGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], ProjectContactGroupByOutputType[P]>
+            : GetScalarType<T[P], ProjectContactGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type ProjectContactSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    projectId?: boolean
+    name?: boolean
+    email?: boolean
+    role?: boolean
+    title?: boolean
+    phone?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    project?: boolean | ProjectDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["projectContact"]>
+
+  export type ProjectContactSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    projectId?: boolean
+    name?: boolean
+    email?: boolean
+    role?: boolean
+    title?: boolean
+    phone?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    project?: boolean | ProjectDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["projectContact"]>
+
+  export type ProjectContactSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    projectId?: boolean
+    name?: boolean
+    email?: boolean
+    role?: boolean
+    title?: boolean
+    phone?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    project?: boolean | ProjectDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["projectContact"]>
+
+  export type ProjectContactSelectScalar = {
+    id?: boolean
+    projectId?: boolean
+    name?: boolean
+    email?: boolean
+    role?: boolean
+    title?: boolean
+    phone?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type ProjectContactOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "projectId" | "name" | "email" | "role" | "title" | "phone" | "createdAt" | "updatedAt", ExtArgs["result"]["projectContact"]>
+  export type ProjectContactInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    project?: boolean | ProjectDefaultArgs<ExtArgs>
+  }
+  export type ProjectContactIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    project?: boolean | ProjectDefaultArgs<ExtArgs>
+  }
+  export type ProjectContactIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    project?: boolean | ProjectDefaultArgs<ExtArgs>
+  }
+
+  export type $ProjectContactPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "ProjectContact"
+    objects: {
+      project: Prisma.$ProjectPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      projectId: string
+      name: string
+      email: string
+      role: $Enums.ContactRole
+      title: string | null
+      phone: string | null
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["projectContact"]>
+    composites: {}
+  }
+
+  type ProjectContactGetPayload<S extends boolean | null | undefined | ProjectContactDefaultArgs> = $Result.GetResult<Prisma.$ProjectContactPayload, S>
+
+  type ProjectContactCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<ProjectContactFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: ProjectContactCountAggregateInputType | true
+    }
+
+  export interface ProjectContactDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['ProjectContact'], meta: { name: 'ProjectContact' } }
+    /**
+     * Find zero or one ProjectContact that matches the filter.
+     * @param {ProjectContactFindUniqueArgs} args - Arguments to find a ProjectContact
+     * @example
+     * // Get one ProjectContact
+     * const projectContact = await prisma.projectContact.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends ProjectContactFindUniqueArgs>(args: SelectSubset<T, ProjectContactFindUniqueArgs<ExtArgs>>): Prisma__ProjectContactClient<$Result.GetResult<Prisma.$ProjectContactPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one ProjectContact that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {ProjectContactFindUniqueOrThrowArgs} args - Arguments to find a ProjectContact
+     * @example
+     * // Get one ProjectContact
+     * const projectContact = await prisma.projectContact.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends ProjectContactFindUniqueOrThrowArgs>(args: SelectSubset<T, ProjectContactFindUniqueOrThrowArgs<ExtArgs>>): Prisma__ProjectContactClient<$Result.GetResult<Prisma.$ProjectContactPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ProjectContact that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ProjectContactFindFirstArgs} args - Arguments to find a ProjectContact
+     * @example
+     * // Get one ProjectContact
+     * const projectContact = await prisma.projectContact.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends ProjectContactFindFirstArgs>(args?: SelectSubset<T, ProjectContactFindFirstArgs<ExtArgs>>): Prisma__ProjectContactClient<$Result.GetResult<Prisma.$ProjectContactPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ProjectContact that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ProjectContactFindFirstOrThrowArgs} args - Arguments to find a ProjectContact
+     * @example
+     * // Get one ProjectContact
+     * const projectContact = await prisma.projectContact.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends ProjectContactFindFirstOrThrowArgs>(args?: SelectSubset<T, ProjectContactFindFirstOrThrowArgs<ExtArgs>>): Prisma__ProjectContactClient<$Result.GetResult<Prisma.$ProjectContactPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more ProjectContacts that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ProjectContactFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all ProjectContacts
+     * const projectContacts = await prisma.projectContact.findMany()
+     * 
+     * // Get first 10 ProjectContacts
+     * const projectContacts = await prisma.projectContact.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const projectContactWithIdOnly = await prisma.projectContact.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends ProjectContactFindManyArgs>(args?: SelectSubset<T, ProjectContactFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProjectContactPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a ProjectContact.
+     * @param {ProjectContactCreateArgs} args - Arguments to create a ProjectContact.
+     * @example
+     * // Create one ProjectContact
+     * const ProjectContact = await prisma.projectContact.create({
+     *   data: {
+     *     // ... data to create a ProjectContact
+     *   }
+     * })
+     * 
+     */
+    create<T extends ProjectContactCreateArgs>(args: SelectSubset<T, ProjectContactCreateArgs<ExtArgs>>): Prisma__ProjectContactClient<$Result.GetResult<Prisma.$ProjectContactPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many ProjectContacts.
+     * @param {ProjectContactCreateManyArgs} args - Arguments to create many ProjectContacts.
+     * @example
+     * // Create many ProjectContacts
+     * const projectContact = await prisma.projectContact.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends ProjectContactCreateManyArgs>(args?: SelectSubset<T, ProjectContactCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many ProjectContacts and returns the data saved in the database.
+     * @param {ProjectContactCreateManyAndReturnArgs} args - Arguments to create many ProjectContacts.
+     * @example
+     * // Create many ProjectContacts
+     * const projectContact = await prisma.projectContact.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many ProjectContacts and only return the `id`
+     * const projectContactWithIdOnly = await prisma.projectContact.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends ProjectContactCreateManyAndReturnArgs>(args?: SelectSubset<T, ProjectContactCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProjectContactPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a ProjectContact.
+     * @param {ProjectContactDeleteArgs} args - Arguments to delete one ProjectContact.
+     * @example
+     * // Delete one ProjectContact
+     * const ProjectContact = await prisma.projectContact.delete({
+     *   where: {
+     *     // ... filter to delete one ProjectContact
+     *   }
+     * })
+     * 
+     */
+    delete<T extends ProjectContactDeleteArgs>(args: SelectSubset<T, ProjectContactDeleteArgs<ExtArgs>>): Prisma__ProjectContactClient<$Result.GetResult<Prisma.$ProjectContactPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one ProjectContact.
+     * @param {ProjectContactUpdateArgs} args - Arguments to update one ProjectContact.
+     * @example
+     * // Update one ProjectContact
+     * const projectContact = await prisma.projectContact.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends ProjectContactUpdateArgs>(args: SelectSubset<T, ProjectContactUpdateArgs<ExtArgs>>): Prisma__ProjectContactClient<$Result.GetResult<Prisma.$ProjectContactPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more ProjectContacts.
+     * @param {ProjectContactDeleteManyArgs} args - Arguments to filter ProjectContacts to delete.
+     * @example
+     * // Delete a few ProjectContacts
+     * const { count } = await prisma.projectContact.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends ProjectContactDeleteManyArgs>(args?: SelectSubset<T, ProjectContactDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ProjectContacts.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ProjectContactUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many ProjectContacts
+     * const projectContact = await prisma.projectContact.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends ProjectContactUpdateManyArgs>(args: SelectSubset<T, ProjectContactUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ProjectContacts and returns the data updated in the database.
+     * @param {ProjectContactUpdateManyAndReturnArgs} args - Arguments to update many ProjectContacts.
+     * @example
+     * // Update many ProjectContacts
+     * const projectContact = await prisma.projectContact.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more ProjectContacts and only return the `id`
+     * const projectContactWithIdOnly = await prisma.projectContact.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends ProjectContactUpdateManyAndReturnArgs>(args: SelectSubset<T, ProjectContactUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProjectContactPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one ProjectContact.
+     * @param {ProjectContactUpsertArgs} args - Arguments to update or create a ProjectContact.
+     * @example
+     * // Update or create a ProjectContact
+     * const projectContact = await prisma.projectContact.upsert({
+     *   create: {
+     *     // ... data to create a ProjectContact
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the ProjectContact we want to update
+     *   }
+     * })
+     */
+    upsert<T extends ProjectContactUpsertArgs>(args: SelectSubset<T, ProjectContactUpsertArgs<ExtArgs>>): Prisma__ProjectContactClient<$Result.GetResult<Prisma.$ProjectContactPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of ProjectContacts.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ProjectContactCountArgs} args - Arguments to filter ProjectContacts to count.
+     * @example
+     * // Count the number of ProjectContacts
+     * const count = await prisma.projectContact.count({
+     *   where: {
+     *     // ... the filter for the ProjectContacts we want to count
+     *   }
+     * })
+    **/
+    count<T extends ProjectContactCountArgs>(
+      args?: Subset<T, ProjectContactCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], ProjectContactCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a ProjectContact.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ProjectContactAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends ProjectContactAggregateArgs>(args: Subset<T, ProjectContactAggregateArgs>): Prisma.PrismaPromise<GetProjectContactAggregateType<T>>
+
+    /**
+     * Group by ProjectContact.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ProjectContactGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends ProjectContactGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: ProjectContactGroupByArgs['orderBy'] }
+        : { orderBy?: ProjectContactGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, ProjectContactGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetProjectContactGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the ProjectContact model
+   */
+  readonly fields: ProjectContactFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for ProjectContact.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__ProjectContactClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    project<T extends ProjectDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ProjectDefaultArgs<ExtArgs>>): Prisma__ProjectClient<$Result.GetResult<Prisma.$ProjectPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the ProjectContact model
+   */
+  interface ProjectContactFieldRefs {
+    readonly id: FieldRef<"ProjectContact", 'String'>
+    readonly projectId: FieldRef<"ProjectContact", 'String'>
+    readonly name: FieldRef<"ProjectContact", 'String'>
+    readonly email: FieldRef<"ProjectContact", 'String'>
+    readonly role: FieldRef<"ProjectContact", 'ContactRole'>
+    readonly title: FieldRef<"ProjectContact", 'String'>
+    readonly phone: FieldRef<"ProjectContact", 'String'>
+    readonly createdAt: FieldRef<"ProjectContact", 'DateTime'>
+    readonly updatedAt: FieldRef<"ProjectContact", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * ProjectContact findUnique
+   */
+  export type ProjectContactFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProjectContact
+     */
+    select?: ProjectContactSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ProjectContact
+     */
+    omit?: ProjectContactOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProjectContactInclude<ExtArgs> | null
+    /**
+     * Filter, which ProjectContact to fetch.
+     */
+    where: ProjectContactWhereUniqueInput
+  }
+
+  /**
+   * ProjectContact findUniqueOrThrow
+   */
+  export type ProjectContactFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProjectContact
+     */
+    select?: ProjectContactSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ProjectContact
+     */
+    omit?: ProjectContactOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProjectContactInclude<ExtArgs> | null
+    /**
+     * Filter, which ProjectContact to fetch.
+     */
+    where: ProjectContactWhereUniqueInput
+  }
+
+  /**
+   * ProjectContact findFirst
+   */
+  export type ProjectContactFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProjectContact
+     */
+    select?: ProjectContactSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ProjectContact
+     */
+    omit?: ProjectContactOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProjectContactInclude<ExtArgs> | null
+    /**
+     * Filter, which ProjectContact to fetch.
+     */
+    where?: ProjectContactWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ProjectContacts to fetch.
+     */
+    orderBy?: ProjectContactOrderByWithRelationInput | ProjectContactOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ProjectContacts.
+     */
+    cursor?: ProjectContactWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ProjectContacts from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ProjectContacts.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ProjectContacts.
+     */
+    distinct?: ProjectContactScalarFieldEnum | ProjectContactScalarFieldEnum[]
+  }
+
+  /**
+   * ProjectContact findFirstOrThrow
+   */
+  export type ProjectContactFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProjectContact
+     */
+    select?: ProjectContactSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ProjectContact
+     */
+    omit?: ProjectContactOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProjectContactInclude<ExtArgs> | null
+    /**
+     * Filter, which ProjectContact to fetch.
+     */
+    where?: ProjectContactWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ProjectContacts to fetch.
+     */
+    orderBy?: ProjectContactOrderByWithRelationInput | ProjectContactOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ProjectContacts.
+     */
+    cursor?: ProjectContactWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ProjectContacts from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ProjectContacts.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ProjectContacts.
+     */
+    distinct?: ProjectContactScalarFieldEnum | ProjectContactScalarFieldEnum[]
+  }
+
+  /**
+   * ProjectContact findMany
+   */
+  export type ProjectContactFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProjectContact
+     */
+    select?: ProjectContactSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ProjectContact
+     */
+    omit?: ProjectContactOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProjectContactInclude<ExtArgs> | null
+    /**
+     * Filter, which ProjectContacts to fetch.
+     */
+    where?: ProjectContactWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ProjectContacts to fetch.
+     */
+    orderBy?: ProjectContactOrderByWithRelationInput | ProjectContactOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing ProjectContacts.
+     */
+    cursor?: ProjectContactWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ProjectContacts from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ProjectContacts.
+     */
+    skip?: number
+    distinct?: ProjectContactScalarFieldEnum | ProjectContactScalarFieldEnum[]
+  }
+
+  /**
+   * ProjectContact create
+   */
+  export type ProjectContactCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProjectContact
+     */
+    select?: ProjectContactSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ProjectContact
+     */
+    omit?: ProjectContactOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProjectContactInclude<ExtArgs> | null
+    /**
+     * The data needed to create a ProjectContact.
+     */
+    data: XOR<ProjectContactCreateInput, ProjectContactUncheckedCreateInput>
+  }
+
+  /**
+   * ProjectContact createMany
+   */
+  export type ProjectContactCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many ProjectContacts.
+     */
+    data: ProjectContactCreateManyInput | ProjectContactCreateManyInput[]
+  }
+
+  /**
+   * ProjectContact createManyAndReturn
+   */
+  export type ProjectContactCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProjectContact
+     */
+    select?: ProjectContactSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the ProjectContact
+     */
+    omit?: ProjectContactOmit<ExtArgs> | null
+    /**
+     * The data used to create many ProjectContacts.
+     */
+    data: ProjectContactCreateManyInput | ProjectContactCreateManyInput[]
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProjectContactIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * ProjectContact update
+   */
+  export type ProjectContactUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProjectContact
+     */
+    select?: ProjectContactSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ProjectContact
+     */
+    omit?: ProjectContactOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProjectContactInclude<ExtArgs> | null
+    /**
+     * The data needed to update a ProjectContact.
+     */
+    data: XOR<ProjectContactUpdateInput, ProjectContactUncheckedUpdateInput>
+    /**
+     * Choose, which ProjectContact to update.
+     */
+    where: ProjectContactWhereUniqueInput
+  }
+
+  /**
+   * ProjectContact updateMany
+   */
+  export type ProjectContactUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update ProjectContacts.
+     */
+    data: XOR<ProjectContactUpdateManyMutationInput, ProjectContactUncheckedUpdateManyInput>
+    /**
+     * Filter which ProjectContacts to update
+     */
+    where?: ProjectContactWhereInput
+    /**
+     * Limit how many ProjectContacts to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * ProjectContact updateManyAndReturn
+   */
+  export type ProjectContactUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProjectContact
+     */
+    select?: ProjectContactSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the ProjectContact
+     */
+    omit?: ProjectContactOmit<ExtArgs> | null
+    /**
+     * The data used to update ProjectContacts.
+     */
+    data: XOR<ProjectContactUpdateManyMutationInput, ProjectContactUncheckedUpdateManyInput>
+    /**
+     * Filter which ProjectContacts to update
+     */
+    where?: ProjectContactWhereInput
+    /**
+     * Limit how many ProjectContacts to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProjectContactIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * ProjectContact upsert
+   */
+  export type ProjectContactUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProjectContact
+     */
+    select?: ProjectContactSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ProjectContact
+     */
+    omit?: ProjectContactOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProjectContactInclude<ExtArgs> | null
+    /**
+     * The filter to search for the ProjectContact to update in case it exists.
+     */
+    where: ProjectContactWhereUniqueInput
+    /**
+     * In case the ProjectContact found by the `where` argument doesn't exist, create a new ProjectContact with this data.
+     */
+    create: XOR<ProjectContactCreateInput, ProjectContactUncheckedCreateInput>
+    /**
+     * In case the ProjectContact was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<ProjectContactUpdateInput, ProjectContactUncheckedUpdateInput>
+  }
+
+  /**
+   * ProjectContact delete
+   */
+  export type ProjectContactDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProjectContact
+     */
+    select?: ProjectContactSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ProjectContact
+     */
+    omit?: ProjectContactOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProjectContactInclude<ExtArgs> | null
+    /**
+     * Filter which ProjectContact to delete.
+     */
+    where: ProjectContactWhereUniqueInput
+  }
+
+  /**
+   * ProjectContact deleteMany
+   */
+  export type ProjectContactDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ProjectContacts to delete
+     */
+    where?: ProjectContactWhereInput
+    /**
+     * Limit how many ProjectContacts to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * ProjectContact without action
+   */
+  export type ProjectContactDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProjectContact
+     */
+    select?: ProjectContactSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ProjectContact
+     */
+    omit?: ProjectContactOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProjectContactInclude<ExtArgs> | null
   }
 
 
@@ -7309,6 +8558,21 @@ export namespace Prisma {
   export type ProjectScalarFieldEnum = (typeof ProjectScalarFieldEnum)[keyof typeof ProjectScalarFieldEnum]
 
 
+  export const ProjectContactScalarFieldEnum: {
+    id: 'id',
+    projectId: 'projectId',
+    name: 'name',
+    email: 'email',
+    role: 'role',
+    title: 'title',
+    phone: 'phone',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type ProjectContactScalarFieldEnum = (typeof ProjectContactScalarFieldEnum)[keyof typeof ProjectContactScalarFieldEnum]
+
+
   export const OrganizationScalarFieldEnum: {
     id: 'id',
     nameEN: 'nameEN',
@@ -7439,6 +8703,13 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'ContactRole'
+   */
+  export type EnumContactRoleFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ContactRole'>
+    
+
+
+  /**
    * Reference to a field of type 'Float'
    */
   export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
@@ -7489,6 +8760,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"Project"> | Date | string
     organization?: XOR<OrganizationScalarRelationFilter, OrganizationWhereInput>
     codeRequests?: CodeRequestListRelationFilter
+    contacts?: ProjectContactListRelationFilter
   }
 
   export type ProjectOrderByWithRelationInput = {
@@ -7529,6 +8801,7 @@ export namespace Prisma {
     updatedAt?: SortOrder
     organization?: OrganizationOrderByWithRelationInput
     codeRequests?: CodeRequestOrderByRelationAggregateInput
+    contacts?: ProjectContactOrderByRelationAggregateInput
   }
 
   export type ProjectWhereUniqueInput = Prisma.AtLeast<{
@@ -7573,6 +8846,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"Project"> | Date | string
     organization?: XOR<OrganizationScalarRelationFilter, OrganizationWhereInput>
     codeRequests?: CodeRequestListRelationFilter
+    contacts?: ProjectContactListRelationFilter
   }, "id" | "aiRegisterId" | "nameEN_organizationId">
 
   export type ProjectOrderByWithAggregationInput = {
@@ -7657,6 +8931,81 @@ export namespace Prisma {
     updatedBy?: StringNullableWithAggregatesFilter<"Project"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"Project"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Project"> | Date | string
+  }
+
+  export type ProjectContactWhereInput = {
+    AND?: ProjectContactWhereInput | ProjectContactWhereInput[]
+    OR?: ProjectContactWhereInput[]
+    NOT?: ProjectContactWhereInput | ProjectContactWhereInput[]
+    id?: StringFilter<"ProjectContact"> | string
+    projectId?: StringFilter<"ProjectContact"> | string
+    name?: StringFilter<"ProjectContact"> | string
+    email?: StringFilter<"ProjectContact"> | string
+    role?: EnumContactRoleFilter<"ProjectContact"> | $Enums.ContactRole
+    title?: StringNullableFilter<"ProjectContact"> | string | null
+    phone?: StringNullableFilter<"ProjectContact"> | string | null
+    createdAt?: DateTimeFilter<"ProjectContact"> | Date | string
+    updatedAt?: DateTimeFilter<"ProjectContact"> | Date | string
+    project?: XOR<ProjectScalarRelationFilter, ProjectWhereInput>
+  }
+
+  export type ProjectContactOrderByWithRelationInput = {
+    id?: SortOrder
+    projectId?: SortOrder
+    name?: SortOrder
+    email?: SortOrder
+    role?: SortOrder
+    title?: SortOrderInput | SortOrder
+    phone?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    project?: ProjectOrderByWithRelationInput
+  }
+
+  export type ProjectContactWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: ProjectContactWhereInput | ProjectContactWhereInput[]
+    OR?: ProjectContactWhereInput[]
+    NOT?: ProjectContactWhereInput | ProjectContactWhereInput[]
+    projectId?: StringFilter<"ProjectContact"> | string
+    name?: StringFilter<"ProjectContact"> | string
+    email?: StringFilter<"ProjectContact"> | string
+    role?: EnumContactRoleFilter<"ProjectContact"> | $Enums.ContactRole
+    title?: StringNullableFilter<"ProjectContact"> | string | null
+    phone?: StringNullableFilter<"ProjectContact"> | string | null
+    createdAt?: DateTimeFilter<"ProjectContact"> | Date | string
+    updatedAt?: DateTimeFilter<"ProjectContact"> | Date | string
+    project?: XOR<ProjectScalarRelationFilter, ProjectWhereInput>
+  }, "id">
+
+  export type ProjectContactOrderByWithAggregationInput = {
+    id?: SortOrder
+    projectId?: SortOrder
+    name?: SortOrder
+    email?: SortOrder
+    role?: SortOrder
+    title?: SortOrderInput | SortOrder
+    phone?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: ProjectContactCountOrderByAggregateInput
+    _max?: ProjectContactMaxOrderByAggregateInput
+    _min?: ProjectContactMinOrderByAggregateInput
+  }
+
+  export type ProjectContactScalarWhereWithAggregatesInput = {
+    AND?: ProjectContactScalarWhereWithAggregatesInput | ProjectContactScalarWhereWithAggregatesInput[]
+    OR?: ProjectContactScalarWhereWithAggregatesInput[]
+    NOT?: ProjectContactScalarWhereWithAggregatesInput | ProjectContactScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"ProjectContact"> | string
+    projectId?: StringWithAggregatesFilter<"ProjectContact"> | string
+    name?: StringWithAggregatesFilter<"ProjectContact"> | string
+    email?: StringWithAggregatesFilter<"ProjectContact"> | string
+    role?: EnumContactRoleWithAggregatesFilter<"ProjectContact"> | $Enums.ContactRole
+    title?: StringNullableWithAggregatesFilter<"ProjectContact"> | string | null
+    phone?: StringNullableWithAggregatesFilter<"ProjectContact"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"ProjectContact"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"ProjectContact"> | Date | string
   }
 
   export type OrganizationWhereInput = {
@@ -7956,6 +9305,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     organization: OrganizationCreateNestedOneWithoutProjectsInput
     codeRequests?: CodeRequestCreateNestedManyWithoutProjectInput
+    contacts?: ProjectContactCreateNestedManyWithoutProjectInput
   }
 
   export type ProjectUncheckedCreateInput = {
@@ -7995,6 +9345,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     codeRequests?: CodeRequestUncheckedCreateNestedManyWithoutProjectInput
+    contacts?: ProjectContactUncheckedCreateNestedManyWithoutProjectInput
   }
 
   export type ProjectUpdateInput = {
@@ -8034,6 +9385,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     organization?: OrganizationUpdateOneRequiredWithoutProjectsNestedInput
     codeRequests?: CodeRequestUpdateManyWithoutProjectNestedInput
+    contacts?: ProjectContactUpdateManyWithoutProjectNestedInput
   }
 
   export type ProjectUncheckedUpdateInput = {
@@ -8073,6 +9425,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     codeRequests?: CodeRequestUncheckedUpdateManyWithoutProjectNestedInput
+    contacts?: ProjectContactUncheckedUpdateManyWithoutProjectNestedInput
   }
 
   export type ProjectCreateManyInput = {
@@ -8184,6 +9537,89 @@ export namespace Prisma {
     featured?: BoolFieldUpdateOperationsInput | boolean
     createdBy?: NullableStringFieldUpdateOperationsInput | string | null
     updatedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ProjectContactCreateInput = {
+    id?: string
+    name: string
+    email: string
+    role: $Enums.ContactRole
+    title?: string | null
+    phone?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    project: ProjectCreateNestedOneWithoutContactsInput
+  }
+
+  export type ProjectContactUncheckedCreateInput = {
+    id?: string
+    projectId: string
+    name: string
+    email: string
+    role: $Enums.ContactRole
+    title?: string | null
+    phone?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ProjectContactUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    role?: EnumContactRoleFieldUpdateOperationsInput | $Enums.ContactRole
+    title?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    project?: ProjectUpdateOneRequiredWithoutContactsNestedInput
+  }
+
+  export type ProjectContactUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    projectId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    role?: EnumContactRoleFieldUpdateOperationsInput | $Enums.ContactRole
+    title?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ProjectContactCreateManyInput = {
+    id?: string
+    projectId: string
+    name: string
+    email: string
+    role: $Enums.ContactRole
+    title?: string | null
+    phone?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ProjectContactUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    role?: EnumContactRoleFieldUpdateOperationsInput | $Enums.ContactRole
+    title?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ProjectContactUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    projectId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    role?: EnumContactRoleFieldUpdateOperationsInput | $Enums.ContactRole
+    title?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -8568,12 +10004,22 @@ export namespace Prisma {
     none?: CodeRequestWhereInput
   }
 
+  export type ProjectContactListRelationFilter = {
+    every?: ProjectContactWhereInput
+    some?: ProjectContactWhereInput
+    none?: ProjectContactWhereInput
+  }
+
   export type SortOrderInput = {
     sort: SortOrder
     nulls?: NullsOrder
   }
 
   export type CodeRequestOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type ProjectContactOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -8816,6 +10262,64 @@ export namespace Prisma {
     _max?: NestedDateTimeFilter<$PrismaModel>
   }
 
+  export type EnumContactRoleFilter<$PrismaModel = never> = {
+    equals?: $Enums.ContactRole | EnumContactRoleFieldRefInput<$PrismaModel>
+    in?: $Enums.ContactRole[]
+    notIn?: $Enums.ContactRole[]
+    not?: NestedEnumContactRoleFilter<$PrismaModel> | $Enums.ContactRole
+  }
+
+  export type ProjectScalarRelationFilter = {
+    is?: ProjectWhereInput
+    isNot?: ProjectWhereInput
+  }
+
+  export type ProjectContactCountOrderByAggregateInput = {
+    id?: SortOrder
+    projectId?: SortOrder
+    name?: SortOrder
+    email?: SortOrder
+    role?: SortOrder
+    title?: SortOrder
+    phone?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type ProjectContactMaxOrderByAggregateInput = {
+    id?: SortOrder
+    projectId?: SortOrder
+    name?: SortOrder
+    email?: SortOrder
+    role?: SortOrder
+    title?: SortOrder
+    phone?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type ProjectContactMinOrderByAggregateInput = {
+    id?: SortOrder
+    projectId?: SortOrder
+    name?: SortOrder
+    email?: SortOrder
+    role?: SortOrder
+    title?: SortOrder
+    phone?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type EnumContactRoleWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.ContactRole | EnumContactRoleFieldRefInput<$PrismaModel>
+    in?: $Enums.ContactRole[]
+    notIn?: $Enums.ContactRole[]
+    not?: NestedEnumContactRoleWithAggregatesFilter<$PrismaModel> | $Enums.ContactRole
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumContactRoleFilter<$PrismaModel>
+    _max?: NestedEnumContactRoleFilter<$PrismaModel>
+  }
+
   export type ProjectListRelationFilter = {
     every?: ProjectWhereInput
     some?: ProjectWhereInput
@@ -8891,11 +10395,6 @@ export namespace Prisma {
     roles?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-  }
-
-  export type ProjectScalarRelationFilter = {
-    is?: ProjectWhereInput
-    isNot?: ProjectWhereInput
   }
 
   export type CodeRequestCountOrderByAggregateInput = {
@@ -8979,11 +10478,25 @@ export namespace Prisma {
     connect?: CodeRequestWhereUniqueInput | CodeRequestWhereUniqueInput[]
   }
 
+  export type ProjectContactCreateNestedManyWithoutProjectInput = {
+    create?: XOR<ProjectContactCreateWithoutProjectInput, ProjectContactUncheckedCreateWithoutProjectInput> | ProjectContactCreateWithoutProjectInput[] | ProjectContactUncheckedCreateWithoutProjectInput[]
+    connectOrCreate?: ProjectContactCreateOrConnectWithoutProjectInput | ProjectContactCreateOrConnectWithoutProjectInput[]
+    createMany?: ProjectContactCreateManyProjectInputEnvelope
+    connect?: ProjectContactWhereUniqueInput | ProjectContactWhereUniqueInput[]
+  }
+
   export type CodeRequestUncheckedCreateNestedManyWithoutProjectInput = {
     create?: XOR<CodeRequestCreateWithoutProjectInput, CodeRequestUncheckedCreateWithoutProjectInput> | CodeRequestCreateWithoutProjectInput[] | CodeRequestUncheckedCreateWithoutProjectInput[]
     connectOrCreate?: CodeRequestCreateOrConnectWithoutProjectInput | CodeRequestCreateOrConnectWithoutProjectInput[]
     createMany?: CodeRequestCreateManyProjectInputEnvelope
     connect?: CodeRequestWhereUniqueInput | CodeRequestWhereUniqueInput[]
+  }
+
+  export type ProjectContactUncheckedCreateNestedManyWithoutProjectInput = {
+    create?: XOR<ProjectContactCreateWithoutProjectInput, ProjectContactUncheckedCreateWithoutProjectInput> | ProjectContactCreateWithoutProjectInput[] | ProjectContactUncheckedCreateWithoutProjectInput[]
+    connectOrCreate?: ProjectContactCreateOrConnectWithoutProjectInput | ProjectContactCreateOrConnectWithoutProjectInput[]
+    createMany?: ProjectContactCreateManyProjectInputEnvelope
+    connect?: ProjectContactWhereUniqueInput | ProjectContactWhereUniqueInput[]
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -9048,6 +10561,20 @@ export namespace Prisma {
     deleteMany?: CodeRequestScalarWhereInput | CodeRequestScalarWhereInput[]
   }
 
+  export type ProjectContactUpdateManyWithoutProjectNestedInput = {
+    create?: XOR<ProjectContactCreateWithoutProjectInput, ProjectContactUncheckedCreateWithoutProjectInput> | ProjectContactCreateWithoutProjectInput[] | ProjectContactUncheckedCreateWithoutProjectInput[]
+    connectOrCreate?: ProjectContactCreateOrConnectWithoutProjectInput | ProjectContactCreateOrConnectWithoutProjectInput[]
+    upsert?: ProjectContactUpsertWithWhereUniqueWithoutProjectInput | ProjectContactUpsertWithWhereUniqueWithoutProjectInput[]
+    createMany?: ProjectContactCreateManyProjectInputEnvelope
+    set?: ProjectContactWhereUniqueInput | ProjectContactWhereUniqueInput[]
+    disconnect?: ProjectContactWhereUniqueInput | ProjectContactWhereUniqueInput[]
+    delete?: ProjectContactWhereUniqueInput | ProjectContactWhereUniqueInput[]
+    connect?: ProjectContactWhereUniqueInput | ProjectContactWhereUniqueInput[]
+    update?: ProjectContactUpdateWithWhereUniqueWithoutProjectInput | ProjectContactUpdateWithWhereUniqueWithoutProjectInput[]
+    updateMany?: ProjectContactUpdateManyWithWhereWithoutProjectInput | ProjectContactUpdateManyWithWhereWithoutProjectInput[]
+    deleteMany?: ProjectContactScalarWhereInput | ProjectContactScalarWhereInput[]
+  }
+
   export type CodeRequestUncheckedUpdateManyWithoutProjectNestedInput = {
     create?: XOR<CodeRequestCreateWithoutProjectInput, CodeRequestUncheckedCreateWithoutProjectInput> | CodeRequestCreateWithoutProjectInput[] | CodeRequestUncheckedCreateWithoutProjectInput[]
     connectOrCreate?: CodeRequestCreateOrConnectWithoutProjectInput | CodeRequestCreateOrConnectWithoutProjectInput[]
@@ -9060,6 +10587,38 @@ export namespace Prisma {
     update?: CodeRequestUpdateWithWhereUniqueWithoutProjectInput | CodeRequestUpdateWithWhereUniqueWithoutProjectInput[]
     updateMany?: CodeRequestUpdateManyWithWhereWithoutProjectInput | CodeRequestUpdateManyWithWhereWithoutProjectInput[]
     deleteMany?: CodeRequestScalarWhereInput | CodeRequestScalarWhereInput[]
+  }
+
+  export type ProjectContactUncheckedUpdateManyWithoutProjectNestedInput = {
+    create?: XOR<ProjectContactCreateWithoutProjectInput, ProjectContactUncheckedCreateWithoutProjectInput> | ProjectContactCreateWithoutProjectInput[] | ProjectContactUncheckedCreateWithoutProjectInput[]
+    connectOrCreate?: ProjectContactCreateOrConnectWithoutProjectInput | ProjectContactCreateOrConnectWithoutProjectInput[]
+    upsert?: ProjectContactUpsertWithWhereUniqueWithoutProjectInput | ProjectContactUpsertWithWhereUniqueWithoutProjectInput[]
+    createMany?: ProjectContactCreateManyProjectInputEnvelope
+    set?: ProjectContactWhereUniqueInput | ProjectContactWhereUniqueInput[]
+    disconnect?: ProjectContactWhereUniqueInput | ProjectContactWhereUniqueInput[]
+    delete?: ProjectContactWhereUniqueInput | ProjectContactWhereUniqueInput[]
+    connect?: ProjectContactWhereUniqueInput | ProjectContactWhereUniqueInput[]
+    update?: ProjectContactUpdateWithWhereUniqueWithoutProjectInput | ProjectContactUpdateWithWhereUniqueWithoutProjectInput[]
+    updateMany?: ProjectContactUpdateManyWithWhereWithoutProjectInput | ProjectContactUpdateManyWithWhereWithoutProjectInput[]
+    deleteMany?: ProjectContactScalarWhereInput | ProjectContactScalarWhereInput[]
+  }
+
+  export type ProjectCreateNestedOneWithoutContactsInput = {
+    create?: XOR<ProjectCreateWithoutContactsInput, ProjectUncheckedCreateWithoutContactsInput>
+    connectOrCreate?: ProjectCreateOrConnectWithoutContactsInput
+    connect?: ProjectWhereUniqueInput
+  }
+
+  export type EnumContactRoleFieldUpdateOperationsInput = {
+    set?: $Enums.ContactRole
+  }
+
+  export type ProjectUpdateOneRequiredWithoutContactsNestedInput = {
+    create?: XOR<ProjectCreateWithoutContactsInput, ProjectUncheckedCreateWithoutContactsInput>
+    connectOrCreate?: ProjectCreateOrConnectWithoutContactsInput
+    upsert?: ProjectUpsertWithoutContactsInput
+    connect?: ProjectWhereUniqueInput
+    update?: XOR<XOR<ProjectUpdateToOneWithWhereWithoutContactsInput, ProjectUpdateWithoutContactsInput>, ProjectUncheckedUpdateWithoutContactsInput>
   }
 
   export type ProjectCreateNestedManyWithoutOrganizationInput = {
@@ -9393,6 +10952,23 @@ export namespace Prisma {
     _max?: NestedDateTimeFilter<$PrismaModel>
   }
 
+  export type NestedEnumContactRoleFilter<$PrismaModel = never> = {
+    equals?: $Enums.ContactRole | EnumContactRoleFieldRefInput<$PrismaModel>
+    in?: $Enums.ContactRole[]
+    notIn?: $Enums.ContactRole[]
+    not?: NestedEnumContactRoleFilter<$PrismaModel> | $Enums.ContactRole
+  }
+
+  export type NestedEnumContactRoleWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.ContactRole | EnumContactRoleFieldRefInput<$PrismaModel>
+    in?: $Enums.ContactRole[]
+    notIn?: $Enums.ContactRole[]
+    not?: NestedEnumContactRoleWithAggregatesFilter<$PrismaModel> | $Enums.ContactRole
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumContactRoleFilter<$PrismaModel>
+    _max?: NestedEnumContactRoleFilter<$PrismaModel>
+  }
+
   export type OrganizationCreateWithoutProjectsInput = {
     id?: string
     nameEN: string
@@ -9445,6 +11021,37 @@ export namespace Prisma {
 
   export type CodeRequestCreateManyProjectInputEnvelope = {
     data: CodeRequestCreateManyProjectInput | CodeRequestCreateManyProjectInput[]
+  }
+
+  export type ProjectContactCreateWithoutProjectInput = {
+    id?: string
+    name: string
+    email: string
+    role: $Enums.ContactRole
+    title?: string | null
+    phone?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ProjectContactUncheckedCreateWithoutProjectInput = {
+    id?: string
+    name: string
+    email: string
+    role: $Enums.ContactRole
+    title?: string | null
+    phone?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ProjectContactCreateOrConnectWithoutProjectInput = {
+    where: ProjectContactWhereUniqueInput
+    create: XOR<ProjectContactCreateWithoutProjectInput, ProjectContactUncheckedCreateWithoutProjectInput>
+  }
+
+  export type ProjectContactCreateManyProjectInputEnvelope = {
+    data: ProjectContactCreateManyProjectInput | ProjectContactCreateManyProjectInput[]
   }
 
   export type OrganizationUpsertWithoutProjectsInput = {
@@ -9508,6 +11115,209 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"CodeRequest"> | Date | string
   }
 
+  export type ProjectContactUpsertWithWhereUniqueWithoutProjectInput = {
+    where: ProjectContactWhereUniqueInput
+    update: XOR<ProjectContactUpdateWithoutProjectInput, ProjectContactUncheckedUpdateWithoutProjectInput>
+    create: XOR<ProjectContactCreateWithoutProjectInput, ProjectContactUncheckedCreateWithoutProjectInput>
+  }
+
+  export type ProjectContactUpdateWithWhereUniqueWithoutProjectInput = {
+    where: ProjectContactWhereUniqueInput
+    data: XOR<ProjectContactUpdateWithoutProjectInput, ProjectContactUncheckedUpdateWithoutProjectInput>
+  }
+
+  export type ProjectContactUpdateManyWithWhereWithoutProjectInput = {
+    where: ProjectContactScalarWhereInput
+    data: XOR<ProjectContactUpdateManyMutationInput, ProjectContactUncheckedUpdateManyWithoutProjectInput>
+  }
+
+  export type ProjectContactScalarWhereInput = {
+    AND?: ProjectContactScalarWhereInput | ProjectContactScalarWhereInput[]
+    OR?: ProjectContactScalarWhereInput[]
+    NOT?: ProjectContactScalarWhereInput | ProjectContactScalarWhereInput[]
+    id?: StringFilter<"ProjectContact"> | string
+    projectId?: StringFilter<"ProjectContact"> | string
+    name?: StringFilter<"ProjectContact"> | string
+    email?: StringFilter<"ProjectContact"> | string
+    role?: EnumContactRoleFilter<"ProjectContact"> | $Enums.ContactRole
+    title?: StringNullableFilter<"ProjectContact"> | string | null
+    phone?: StringNullableFilter<"ProjectContact"> | string | null
+    createdAt?: DateTimeFilter<"ProjectContact"> | Date | string
+    updatedAt?: DateTimeFilter<"ProjectContact"> | Date | string
+  }
+
+  export type ProjectCreateWithoutContactsInput = {
+    id?: string
+    aiRegisterId?: string | null
+    nameEN: string
+    nameFR: string
+    serviceInventoryId?: string | null
+    descriptionEN: string
+    descriptionFR: string
+    primaryUsers: $Enums.PrimaryUsers
+    developedBy: $Enums.DevelopedBy
+    vendorName?: string | null
+    status: $Enums.ProjectStatus
+    statusYear?: number | null
+    capabilitiesEN?: string | null
+    capabilitiesFR?: string | null
+    isAutomatedDecisionSystem?: boolean
+    openGovAiaId?: string | null
+    dataSourcesEN?: string | null
+    dataSourcesFR?: string | null
+    involvesPersonalInfo?: boolean
+    personalInformationBanksEN?: string | null
+    personalInformationBanksFR?: string | null
+    hasUserNotification?: boolean
+    atipRequestRefsEN?: string | null
+    atipRequestRefsFR?: string | null
+    outcomesEN?: string | null
+    outcomesFR?: string | null
+    source1?: string | null
+    source2?: string | null
+    moderationState?: $Enums.ModerationState
+    featured?: boolean
+    createdBy?: string | null
+    updatedBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    organization: OrganizationCreateNestedOneWithoutProjectsInput
+    codeRequests?: CodeRequestCreateNestedManyWithoutProjectInput
+  }
+
+  export type ProjectUncheckedCreateWithoutContactsInput = {
+    id?: string
+    aiRegisterId?: string | null
+    nameEN: string
+    nameFR: string
+    serviceInventoryId?: string | null
+    organizationId: string
+    descriptionEN: string
+    descriptionFR: string
+    primaryUsers: $Enums.PrimaryUsers
+    developedBy: $Enums.DevelopedBy
+    vendorName?: string | null
+    status: $Enums.ProjectStatus
+    statusYear?: number | null
+    capabilitiesEN?: string | null
+    capabilitiesFR?: string | null
+    isAutomatedDecisionSystem?: boolean
+    openGovAiaId?: string | null
+    dataSourcesEN?: string | null
+    dataSourcesFR?: string | null
+    involvesPersonalInfo?: boolean
+    personalInformationBanksEN?: string | null
+    personalInformationBanksFR?: string | null
+    hasUserNotification?: boolean
+    atipRequestRefsEN?: string | null
+    atipRequestRefsFR?: string | null
+    outcomesEN?: string | null
+    outcomesFR?: string | null
+    source1?: string | null
+    source2?: string | null
+    moderationState?: $Enums.ModerationState
+    featured?: boolean
+    createdBy?: string | null
+    updatedBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    codeRequests?: CodeRequestUncheckedCreateNestedManyWithoutProjectInput
+  }
+
+  export type ProjectCreateOrConnectWithoutContactsInput = {
+    where: ProjectWhereUniqueInput
+    create: XOR<ProjectCreateWithoutContactsInput, ProjectUncheckedCreateWithoutContactsInput>
+  }
+
+  export type ProjectUpsertWithoutContactsInput = {
+    update: XOR<ProjectUpdateWithoutContactsInput, ProjectUncheckedUpdateWithoutContactsInput>
+    create: XOR<ProjectCreateWithoutContactsInput, ProjectUncheckedCreateWithoutContactsInput>
+    where?: ProjectWhereInput
+  }
+
+  export type ProjectUpdateToOneWithWhereWithoutContactsInput = {
+    where?: ProjectWhereInput
+    data: XOR<ProjectUpdateWithoutContactsInput, ProjectUncheckedUpdateWithoutContactsInput>
+  }
+
+  export type ProjectUpdateWithoutContactsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    aiRegisterId?: NullableStringFieldUpdateOperationsInput | string | null
+    nameEN?: StringFieldUpdateOperationsInput | string
+    nameFR?: StringFieldUpdateOperationsInput | string
+    serviceInventoryId?: NullableStringFieldUpdateOperationsInput | string | null
+    descriptionEN?: StringFieldUpdateOperationsInput | string
+    descriptionFR?: StringFieldUpdateOperationsInput | string
+    primaryUsers?: EnumPrimaryUsersFieldUpdateOperationsInput | $Enums.PrimaryUsers
+    developedBy?: EnumDevelopedByFieldUpdateOperationsInput | $Enums.DevelopedBy
+    vendorName?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumProjectStatusFieldUpdateOperationsInput | $Enums.ProjectStatus
+    statusYear?: NullableIntFieldUpdateOperationsInput | number | null
+    capabilitiesEN?: NullableStringFieldUpdateOperationsInput | string | null
+    capabilitiesFR?: NullableStringFieldUpdateOperationsInput | string | null
+    isAutomatedDecisionSystem?: BoolFieldUpdateOperationsInput | boolean
+    openGovAiaId?: NullableStringFieldUpdateOperationsInput | string | null
+    dataSourcesEN?: NullableStringFieldUpdateOperationsInput | string | null
+    dataSourcesFR?: NullableStringFieldUpdateOperationsInput | string | null
+    involvesPersonalInfo?: BoolFieldUpdateOperationsInput | boolean
+    personalInformationBanksEN?: NullableStringFieldUpdateOperationsInput | string | null
+    personalInformationBanksFR?: NullableStringFieldUpdateOperationsInput | string | null
+    hasUserNotification?: BoolFieldUpdateOperationsInput | boolean
+    atipRequestRefsEN?: NullableStringFieldUpdateOperationsInput | string | null
+    atipRequestRefsFR?: NullableStringFieldUpdateOperationsInput | string | null
+    outcomesEN?: NullableStringFieldUpdateOperationsInput | string | null
+    outcomesFR?: NullableStringFieldUpdateOperationsInput | string | null
+    source1?: NullableStringFieldUpdateOperationsInput | string | null
+    source2?: NullableStringFieldUpdateOperationsInput | string | null
+    moderationState?: EnumModerationStateFieldUpdateOperationsInput | $Enums.ModerationState
+    featured?: BoolFieldUpdateOperationsInput | boolean
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    organization?: OrganizationUpdateOneRequiredWithoutProjectsNestedInput
+    codeRequests?: CodeRequestUpdateManyWithoutProjectNestedInput
+  }
+
+  export type ProjectUncheckedUpdateWithoutContactsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    aiRegisterId?: NullableStringFieldUpdateOperationsInput | string | null
+    nameEN?: StringFieldUpdateOperationsInput | string
+    nameFR?: StringFieldUpdateOperationsInput | string
+    serviceInventoryId?: NullableStringFieldUpdateOperationsInput | string | null
+    organizationId?: StringFieldUpdateOperationsInput | string
+    descriptionEN?: StringFieldUpdateOperationsInput | string
+    descriptionFR?: StringFieldUpdateOperationsInput | string
+    primaryUsers?: EnumPrimaryUsersFieldUpdateOperationsInput | $Enums.PrimaryUsers
+    developedBy?: EnumDevelopedByFieldUpdateOperationsInput | $Enums.DevelopedBy
+    vendorName?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumProjectStatusFieldUpdateOperationsInput | $Enums.ProjectStatus
+    statusYear?: NullableIntFieldUpdateOperationsInput | number | null
+    capabilitiesEN?: NullableStringFieldUpdateOperationsInput | string | null
+    capabilitiesFR?: NullableStringFieldUpdateOperationsInput | string | null
+    isAutomatedDecisionSystem?: BoolFieldUpdateOperationsInput | boolean
+    openGovAiaId?: NullableStringFieldUpdateOperationsInput | string | null
+    dataSourcesEN?: NullableStringFieldUpdateOperationsInput | string | null
+    dataSourcesFR?: NullableStringFieldUpdateOperationsInput | string | null
+    involvesPersonalInfo?: BoolFieldUpdateOperationsInput | boolean
+    personalInformationBanksEN?: NullableStringFieldUpdateOperationsInput | string | null
+    personalInformationBanksFR?: NullableStringFieldUpdateOperationsInput | string | null
+    hasUserNotification?: BoolFieldUpdateOperationsInput | boolean
+    atipRequestRefsEN?: NullableStringFieldUpdateOperationsInput | string | null
+    atipRequestRefsFR?: NullableStringFieldUpdateOperationsInput | string | null
+    outcomesEN?: NullableStringFieldUpdateOperationsInput | string | null
+    outcomesFR?: NullableStringFieldUpdateOperationsInput | string | null
+    source1?: NullableStringFieldUpdateOperationsInput | string | null
+    source2?: NullableStringFieldUpdateOperationsInput | string | null
+    moderationState?: EnumModerationStateFieldUpdateOperationsInput | $Enums.ModerationState
+    featured?: BoolFieldUpdateOperationsInput | boolean
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    codeRequests?: CodeRequestUncheckedUpdateManyWithoutProjectNestedInput
+  }
+
   export type ProjectCreateWithoutOrganizationInput = {
     id?: string
     aiRegisterId?: string | null
@@ -9544,6 +11354,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     codeRequests?: CodeRequestCreateNestedManyWithoutProjectInput
+    contacts?: ProjectContactCreateNestedManyWithoutProjectInput
   }
 
   export type ProjectUncheckedCreateWithoutOrganizationInput = {
@@ -9582,6 +11393,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     codeRequests?: CodeRequestUncheckedCreateNestedManyWithoutProjectInput
+    contacts?: ProjectContactUncheckedCreateNestedManyWithoutProjectInput
   }
 
   export type ProjectCreateOrConnectWithoutOrganizationInput = {
@@ -9742,6 +11554,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     organization: OrganizationCreateNestedOneWithoutProjectsInput
+    contacts?: ProjectContactCreateNestedManyWithoutProjectInput
   }
 
   export type ProjectUncheckedCreateWithoutCodeRequestsInput = {
@@ -9780,6 +11593,7 @@ export namespace Prisma {
     updatedBy?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    contacts?: ProjectContactUncheckedCreateNestedManyWithoutProjectInput
   }
 
   export type ProjectCreateOrConnectWithoutCodeRequestsInput = {
@@ -9834,6 +11648,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     organization?: OrganizationUpdateOneRequiredWithoutProjectsNestedInput
+    contacts?: ProjectContactUpdateManyWithoutProjectNestedInput
   }
 
   export type ProjectUncheckedUpdateWithoutCodeRequestsInput = {
@@ -9872,6 +11687,7 @@ export namespace Prisma {
     updatedBy?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    contacts?: ProjectContactUncheckedUpdateManyWithoutProjectNestedInput
   }
 
   export type UserCreateWithoutAuditLogsInput = {
@@ -9936,6 +11752,17 @@ export namespace Prisma {
     updatedAt?: Date | string
   }
 
+  export type ProjectContactCreateManyProjectInput = {
+    id?: string
+    name: string
+    email: string
+    role: $Enums.ContactRole
+    title?: string | null
+    phone?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
   export type CodeRequestUpdateWithoutProjectInput = {
     id?: StringFieldUpdateOperationsInput | string
     requesterId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -9962,6 +11789,39 @@ export namespace Prisma {
     requesterEmail?: StringFieldUpdateOperationsInput | string
     message?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ProjectContactUpdateWithoutProjectInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    role?: EnumContactRoleFieldUpdateOperationsInput | $Enums.ContactRole
+    title?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ProjectContactUncheckedUpdateWithoutProjectInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    role?: EnumContactRoleFieldUpdateOperationsInput | $Enums.ContactRole
+    title?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ProjectContactUncheckedUpdateManyWithoutProjectInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    role?: EnumContactRoleFieldUpdateOperationsInput | $Enums.ContactRole
+    title?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -10039,6 +11899,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     codeRequests?: CodeRequestUpdateManyWithoutProjectNestedInput
+    contacts?: ProjectContactUpdateManyWithoutProjectNestedInput
   }
 
   export type ProjectUncheckedUpdateWithoutOrganizationInput = {
@@ -10077,6 +11938,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     codeRequests?: CodeRequestUncheckedUpdateManyWithoutProjectNestedInput
+    contacts?: ProjectContactUncheckedUpdateManyWithoutProjectNestedInput
   }
 
   export type ProjectUncheckedUpdateManyWithoutOrganizationInput = {
