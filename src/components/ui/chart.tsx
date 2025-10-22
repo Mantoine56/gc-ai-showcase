@@ -262,10 +262,11 @@ const ChartLegendContent = React.forwardRef<
     Pick<RechartsPrimitive.LegendProps, "payload" | "verticalAlign"> & {
       hideIcon?: boolean
       nameKey?: string
+      showValue?: boolean
     }
 >(
   (
-    { className, hideIcon = false, payload, verticalAlign = "bottom", nameKey },
+    { className, hideIcon = false, payload, verticalAlign = "bottom", nameKey, showValue = false },
     ref
   ) => {
     const { config } = useChart()
@@ -286,6 +287,12 @@ const ChartLegendContent = React.forwardRef<
         {payload.map((item) => {
           const key = `${nameKey || item.dataKey || "value"}`
           const itemConfig = getPayloadConfigFromPayload(config, item, key)
+          // Prefer the actual element fill (e.g., Pie <Cell fill=...>) for legend swatches,
+          // then configured color from chart config, then Recharts-provided color.
+          const legendColor =
+            (typeof item === "object" && item && "payload" in item && (item as any).payload?.fill) ||
+            (itemConfig as any)?.color ||
+            (item as any).color
 
           return (
             <div
@@ -300,11 +307,17 @@ const ChartLegendContent = React.forwardRef<
                 <div
                   className="h-2 w-2 shrink-0 rounded-[2px]"
                   style={{
-                    backgroundColor: item.color,
+                    backgroundColor: legendColor,
                   }}
                 />
               )}
-              {itemConfig?.label}
+              <span>{itemConfig?.label}</span>
+              {showValue ? (
+                <span className="ml-1 text-muted-foreground">{(() => {
+                  const raw = (item as any)?.payload?.value ?? (item as any)?.value
+                  return typeof raw === "number" ? raw.toLocaleString() : undefined
+                })()}</span>
+              ) : null}
             </div>
           )
         })}
