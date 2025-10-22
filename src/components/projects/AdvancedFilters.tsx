@@ -84,9 +84,18 @@ export default function AdvancedFilters({
   };
 
   return (
-    <div className="space-y-4">
-      {/* Filter Controls Bar */}
-      <div className="flex items-center justify-between gap-4 flex-wrap">
+    <>
+      {/* Backdrop */}
+      {showFilters && (
+        <div
+          className="fixed inset-0 z-40"
+          onClick={() => setShowFilters(false)}
+        />
+      )}
+
+      <div className="relative">
+        {/* Filter Controls Bar */}
+        <div className="flex items-center justify-between gap-4 flex-wrap">
         <div className="flex items-center gap-3">
           <Button
             variant={showFilters ? "default" : "outline"}
@@ -143,9 +152,9 @@ export default function AdvancedFilters({
         </div>
       </div>
 
-      {/* Filters Panel */}
+      {/* Filters Panel - Absolutely positioned to overlay content */}
       {showFilters && (
-        <div className="p-6 bg-card rounded-lg shadow-md border border-border space-y-6">
+        <div className="absolute top-full left-0 right-0 mt-2 p-6 bg-card rounded-lg shadow-lg border border-border space-y-6 z-50">
           {/* Project Status */}
           <div>
             <div className="flex items-center gap-2 mb-3">
@@ -157,8 +166,10 @@ export default function AdvancedFilters({
                 <Badge
                   key={status}
                   variant={selectedStatuses.includes(status) ? "default" : "outline"}
-                  className={`cursor-pointer hover:opacity-80 transition-opacity px-3 py-1.5 ${
-                    selectedStatuses.includes(status) ? getStatusColor(status) : ''
+                  className={`cursor-pointer transition-all px-3 py-1.5 ${
+                    selectedStatuses.includes(status)
+                      ? `${getStatusColor(status)} hover:brightness-95`
+                      : 'hover:bg-accent hover:text-accent-foreground'
                   }`}
                   onClick={() => onStatusToggle(status)}
                 >
@@ -179,8 +190,10 @@ export default function AdvancedFilters({
             <div className="flex flex-wrap gap-2">
               <Badge
                 variant={filterADS ? "default" : "outline"}
-                className={`cursor-pointer hover:opacity-80 transition-opacity px-3 py-1.5 ${
-                  filterADS ? 'bg-blue-100 text-blue-800 dark:bg-blue-900/20 dark:text-blue-300' : ''
+                className={`cursor-pointer transition-all px-3 py-1.5 ${
+                  filterADS
+                    ? 'bg-blue-100 text-blue-800 dark:bg-blue-900/20 dark:text-blue-300 hover:brightness-95'
+                    : 'hover:bg-accent hover:text-accent-foreground'
                 }`}
                 onClick={onADSToggle}
               >
@@ -189,8 +202,10 @@ export default function AdvancedFilters({
               </Badge>
               <Badge
                 variant={filterPersonalInfo ? "default" : "outline"}
-                className={`cursor-pointer hover:opacity-80 transition-opacity px-3 py-1.5 ${
-                  filterPersonalInfo ? 'bg-purple-100 text-purple-800 dark:bg-purple-900/20 dark:text-purple-300' : ''
+                className={`cursor-pointer transition-all px-3 py-1.5 ${
+                  filterPersonalInfo
+                    ? 'bg-purple-100 text-purple-800 dark:bg-purple-900/20 dark:text-purple-300 hover:brightness-95'
+                    : 'hover:bg-accent hover:text-accent-foreground'
                 }`}
                 onClick={onPersonalInfoToggle}
               >
@@ -208,32 +223,70 @@ export default function AdvancedFilters({
               <Building2 className="h-4 w-4 text-primary" />
               <h3 className="text-sm font-semibold text-foreground">Departments & Agencies</h3>
             </div>
-            <div className="flex flex-wrap gap-2 max-h-60 overflow-y-auto">
-              {availableDepartments.map((dept) => (
-                <Badge
-                  key={dept.id}
-                  variant={selectedDepartments.includes(dept.id) ? "default" : "outline"}
-                  className="cursor-pointer hover:opacity-80 transition-opacity px-3 py-1"
-                  onClick={() => onDepartmentToggle(dept.id)}
-                >
-                  {dept.name}
-                </Badge>
-              ))}
-            </div>
+            <Select
+              value={selectedDepartments.length === 1 ? selectedDepartments[0] : ""}
+              onValueChange={(value) => {
+                if (value) {
+                  onDepartmentToggle(value);
+                }
+              }}
+            >
+              <SelectTrigger className="w-full">
+                <SelectValue placeholder="Select department(s)..." />
+              </SelectTrigger>
+              <SelectContent className="max-h-[300px]">
+                {availableDepartments.map((dept) => (
+                  <SelectItem key={dept.id} value={dept.id}>
+                    <div className="flex items-center justify-between w-full">
+                      <span>{dept.name}</span>
+                      {selectedDepartments.includes(dept.id) && (
+                        <Badge variant="secondary" className="ml-2 text-xs">
+                          Selected
+                        </Badge>
+                      )}
+                    </div>
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+            {selectedDepartments.length > 0 && (
+              <div className="flex flex-wrap gap-2 mt-3">
+                {selectedDepartments.map((deptId) => {
+                  const dept = availableDepartments.find(d => d.id === deptId);
+                  return dept ? (
+                    <Badge
+                      key={dept.id}
+                      variant="secondary"
+                      className="gap-1 pr-1 pl-2"
+                    >
+                      {dept.name}
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        className="h-auto p-0.5 hover:bg-transparent"
+                        onClick={() => onDepartmentToggle(deptId)}
+                      >
+                        <X className="h-3 w-3" />
+                      </Button>
+                    </Badge>
+                  ) : null;
+                })}
+              </div>
+            )}
           </div>
         </div>
       )}
 
-      {/* Active Filters Display */}
-      {activeFiltersCount > 0 && (
-        <div className="flex flex-wrap gap-2 items-center">
-          <span className="text-sm font-medium text-muted-foreground">Active filters:</span>
+      {/* Active Filters Display - remains in normal flow */}
+      {activeFiltersCount > 0 && !showFilters && (
+        <div className="flex flex-wrap gap-2 items-center mt-3">
+          <span className="text-xs font-medium text-muted-foreground">Active:</span>
 
           {/* Status badges */}
           {selectedStatuses.map((status) => (
             <Badge
               key={`status-${status}`}
-              className={`gap-1 pr-1 pl-3 ${getStatusColor(status)}`}
+              className={`gap-1 pr-1 pl-2 text-xs ${getStatusColor(status)}`}
             >
               {getStatusLabel(status)}
               <Button
@@ -249,7 +302,7 @@ export default function AdvancedFilters({
 
           {/* Compliance badges */}
           {filterADS && (
-            <Badge className="gap-1 pr-1 pl-3 bg-blue-100 text-blue-800 dark:bg-blue-900/20 dark:text-blue-300">
+            <Badge className="gap-1 pr-1 pl-2 text-xs bg-blue-100 text-blue-800 dark:bg-blue-900/20 dark:text-blue-300">
               <Shield className="h-3 w-3 mr-1" />
               ADS
               <Button
@@ -264,7 +317,7 @@ export default function AdvancedFilters({
           )}
 
           {filterPersonalInfo && (
-            <Badge className="gap-1 pr-1 pl-3 bg-purple-100 text-purple-800 dark:bg-purple-900/20 dark:text-purple-300">
+            <Badge className="gap-1 pr-1 pl-2 text-xs bg-purple-100 text-purple-800 dark:bg-purple-900/20 dark:text-purple-300">
               <User className="h-3 w-3 mr-1" />
               Personal Info
               <Button
@@ -279,13 +332,13 @@ export default function AdvancedFilters({
           )}
 
           {/* Department badges */}
-          {selectedDepartments.map((deptId) => {
+          {selectedDepartments.slice(0, 3).map((deptId) => {
             const dept = availableDepartments.find(d => d.id === deptId);
             return dept ? (
               <Badge
                 key={`dept-${deptId}`}
                 variant="secondary"
-                className="gap-1 pr-1 pl-3"
+                className="gap-1 pr-1 pl-2 text-xs"
               >
                 {dept.name}
                 <Button
@@ -299,8 +352,14 @@ export default function AdvancedFilters({
               </Badge>
             ) : null;
           })}
+          {selectedDepartments.length > 3 && (
+            <Badge variant="secondary" className="text-xs">
+              +{selectedDepartments.length - 3} more
+            </Badge>
+          )}
         </div>
       )}
-    </div>
+      </div>
+    </>
   );
 }

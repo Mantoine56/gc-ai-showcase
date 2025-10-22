@@ -189,167 +189,148 @@ const Index = () => {
 
   return (
     <DashboardLayout>
-      <div className="p-6 space-y-6">
+      <div className="p-6 space-y-4">
         {/* Dashboard Header */}
-        <div className="space-y-6">
+        <div className="space-y-4">
           {/* Title Section */}
           <div>
             <h1 className="text-2xl font-bold text-gcds-text-primary">AI Projects Dashboard</h1>
-            <p className="text-gcds-text-secondary mt-2">
+            <p className="text-gcds-text-secondary mt-1.5">
               Discover and explore {totalProjects} AI initiatives across Government of Canada departments
             </p>
           </div>
 
           {/* Enhanced Stats Cards */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-4 gap-4 lg:gap-5 xl:gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-4 gap-3 lg:gap-4">
             {/* Total Projects Card */}
-            <div className="bg-gcds-background-primary rounded-lg p-4 lg:p-5 xl:p-6 border border-gcds-border-secondary hover:border-gcds-border-accent transition-all duration-200 hover:shadow-lg">
-              <div className="flex items-center gap-3 lg:gap-4">
-                <div className="p-2 lg:p-3 bg-gcds-color-blue-100 rounded-xl shrink-0">
-                  <BarChart3 className="h-5 w-5 lg:h-6 lg:w-6 text-gcds-color-blue-700" />
+            <div className="bg-gcds-background-primary rounded-lg p-4 border border-gcds-border-secondary hover:border-gcds-border-accent transition-all duration-200 hover:shadow-lg">
+              <div className="flex items-center gap-3">
+                <div className="p-2 bg-gcds-color-blue-100 rounded-xl shrink-0">
+                  <BarChart3 className="h-5 w-5 text-gcds-color-blue-700" />
                 </div>
                 <div className="min-w-0 flex-1">
-                  <div className="text-xl lg:text-2xl xl:text-3xl font-bold text-gcds-text-primary">{totalProjects}</div>
-                  <div className="text-xs lg:text-sm font-medium text-gcds-text-secondary mt-1">Total Projects</div>
+                  <div className="text-2xl font-bold text-gcds-text-primary">{totalProjects}</div>
+                  <div className="text-xs font-medium text-gcds-text-secondary mt-0.5">Total Projects</div>
                 </div>
               </div>
             </div>
 
             {/* Departments Card */}
-            <div className="bg-gcds-background-primary rounded-lg p-4 lg:p-5 xl:p-6 border border-gcds-border-secondary hover:border-gcds-border-accent transition-all duration-200 hover:shadow-lg">
-              <div className="flex items-center gap-3 lg:gap-4">
-                <div className="p-2 lg:p-3 bg-gcds-color-blue-100 rounded-xl shrink-0">
-                  <Building2 className="h-5 w-5 lg:h-6 lg:w-6 text-gcds-color-blue-700" />
+            <div className="bg-gcds-background-primary rounded-lg p-4 border border-gcds-border-secondary hover:border-gcds-border-accent transition-all duration-200 hover:shadow-lg">
+              <div className="flex items-center gap-3">
+                <div className="p-2 bg-gcds-color-blue-100 rounded-xl shrink-0">
+                  <Building2 className="h-5 w-5 text-gcds-color-blue-700" />
                 </div>
                 <div className="min-w-0 flex-1">
-                  <div className="text-xl lg:text-2xl xl:text-3xl font-bold text-gcds-text-primary">{totalDepartments}</div>
-                  <div className="text-xs lg:text-sm font-medium text-gcds-text-secondary mt-1">Departments</div>
+                  <div className="text-2xl font-bold text-gcds-text-primary">{totalDepartments}</div>
+                  <div className="text-xs font-medium text-gcds-text-secondary mt-0.5">Departments</div>
                 </div>
               </div>
             </div>
 
             {/* Featured Projects Card */}
-            <div className="bg-gcds-background-primary rounded-lg p-4 lg:p-5 xl:p-6 border border-gcds-border-secondary hover:border-gcds-border-accent transition-all duration-200 hover:shadow-lg">
-              <div className="flex items-center gap-3 lg:gap-4">
-                <div className="p-2 lg:p-3 bg-gcds-color-blue-100 rounded-xl shrink-0">
-                  <Star className="h-5 w-5 lg:h-6 lg:w-6 text-gcds-color-blue-700" />
+            <div className="bg-gcds-background-primary rounded-lg p-4 border border-gcds-border-secondary hover:border-gcds-border-accent transition-all duration-200 hover:shadow-lg">
+              <div className="flex items-center gap-3">
+                <div className="p-2 bg-gcds-color-blue-100 rounded-xl shrink-0">
+                  <Star className="h-5 w-5 text-gcds-color-blue-700" />
                 </div>
                 <div className="min-w-0 flex-1">
-                  <div className="text-xl lg:text-2xl xl:text-3xl font-bold text-gcds-text-primary">{totalFeatured}</div>
-                  <div className="text-xs lg:text-sm font-medium text-gcds-text-secondary mt-1">Featured</div>
+                  <div className="text-2xl font-bold text-gcds-text-primary">{totalFeatured}</div>
+                  <div className="text-xs font-medium text-gcds-text-secondary mt-0.5">Featured</div>
                 </div>
               </div>
             </div>
 
             {/* In Production Card */}
-            <div className="bg-gcds-background-primary rounded-lg p-4 lg:p-5 xl:p-6 border border-gcds-border-secondary hover:border-gcds-border-accent transition-all duration-200 hover:shadow-lg">
-              <div className="flex items-center gap-3 lg:gap-4">
-                <div className="p-2 lg:p-3 bg-gcds-color-blue-100 rounded-xl shrink-0">
-                  <TrendingUp className="h-5 w-5 lg:h-6 lg:w-6 text-gcds-color-blue-700" />
+            <div className="bg-gcds-background-primary rounded-lg p-4 border border-gcds-border-secondary hover:border-gcds-border-accent transition-all duration-200 hover:shadow-lg">
+              <div className="flex items-center gap-3">
+                <div className="p-2 bg-gcds-color-blue-100 rounded-xl shrink-0">
+                  <TrendingUp className="h-5 w-5 text-gcds-color-blue-700" />
                 </div>
                 <div className="min-w-0 flex-1">
-                  <div className="text-xl lg:text-2xl xl:text-3xl font-bold text-gcds-text-primary">{totalInProduction}</div>
-                  <div className="text-xs lg:text-sm font-medium text-gcds-text-secondary mt-1">In Production</div>
+                  <div className="text-2xl font-bold text-gcds-text-primary">{totalInProduction}</div>
+                  <div className="text-xs font-medium text-gcds-text-secondary mt-0.5">In Production</div>
                 </div>
               </div>
             </div>
           </div>
         </div>
 
-        {/* Search Bar */}
-        <div className="bg-gcds-background-primary rounded-lg border border-gcds-border-secondary p-4">
-          <div className="relative max-w-2xl mx-auto">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-muted-foreground" />
-            <Input
-              type="text"
-              placeholder="Search AI systems by name, description, or capabilities..."
-              value={searchQuery}
-              onChange={(e) => {
-                setSearchQuery(e.target.value);
-                setPage(1);
-              }}
-              className="pl-10 pr-4 h-12 text-base bg-card shadow-sm"
-            />
+        {/* Compact Search, Filters & Tabs */}
+        <div className="bg-gcds-background-primary rounded-lg border border-gcds-border-secondary p-3 space-y-3">
+          {/* Search & Sort Row */}
+          <div className="flex flex-col lg:flex-row gap-3 items-center">
+            <div className="relative flex-1 w-full">
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+              <Input
+                type="text"
+                placeholder="Search AI systems by name, description, or capabilities..."
+                value={searchQuery}
+                onChange={(e) => {
+                  setSearchQuery(e.target.value);
+                  setPage(1);
+                }}
+                className="pl-9 pr-4 h-10 text-sm bg-card"
+              />
+            </div>
+          </div>
+
+          {/* Tabs & Filters Row */}
+          <div className="flex flex-col lg:flex-row gap-3 items-start lg:items-center justify-between">
+            <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full lg:w-auto">
+              <TabsList className="grid w-full grid-cols-4 lg:w-fit lg:inline-flex h-9">
+                <TabsTrigger value="all" className="flex items-center gap-1.5 text-xs px-3">
+                  <BarChart3 className="h-3.5 w-3.5" />
+                  All ({pagination?.total || 0})
+                </TabsTrigger>
+                <TabsTrigger value="featured" className="flex items-center gap-1.5 text-xs px-3">
+                  <Star className="h-3.5 w-3.5" />
+                  Featured ({featuredProjects.length})
+                </TabsTrigger>
+                <TabsTrigger value="trending" className="flex items-center gap-1.5 text-xs px-3">
+                  <TrendingUp className="h-3.5 w-3.5" />
+                  Trending ({trendingProjects.length})
+                </TabsTrigger>
+                <TabsTrigger value="recent" className="flex items-center gap-1.5 text-xs px-3">
+                  <Clock className="h-3.5 w-3.5" />
+                  Recent ({recentProjects.length})
+                </TabsTrigger>
+              </TabsList>
+            </Tabs>
+
+            <div className="w-full lg:w-auto">
+              <AdvancedFilters
+                selectedStatuses={selectedStatuses}
+                onStatusToggle={handleStatusToggle}
+                filterADS={filterADS}
+                onADSToggle={() => setFilterADS(!filterADS)}
+                filterPersonalInfo={filterPersonalInfo}
+                onPersonalInfoToggle={() => setFilterPersonalInfo(!filterPersonalInfo)}
+                selectedDepartments={selectedDepartments}
+                onDepartmentToggle={handleDepartmentToggle}
+                availableDepartments={availableDepartments}
+                sortBy={sortBy}
+                sortOrder={sortOrder}
+                onSortChange={handleSortChange}
+                onClearAll={handleClearAllFilters}
+              />
+            </div>
           </div>
         </div>
 
-        {/* Advanced Filters */}
-        <div className="bg-gcds-background-primary rounded-lg border border-gcds-border-secondary p-4">
-          <AdvancedFilters
-            selectedStatuses={selectedStatuses}
-            onStatusToggle={handleStatusToggle}
-            filterADS={filterADS}
-            onADSToggle={() => setFilterADS(!filterADS)}
-            filterPersonalInfo={filterPersonalInfo}
-            onPersonalInfoToggle={() => setFilterPersonalInfo(!filterPersonalInfo)}
-            selectedDepartments={selectedDepartments}
-            onDepartmentToggle={handleDepartmentToggle}
-            availableDepartments={availableDepartments}
-            sortBy={sortBy}
-            sortOrder={sortOrder}
-            onSortChange={handleSortChange}
-            onClearAll={handleClearAllFilters}
+        {/* Projects Display */}
+        <div>
+          <ProjectGrid
+            projects={getTabProjects()}
+            isLoading={isLoading}
+            searchQuery={searchQuery}
           />
+          {error && (
+            <div className="text-center py-8 text-gcds-text-danger">
+              Error loading projects: {(error as Error).message}
+            </div>
+          )}
         </div>
-
-        {/* Content Tabs */}
-        <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-          <TabsList className="grid w-full grid-cols-4 lg:w-fit lg:grid-cols-4">
-            <TabsTrigger value="all" className="flex items-center gap-2">
-              <BarChart3 className="h-4 w-4" />
-              All ({pagination?.total || 0})
-            </TabsTrigger>
-            <TabsTrigger value="featured" className="flex items-center gap-2">
-              <Star className="h-4 w-4" />
-              Featured ({featuredProjects.length})
-            </TabsTrigger>
-            <TabsTrigger value="trending" className="flex items-center gap-2">
-              <TrendingUp className="h-4 w-4" />
-              Trending ({trendingProjects.length})
-            </TabsTrigger>
-            <TabsTrigger value="recent" className="flex items-center gap-2">
-              <Clock className="h-4 w-4" />
-              Recent ({recentProjects.length})
-            </TabsTrigger>
-          </TabsList>
-
-          <TabsContent value="all" className="mt-6">
-            <ProjectGrid
-              projects={getTabProjects()}
-              isLoading={isLoading}
-              searchQuery={searchQuery}
-            />
-            {error && (
-              <div className="text-center py-8 text-gcds-text-danger">
-                Error loading projects: {(error as Error).message}
-              </div>
-            )}
-          </TabsContent>
-
-          <TabsContent value="featured" className="mt-6">
-            <ProjectGrid
-              projects={featuredProjects}
-              isLoading={isLoading}
-              searchQuery={searchQuery}
-            />
-          </TabsContent>
-
-          <TabsContent value="trending" className="mt-6">
-            <ProjectGrid
-              projects={trendingProjects}
-              isLoading={isLoading}
-              searchQuery={searchQuery}
-            />
-          </TabsContent>
-
-          <TabsContent value="recent" className="mt-6">
-            <ProjectGrid
-              projects={recentProjects}
-              isLoading={isLoading}
-              searchQuery={searchQuery}
-            />
-          </TabsContent>
-        </Tabs>
       </div>
     </DashboardLayout>
   );
