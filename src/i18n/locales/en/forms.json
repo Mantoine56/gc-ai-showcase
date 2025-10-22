@@ -1,0 +1,161 @@
+{
+  "wizard": {
+    "steps": {
+      "identity": {
+        "title": "Identity & Ownership",
+        "description": "Basic information about your AI system"
+      },
+      "purpose": {
+        "title": "Purpose & Capabilities",
+        "description": "What does your AI system do?"
+      },
+      "compliance": {
+        "title": "Compliance",
+        "description": "Privacy and governance requirements"
+      },
+      "operations": {
+        "title": "Operations & Status",
+        "description": "Current status and outcomes"
+      },
+      "review": {
+        "title": "Review & Submit",
+        "description": "Review your submission"
+      }
+    },
+    "navigation": {
+      "next": "Next",
+      "previous": "Previous",
+      "submit": "Submit",
+      "saveDraft": "Save Draft"
+    }
+  },
+  "fields": {
+    "projectName": {
+      "label": "Project Name",
+      "labelEN": "Project Name (English)",
+      "labelFR": "Project Name (French)",
+      "placeholder": "Enter the name of your AI system",
+      "description": "A clear, descriptive name for your AI system ({{count}}/50 characters)",
+      "required": "Required"
+    },
+    "serviceInventoryId": {
+      "label": "Service Inventory ID",
+      "placeholder": "e.g., SI-12345",
+      "description": "Optional: Your organization's service inventory identifier"
+    },
+    "organization": {
+      "label": "Organization",
+      "placeholder": "Select your organization",
+      "description": "The Government of Canada department or agency",
+      "required": "Required"
+    },
+    "developedBy": {
+      "label": "Developed By",
+      "description": "How was this AI system developed?",
+      "required": "Required"
+    },
+    "vendorName": {
+      "label": "Vendor Name",
+      "placeholder": "Enter vendor name",
+      "description": "Name of the external vendor or contractor"
+    },
+    "description": {
+      "label": "Project Description",
+      "labelEN": "Project Description (English)",
+      "labelFR": "Project Description (French)",
+      "placeholder": "Describe what this AI system does, its purpose, and how it's used...",
+      "description": "Detailed description of your AI system ({{count}}/1000 characters)",
+      "required": "Required"
+    },
+    "capabilities": {
+      "label": "Key Capabilities",
+      "labelEN": "Key Capabilities (English)",
+      "labelFR": "Key Capabilities (French)",
+      "placeholder": "e.g., Natural Language Processing, Document Classification, Predictive Analytics...",
+      "description": "Core AI/ML capabilities and technologies used ({{count}}/300 characters)"
+    },
+    "primaryUsers": {
+      "label": "Primary Users",
+      "description": "Who are the primary users of this AI system?",
+      "required": "Required",
+      "options": {
+        "employees": "Government Employees",
+        "public": "Members of the Public",
+        "both": "Both Employees and Public",
+        "neither": "Neither"
+      }
+    },
+    "status": {
+      "label": "Status",
+      "description": "Current operational status",
+      "required": "Required"
+    },
+    "statusYear": {
+      "label": "Status Year",
+      "placeholder": "e.g., 2024",
+      "description": "Year this status was achieved"
+    },
+    "automatedDecisionSystem": {
+      "label": "Automated Decision System (ADS)",
+      "description": "Does this system make or assist in making administrative decisions about individuals?",
+      "helpText": "An Automated Decision System makes or assists in making decisions that affect the legal rights, privileges, or interests of individuals."
+    },
+    "openGovAiaId": {
+      "label": "Algorithmic Impact Assessment (AIA) ID",
+      "placeholder": "e.g., AIA-2024-001",
+      "description": "If an AIA was completed, provide the reference ID or URL"
+    },
+    "involvesPersonalInfo": {
+      "label": "Involves Personal Information",
+      "description": "Does this system collect, use, or disclose personal information?",
+      "helpText": "Personal information is defined under the Privacy Act as information about an identifiable individual."
+    },
+    "personalInformationBanks": {
+      "label": "Personal Information Banks",
+      "labelEN": "Personal Information Banks (English)",
+      "labelFR": "Personal Information Banks (French)",
+      "placeholder": "Enter PIB codes or names",
+      "description": "Personal Information Banks (PIBs) associated with this system"
+    },
+    "hasUserNotification": {
+      "label": "User Notification",
+      "description": "Are users notified that they are interacting with an AI system?",
+      "helpText": "The Directive on ADM requires notification when automated systems are used."
+    },
+    "dataSources": {
+      "label": "Data Sources",
+      "labelEN": "Data Sources (English)",
+      "labelFR": "Data Sources (French)",
+      "placeholder": "Describe the data sources used...",
+      "description": "What data does this system use? Include internal databases, external sources, or training data."
+    },
+    "atipRequestRefs": {
+      "label": "ATIP Request References",
+      "labelEN": "ATIP Request References (English)",
+      "labelFR": "ATIP Request References (French)",
+      "placeholder": "e.g., ATIP-2024-123",
+      "description": "Access to Information request IDs related to this system"
+    },
+    "outcomes": {
+      "label": "Outcomes",
+      "labelEN": "Outcomes (English)",
+      "labelFR": "Outcomes (French)",
+      "placeholder": "Describe the results and impact...",
+      "description": "What has this AI system achieved? Include metrics, benefits, or lessons learned ({{count}}/500 characters)"
+    }
+  },
+  "compliance": {
+    "sectionTitle": "Compliance and Governance Requirements",
+    "sectionDescription": "This section helps ensure your AI system complies with federal privacy laws, transparency requirements, and the Directive on Automated Decision-Making."
+  },
+  "review": {
+    "summaryTitle": "Review Your Submission",
+    "editSection": "Edit",
+    "confirmSubmit": "I confirm that the information provided is accurate and complete.",
+    "submitButton": "Submit Project"
+  },
+  "languageTabs": {
+    "english": "English",
+    "french": "Français"
+  }
+}

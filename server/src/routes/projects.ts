@@ -78,13 +78,16 @@ router.get(
     // Build where clause
     const where: any = {};
 
-    // Text search across multiple fields
+    // Text search across multiple bilingual fields
     // Note: SQLite LIKE is case-insensitive by default, so we don't use mode: 'insensitive'
     if (query) {
       where.OR = [
-        { name: { contains: query } },
-        { description: { contains: query } },
-        { capabilities: { contains: query } },
+        { nameEN: { contains: query } },
+        { nameFR: { contains: query } },
+        { descriptionEN: { contains: query } },
+        { descriptionFR: { contains: query } },
+        { capabilitiesEN: { contains: query } },
+        { capabilitiesFR: { contains: query } },
       ];
     }
 

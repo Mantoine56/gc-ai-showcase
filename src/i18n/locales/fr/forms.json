@@ -1,0 +1,161 @@
+{
+  "wizard": {
+    "steps": {
+      "identity": {
+        "title": "Identité et propriété",
+        "description": "Informations de base sur votre système d'IA"
+      },
+      "purpose": {
+        "title": "Objectif et capacités",
+        "description": "Que fait votre système d'IA ?"
+      },
+      "compliance": {
+        "title": "Conformité",
+        "description": "Exigences en matière de protection des renseignements personnels et de gouvernance"
+      },
+      "operations": {
+        "title": "Opérations et statut",
+        "description": "Statut actuel et résultats"
+      },
+      "review": {
+        "title": "Révision et soumission",
+        "description": "Examinez votre soumission"
+      }
+    },
+    "navigation": {
+      "next": "Suivant",
+      "previous": "Précédent",
+      "submit": "Soumettre",
+      "saveDraft": "Enregistrer le brouillon"
+    }
+  },
+  "fields": {
+    "projectName": {
+      "label": "Nom du projet",
+      "labelEN": "Nom du projet (anglais)",
+      "labelFR": "Nom du projet (français)",
+      "placeholder": "Entrez le nom de votre système d'IA",
+      "description": "Un nom clair et descriptif pour votre système d'IA ({{count}}/50 caractères)",
+      "required": "Requis"
+    },
+    "serviceInventoryId": {
+      "label": "ID du répertoire des services",
+      "placeholder": "p. ex., SI-12345",
+      "description": "Optionnel : Identifiant du répertoire des services de votre organisation"
+    },
+    "organization": {
+      "label": "Organisation",
+      "placeholder": "Sélectionnez votre organisation",
+      "description": "Le ministère ou l'organisme du gouvernement du Canada",
+      "required": "Requis"
+    },
+    "developedBy": {
+      "label": "Développé par",
+      "description": "Comment ce système d'IA a-t-il été développé ?",
+      "required": "Requis"
+    },
+    "vendorName": {
+      "label": "Nom du fournisseur",
+      "placeholder": "Entrez le nom du fournisseur",
+      "description": "Nom du fournisseur externe ou de l'entrepreneur"
+    },
+    "description": {
+      "label": "Description du projet",
+      "labelEN": "Description du projet (anglais)",
+      "labelFR": "Description du projet (français)",
+      "placeholder": "Décrivez ce que fait ce système d'IA, son objectif et comment il est utilisé...",
+      "description": "Description détaillée de votre système d'IA ({{count}}/1000 caractères)",
+      "required": "Requis"
+    },
+    "capabilities": {
+      "label": "Capacités clés",
+      "labelEN": "Capacités clés (anglais)",
+      "labelFR": "Capacités clés (français)",
+      "placeholder": "p. ex., Traitement du langage naturel, Classification de documents, Analytique prédictive...",
+      "description": "Principales capacités et technologies d'IA/ML utilisées ({{count}}/300 caractères)"
+    },
+    "primaryUsers": {
+      "label": "Utilisateurs principaux",
+      "description": "Qui sont les principaux utilisateurs de ce système d'IA ?",
+      "required": "Requis",
+      "options": {
+        "employees": "Employés du gouvernement",
+        "public": "Membres du public",
+        "both": "Employés et public",
+        "neither": "Ni l'un ni l'autre"
+      }
+    },
+    "status": {
+      "label": "Statut",
+      "description": "Statut opérationnel actuel",
+      "required": "Requis"
+    },
+    "statusYear": {
+      "label": "Année du statut",
+      "placeholder": "p. ex., 2024",
+      "description": "Année à laquelle ce statut a été atteint"
+    },
+    "automatedDecisionSystem": {
+      "label": "Système de décision automatisé (SDA)",
+      "description": "Ce système prend-il ou aide-t-il à prendre des décisions administratives concernant des individus ?",
+      "helpText": "Un système de décision automatisé prend ou aide à prendre des décisions qui affectent les droits légaux, les privilèges ou les intérêts des individus."
+    },
+    "openGovAiaId": {
+      "label": "ID de l'évaluation de l'impact algorithmique (EIA)",
+      "placeholder": "p. ex., EIA-2024-001",
+      "description": "Si une EIA a été complétée, fournissez l'ID de référence ou l'URL"
+    },
+    "involvesPersonalInfo": {
+      "label": "Contient des renseignements personnels",
+      "description": "Ce système collecte-t-il, utilise-t-il ou divulgue-t-il des renseignements personnels ?",
+      "helpText": "Les renseignements personnels sont définis en vertu de la Loi sur la protection des renseignements personnels comme des renseignements concernant un individu identifiable."
+    },
+    "personalInformationBanks": {
+      "label": "Fichiers de renseignements personnels",
+      "labelEN": "Fichiers de renseignements personnels (anglais)",
+      "labelFR": "Fichiers de renseignements personnels (français)",
+      "placeholder": "Entrez les codes ou noms des FRP",
+      "description": "Fichiers de renseignements personnels (FRP) associés à ce système"
+    },
+    "hasUserNotification": {
+      "label": "Notification des utilisateurs",
+      "description": "Les utilisateurs sont-ils informés qu'ils interagissent avec un système d'IA ?",
+      "helpText": "La Directive sur la prise de décisions automatisée exige une notification lorsque des systèmes automatisés sont utilisés."
+    },
+    "dataSources": {
+      "label": "Sources de données",
+      "labelEN": "Sources de données (anglais)",
+      "labelFR": "Sources de données (français)",
+      "placeholder": "Décrivez les sources de données utilisées...",
+      "description": "Quelles données ce système utilise-t-il ? Incluez les bases de données internes, les sources externes ou les données d'entraînement."
+    },
+    "atipRequestRefs": {
+      "label": "Références de demandes d'AIPRP",
+      "labelEN": "Références de demandes d'AIPRP (anglais)",
+      "labelFR": "Références de demandes d'AIPRP (français)",
+      "placeholder": "p. ex., AIPRP-2024-123",
+      "description": "ID de demandes d'accès à l'information liées à ce système"
+    },
+    "outcomes": {
+      "label": "Résultats",
+      "labelEN": "Résultats (anglais)",
+      "labelFR": "Résultats (français)",
+      "placeholder": "Décrivez les résultats et l'impact...",
+      "description": "Qu'est-ce que ce système d'IA a accompli ? Incluez les mesures, les avantages ou les leçons apprises ({{count}}/500 caractères)"
+    }
+  },
+  "compliance": {
+    "sectionTitle": "Exigences de conformité et de gouvernance",
+    "sectionDescription": "Cette section aide à garantir que votre système d'IA respecte les lois fédérales sur la protection des renseignements personnels, les exigences en matière de transparence et la Directive sur la prise de décisions automatisée."
+  },
+  "review": {
+    "summaryTitle": "Examinez votre soumission",
+    "editSection": "Modifier",
+    "confirmSubmit": "Je confirme que les informations fournies sont exactes et complètes.",
+    "submitButton": "Soumettre le projet"
+  },
+  "languageTabs": {
+    "english": "English",
+    "french": "Français"
+  }
+}

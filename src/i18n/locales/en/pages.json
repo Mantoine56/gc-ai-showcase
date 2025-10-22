@@ -1,0 +1,207 @@
+{
+  "dashboard": {
+    "title": "AI Projects Dashboard",
+    "description": "Discover and explore {{count}} AI initiatives across Government of Canada departments",
+    "stats": {
+      "totalProjects": "Total Projects",
+      "departments": "Departments",
+      "featured": "Featured",
+      "inProduction": "In Production"
+    },
+    "searchPlaceholder": "Search AI systems by name, description, or capabilities...",
+    "tabs": {
+      "all": "All",
+      "featured": "Featured",
+      "trending": "Trending",
+      "recent": "Recent"
+    },
+    "viewToggle": {
+      "grid": "Grid view",
+      "list": "List view"
+    },
+    "showingResults": "Showing {{start}} - {{end}} of {{total}} projects",
+    "noResults": "No projects found matching your criteria.",
+    "errorLoading": "Error loading projects: {{error}}"
+  },
+  "projectDetail": {
+    "backToDashboard": "Back to Dashboard",
+    "notFound": "Project Not Found",
+    "notFoundMessage": "The project you're looking for doesn't exist or has been removed.",
+    "sections": {
+      "overview": "Overview",
+      "capabilities": "Capabilities",
+      "outcomes": "Outcomes & Impact",
+      "dataPrivacy": "Data & Privacy",
+      "compliance": "Compliance & Governance",
+      "quickInfo": "Quick Info",
+      "metadata": "Metadata"
+    },
+    "subsections": {
+      "dataSources": "Data Sources",
+      "personalInformation": "Personal Information",
+      "userNotification": "User Notification",
+      "automatedDecisionSystem": "Automated Decision System (ADS)",
+      "openGovAiaId": "Open Government AIA ID",
+      "atipReferences": "ATIP Request References"
+    },
+    "metadata": {
+      "organization": "Organization",
+      "primaryUsers": "Primary Users",
+      "developedBy": "Developed By",
+      "status": "Status",
+      "serviceInventoryId": "Service Inventory ID",
+      "created": "Created",
+      "lastUpdated": "Last Updated",
+      "vendor": "Vendor: {{name}}",
+      "since": "Since {{year}}"
+    },
+    "badges": {
+      "featured": "Featured",
+      "automatedDecisionSystem": "Automated Decision System",
+      "involvesPersonalInformation": "Involves Personal Information"
+    },
+    "dataStatus": {
+      "involvesPI": "This system involves personal information",
+      "noPI": "This system does not involve personal information",
+      "userNotified": "Users are notified about AI use",
+      "noNotification": "No user notification implemented",
+      "isADS": "This is an Automated Decision System",
+      "notADS": "Not an Automated Decision System"
+    }
+  },
+  "about": {
+    "title": "About GC AI Hub",
+    "subtitle": "A comprehensive registry and transparency platform for artificial intelligence initiatives across the Government of Canada.",
+    "mission": {
+      "title": "Our Mission",
+      "content": "To promote transparency, accountability, and responsible innovation in the use of artificial intelligence across the Government of Canada by providing a centralized registry of AI systems and initiatives."
+    },
+    "vision": {
+      "title": "Our Vision",
+      "content": "A Government of Canada where AI systems are transparent, accountable, and aligned with Canadian values, fostering public trust and enabling departments to learn from and build upon each other's successes."
+    },
+    "principles": {
+      "title": "Our Principles",
+      "transparency": {
+        "title": "Transparency",
+        "description": "Open disclosure of AI systems and their impacts on government services and decision-making."
+      },
+      "compliance": {
+        "title": "Compliance",
+        "description": "Adherence to federal policies including the Directive on Automated Decision-Making and privacy legislation."
+      },
+      "collaboration": {
+        "title": "Collaboration",
+        "description": "Facilitating knowledge sharing and reuse of AI solutions across departments."
+      }
+    },
+    "capabilities": {
+      "title": "Platform Capabilities",
+      "projectRegistry": {
+        "title": "Project Registry",
+        "description": "Comprehensive catalog of AI systems with compliance tracking."
+      },
+      "complianceTracking": {
+        "title": "Compliance Tracking",
+        "description": "Monitor ADS compliance, AIAs, and privacy requirements."
+      },
+      "dataManagement": {
+        "title": "Data Management",
+        "description": "Excel import/export aligned with GC registry standards."
+      },
+      "aiAssistant": {
+        "title": "AI Assistant",
+        "description": "Natural language search and policy guidance."
+      }
+    },
+    "roadmap": {
+      "title": "Roadmap",
+      "phase1": {
+        "title": "Phase 1 (Complete)",
+        "description": "Core registry functionality and project catalog"
+      },
+      "phase2": {
+        "title": "Phase 2 (Planned)",
+        "description": "Authentication, moderation, and enhanced search"
+      },
+      "phase3": {
+        "title": "Phase 3 (Future)",
+        "description": "Advanced analytics and AI-powered insights"
+      },
+      "status": {
+        "complete": "Complete",
+        "planned": "Planned"
+      }
+    },
+    "getStarted": {
+      "title": "Get Started",
+      "submitProject": "Submit a Project",
+      "browseProjects": "Browse Projects",
+      "viewResources": "View Resources"
+    }
+  },
+  "resources": {
+    "title": "Resources & Guidance",
+    "subtitle": "Essential resources for submitting AI projects, understanding compliance requirements, and navigating Government of Canada AI policies and guidelines.",
+    "quickLinks": {
+      "submitProjects": {
+        "title": "Submit Projects",
+        "description": "Learn how to submit your AI project to the registry"
+      },
+      "compliance": {
+        "title": "Compliance",
+        "description": "Understand GC AI policies and requirements"
+      },
+      "importExport": {
+        "title": "Import/Export",
+        "description": "Work with Excel registry files"
+      },
+      "designSystem": {
+        "title": "Design System",
+        "description": "GC Design System guidelines and components"
+      }
+    },
+    "submissionGuide": {
+      "title": "How to Submit Your AI Project",
+      "requiredInfo": "Required Information",
+      "steps": {
+        "step1": "Gather basic information about your AI system including name, organization, and purpose",
+        "step2": "Determine primary users and development approach (in-house or vendor)",
+        "step3": "Identify compliance requirements including ADS status, AIA completion, and privacy considerations",
+        "step4": "Document current status, data sources, and outcomes",
+        "step5": "Review and submit your entry for inclusion in the registry"
+      }
+    },
+    "policies": {
+      "title": "GC AI Policies & Guidelines",
+      "directive": {
+        "title": "Directive on Automated Decision-Making",
+        "description": "Official requirements for automated decision systems in the GC"
+      },
+      "aia": {
+        "title": "Algorithmic Impact Assessment",
+        "description": "Tool for assessing and mitigating risks of automated systems"
+      },
+      "privacy": {
+        "title": "Privacy Act & ATIP",
+        "description": "Privacy and access to information requirements"
+      },
+      "openSource": {
+        "title": "Open Source Software",
+        "description": "GC guidance on using and releasing open source"
+      }
+    },
+    "excelGuide": {
+      "title": "Excel Import & Export",
+      "description": "The GC AI Hub supports import and export of project data using the official GC AI Registry Excel template.",
+      "importInstructions": "To import data, ensure your Excel file matches the official template structure with all required columns.",
+      "exportInstructions": "Export the current registry to Excel for offline analysis or archival purposes."
+    }
+  },
+  "notFound": {
+    "code": "404",
+    "title": "Oops! Page not found",
+    "message": "The page you're looking for doesn't exist or has been moved.",
+    "returnHome": "Return to Home"
+  }
+}

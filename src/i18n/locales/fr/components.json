@@ -1,0 +1,81 @@
+{
+  "hero": {
+    "badge": "Innovation en IA du gouvernement du Canada",
+    "headline": "Carrefour d'IA du GC : Partager, Apprendre, Réutiliser",
+    "subtitle": "Découvrez et collaborez sur des initiatives d'IA dans les ministères du gouvernement du Canada. Des preuves de concept aux systèmes de production, explorez ce qui est possible.",
+    "stats": {
+      "activeProjects": "Projets actifs",
+      "departments": "Ministères",
+      "openSource": "Logiciels libres"
+    }
+  },
+  "projectCard": {
+    "featured": "EN VEDETTE",
+    "viewDetails": "Voir les détails",
+    "developedBy": "Développé par",
+    "primaryUsers": "Utilisateurs principaux"
+  },
+  "searchAndFilter": {
+    "searchPlaceholder": "Rechercher des projets par titre, description ou technologie...",
+    "filtersButton": "Filtres",
+    "clearAll": "Tout effacer",
+    "departments": "Ministères",
+    "technologiesCategories": "Technologies et catégories",
+    "activeFilters": "Filtres actifs :"
+  },
+  "advancedFilters": {
+    "title": "Filtres",
+    "sortBy": "Trier par",
+    "sortOrder": "Ordre de tri",
+    "ascending": "Croissant",
+    "descending": "Décroissant",
+    "department": "Ministère",
+    "status": "Statut",
+    "automatedDecisionSystem": "Système de décision automatisé",
+    "personalInformation": "Renseignements personnels",
+    "sortOptions": {
+      "createdDate": "Date de création",
+      "updatedDate": "Date de mise à jour",
+      "name": "Nom",
+      "organization": "Organisation"
+    }
+  },
+  "projectGrid": {
+    "loading": "Chargement des projets...",
+    "noProjects": "Aucun projet ne correspond à vos critères."
+  },
+  "projectsTable": {
+    "columns": {
+      "name": "Nom",
+      "organization": "Organisation",
+      "status": "Statut",
+      "primaryUsers": "Utilisateurs principaux",
+      "developedBy": "Développé par",
+      "created": "Créé le"
+    }
+  },
+  "pagination": {
+    "previous": "Précédent",
+    "next": "Suivant",
+    "page": "Page {{current}} sur {{total}}"
+  },
+  "toast": {
+    "success": {
+      "projectSubmitted": "Projet soumis avec succès !",
+      "projectSubmittedDescription": "Votre système d'IA a été soumis pour examen. Vous serez informé lorsqu'il sera publié.",
+      "projectUpdated": "Projet mis à jour avec succès !",
+      "changesSaved": "Vos modifications ont été enregistrées."
+    },
+    "error": {
+      "submissionFailed": "Échec de la soumission du projet",
+      "updateFailed": "Échec de la mise à jour du projet",
+      "loadFailed": "Échec du chargement des données",
+      "unexpectedError": "Une erreur inattendue s'est produite"
+    }
+  },
+  "languageSwitcher": {
+    "label": "Langue",
+    "english": "English",
+    "french": "Français"
+  }
+}

@@ -1,10 +1,13 @@
 import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { Separator } from '@/components/ui/separator';
 import gcLogo from '@/assets/gc-logo.png';
 
 const Footer = () => {
+  const { t, i18n } = useTranslation('common');
   const currentYear = new Date().getFullYear();
-  const lastUpdated = new Date().toLocaleDateString('en-CA', {
+  const locale = i18n.language === 'fr' ? 'fr-CA' : 'en-CA';
+  const lastUpdated = new Date().toLocaleDateString(locale, {
     year: 'numeric',
     month: 'long',
     day: 'numeric'
@@ -18,11 +21,10 @@ const Footer = () => {
           <div className="md:col-span-2">
             <div className="flex items-center gap-3 mb-4">
               <img src={gcLogo} alt="Government of Canada" className="h-8 w-8" />
-              <span className="text-lg font-bold">GC AI Hub</span>
+              <span className="text-lg font-bold">{t('header.appName')}</span>
             </div>
             <p className="text-sm text-muted-foreground max-w-md">
-              A centralized platform for discovering, sharing, and collaborating on AI initiatives 
-              across Government of Canada departments and agencies.
+              {t('footer.brandDescription')}
             </p>
             <div className="mt-4 text-xs text-muted-foreground">
               <p>Last updated: {lastUpdated}</p>
@@ -31,31 +33,31 @@ const Footer = () => {
 
           {/* Quick Links */}
           <div>
-            <h3 className="font-semibold mb-4">Quick Links</h3>
+            <h3 className="font-semibold mb-4">{t('footer.quickLinks')}</h3>
             <ul className="space-y-2 text-sm">
               <li>
                 <Link to="/" className="text-muted-foreground hover:text-foreground transition-colors">
-                  Browse Projects
+                  {t('footer.browseProjects')}
                 </Link>
               </li>
               <li>
                 <Link to="/resources" className="text-muted-foreground hover:text-foreground transition-colors">
-                  Resources
+                  {t('nav.resources')}
                 </Link>
               </li>
               <li>
                 <Link to="/about" className="text-muted-foreground hover:text-foreground transition-colors">
-                  About & Roadmap
+                  {t('footer.aboutRoadmap')}
                 </Link>
               </li>
               <li>
-                <a 
-                  href="https://github.com/gc-ai" 
-                  target="_blank" 
+                <a
+                  href="https://github.com/gc-ai"
+                  target="_blank"
                   rel="noopener noreferrer"
                   className="text-muted-foreground hover:text-foreground transition-colors"
                 >
-                  GitHub Repository
+                  {t('header.githubRepo')}
                 </a>
               </li>
             </ul>
@@ -63,46 +65,46 @@ const Footer = () => {
 
           {/* Government Links */}
           <div>
-            <h3 className="font-semibold mb-4">Government</h3>
+            <h3 className="font-semibold mb-4">{t('footer.government')}</h3>
             <ul className="space-y-2 text-sm">
               <li>
-                <a 
-                  href="https://canada.ca" 
-                  target="_blank" 
+                <a
+                  href="https://canada.ca"
+                  target="_blank"
                   rel="noopener noreferrer"
                   className="text-muted-foreground hover:text-foreground transition-colors"
                 >
-                  Canada.ca
+                  {t('footer.canadaCa')}
                 </a>
               </li>
               <li>
-                <a 
-                  href="https://design.canada.ca" 
-                  target="_blank" 
+                <a
+                  href="https://design.canada.ca"
+                  target="_blank"
                   rel="noopener noreferrer"
                   className="text-muted-foreground hover:text-foreground transition-colors"
                 >
-                  GC Design System
+                  {t('footer.gcDesignSystem')}
                 </a>
               </li>
               <li>
-                <a 
-                  href="https://www.tbs-sct.gc.ca/pol/doc-eng.aspx?id=32592" 
-                  target="_blank" 
+                <a
+                  href="https://www.tbs-sct.gc.ca/pol/doc-eng.aspx?id=32592"
+                  target="_blank"
                   rel="noopener noreferrer"
                   className="text-muted-foreground hover:text-foreground transition-colors"
                 >
-                  AI & Data Policy
+                  {t('footer.aiDataPolicy')}
                 </a>
               </li>
               <li>
-                <a 
-                  href="https://accessibility.canada.ca" 
-                  target="_blank" 
+                <a
+                  href="https://accessibility.canada.ca"
+                  target="_blank"
                   rel="noopener noreferrer"
                   className="text-muted-foreground hover:text-foreground transition-colors"
                 >
-                  Accessibility Statement
+                  {t('footer.accessibilityStatement')}
                 </a>
               </li>
             </ul>
@@ -114,19 +116,19 @@ const Footer = () => {
         {/* Bottom Section */}
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 text-sm text-muted-foreground">
           <div className="flex flex-wrap gap-4">
-            <span>© {currentYear} Government of Canada</span>
+            <span>{t('footer.copyright', { year: currentYear })}</span>
             <span>•</span>
-            <span>MIT Licensed</span>
+            <span>{t('footer.license')}</span>
             <span>•</span>
-            <a 
+            <a
               href="mailto:gc-ai-hub@canada.ca"
               className="hover:text-foreground transition-colors"
             >
-              Contact: gc-ai-hub@canada.ca
+              {t('footer.contact')}
             </a>
           </div>
           <div className="text-xs">
-            Built with ❤️ for the GC community
+            {t('footer.builtWith')}
           </div>
         </div>
       </div>

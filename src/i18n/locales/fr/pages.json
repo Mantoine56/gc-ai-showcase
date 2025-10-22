@@ -1,0 +1,207 @@
+{
+  "dashboard": {
+    "title": "Tableau de bord des projets d'IA",
+    "description": "Découvrez et explorez {{count}} initiatives d'IA dans les ministères du gouvernement du Canada",
+    "stats": {
+      "totalProjects": "Total des projets",
+      "departments": "Ministères",
+      "featured": "En vedette",
+      "inProduction": "En production"
+    },
+    "searchPlaceholder": "Rechercher des systèmes d'IA par nom, description ou capacités...",
+    "tabs": {
+      "all": "Tous",
+      "featured": "En vedette",
+      "trending": "Tendances",
+      "recent": "Récents"
+    },
+    "viewToggle": {
+      "grid": "Vue grille",
+      "list": "Vue liste"
+    },
+    "showingResults": "Affichage de {{start}} à {{end}} sur {{total}} projets",
+    "noResults": "Aucun projet ne correspond à vos critères.",
+    "errorLoading": "Erreur lors du chargement des projets : {{error}}"
+  },
+  "projectDetail": {
+    "backToDashboard": "Retour au tableau de bord",
+    "notFound": "Projet introuvable",
+    "notFoundMessage": "Le projet que vous recherchez n'existe pas ou a été supprimé.",
+    "sections": {
+      "overview": "Aperçu",
+      "capabilities": "Capacités",
+      "outcomes": "Résultats et impact",
+      "dataPrivacy": "Données et confidentialité",
+      "compliance": "Conformité et gouvernance",
+      "quickInfo": "Informations rapides",
+      "metadata": "Métadonnées"
+    },
+    "subsections": {
+      "dataSources": "Sources de données",
+      "personalInformation": "Renseignements personnels",
+      "userNotification": "Notification des utilisateurs",
+      "automatedDecisionSystem": "Système de décision automatisé (SDA)",
+      "openGovAiaId": "ID de l'EIA du gouvernement ouvert",
+      "atipReferences": "Références de demandes d'AIPRP"
+    },
+    "metadata": {
+      "organization": "Organisation",
+      "primaryUsers": "Utilisateurs principaux",
+      "developedBy": "Développé par",
+      "status": "Statut",
+      "serviceInventoryId": "ID du répertoire des services",
+      "created": "Créé le",
+      "lastUpdated": "Dernière mise à jour",
+      "vendor": "Fournisseur : {{name}}",
+      "since": "Depuis {{year}}"
+    },
+    "badges": {
+      "featured": "En vedette",
+      "automatedDecisionSystem": "Système de décision automatisé",
+      "involvesPersonalInformation": "Contient des renseignements personnels"
+    },
+    "dataStatus": {
+      "involvesPI": "Ce système contient des renseignements personnels",
+      "noPI": "Ce système ne contient pas de renseignements personnels",
+      "userNotified": "Les utilisateurs sont informés de l'utilisation de l'IA",
+      "noNotification": "Aucune notification des utilisateurs mise en œuvre",
+      "isADS": "Il s'agit d'un système de décision automatisé",
+      "notADS": "Ce n'est pas un système de décision automatisé"
+    }
+  },
+  "about": {
+    "title": "À propos du Carrefour d'IA du GC",
+    "subtitle": "Une plateforme complète de registre et de transparence pour les initiatives d'intelligence artificielle au sein du gouvernement du Canada.",
+    "mission": {
+      "title": "Notre mission",
+      "content": "Promouvoir la transparence, la responsabilité et l'innovation responsable dans l'utilisation de l'intelligence artificielle au sein du gouvernement du Canada en fournissant un registre centralisé des systèmes et initiatives d'IA."
+    },
+    "vision": {
+      "title": "Notre vision",
+      "content": "Un gouvernement du Canada où les systèmes d'IA sont transparents, responsables et alignés sur les valeurs canadiennes, favorisant la confiance du public et permettant aux ministères d'apprendre et de bâtir sur les succès les uns des autres."
+    },
+    "principles": {
+      "title": "Nos principes",
+      "transparency": {
+        "title": "Transparence",
+        "description": "Divulgation ouverte des systèmes d'IA et de leurs impacts sur les services gouvernementaux et la prise de décision."
+      },
+      "compliance": {
+        "title": "Conformité",
+        "description": "Respect des politiques fédérales, incluant la Directive sur la prise de décisions automatisée et les lois sur la protection des renseignements personnels."
+      },
+      "collaboration": {
+        "title": "Collaboration",
+        "description": "Faciliter le partage des connaissances et la réutilisation des solutions d'IA entre les ministères."
+      }
+    },
+    "capabilities": {
+      "title": "Capacités de la plateforme",
+      "projectRegistry": {
+        "title": "Registre de projets",
+        "description": "Catalogue complet des systèmes d'IA avec suivi de la conformité."
+      },
+      "complianceTracking": {
+        "title": "Suivi de la conformité",
+        "description": "Surveiller la conformité des SDA, les EIA et les exigences en matière de protection des renseignements personnels."
+      },
+      "dataManagement": {
+        "title": "Gestion des données",
+        "description": "Importation/exportation Excel alignée sur les normes du registre du GC."
+      },
+      "aiAssistant": {
+        "title": "Assistant IA",
+        "description": "Recherche en langage naturel et orientation sur les politiques."
+      }
+    },
+    "roadmap": {
+      "title": "Feuille de route",
+      "phase1": {
+        "title": "Phase 1 (Terminée)",
+        "description": "Fonctionnalité de base du registre et catalogue de projets"
+      },
+      "phase2": {
+        "title": "Phase 2 (Planifiée)",
+        "description": "Authentification, modération et recherche améliorée"
+      },
+      "phase3": {
+        "title": "Phase 3 (Future)",
+        "description": "Analytique avancée et perspectives alimentées par l'IA"
+      },
+      "status": {
+        "complete": "Terminée",
+        "planned": "Planifiée"
+      }
+    },
+    "getStarted": {
+      "title": "Commencer",
+      "submitProject": "Soumettre un projet",
+      "browseProjects": "Parcourir les projets",
+      "viewResources": "Voir les ressources"
+    }
+  },
+  "resources": {
+    "title": "Ressources et orientation",
+    "subtitle": "Ressources essentielles pour soumettre des projets d'IA, comprendre les exigences de conformité et naviguer dans les politiques et directives du gouvernement du Canada sur l'IA.",
+    "quickLinks": {
+      "submitProjects": {
+        "title": "Soumettre des projets",
+        "description": "Apprenez comment soumettre votre projet d'IA au registre"
+      },
+      "compliance": {
+        "title": "Conformité",
+        "description": "Comprendre les politiques et exigences du GC en matière d'IA"
+      },
+      "importExport": {
+        "title": "Import/Export",
+        "description": "Travailler avec les fichiers Excel du registre"
+      },
+      "designSystem": {
+        "title": "Système de design",
+        "description": "Directives et composants du système de design du GC"
+      }
+    },
+    "submissionGuide": {
+      "title": "Comment soumettre votre projet d'IA",
+      "requiredInfo": "Informations requises",
+      "steps": {
+        "step1": "Rassemblez les informations de base sur votre système d'IA, y compris le nom, l'organisation et l'objectif",
+        "step2": "Déterminez les utilisateurs principaux et l'approche de développement (interne ou fournisseur)",
+        "step3": "Identifiez les exigences de conformité, y compris le statut de SDA, l'achèvement de l'EIA et les considérations relatives à la vie privée",
+        "step4": "Documentez le statut actuel, les sources de données et les résultats",
+        "step5": "Examinez et soumettez votre entrée pour inclusion dans le registre"
+      }
+    },
+    "policies": {
+      "title": "Politiques et directives du GC sur l'IA",
+      "directive": {
+        "title": "Directive sur la prise de décisions automatisée",
+        "description": "Exigences officielles pour les systèmes de décision automatisés au GC"
+      },
+      "aia": {
+        "title": "Évaluation de l'impact algorithmique",
+        "description": "Outil pour évaluer et atténuer les risques des systèmes automatisés"
+      },
+      "privacy": {
+        "title": "Loi sur la protection des renseignements personnels et AIPRP",
+        "description": "Exigences en matière de protection des renseignements personnels et d'accès à l'information"
+      },
+      "openSource": {
+        "title": "Logiciels libres",
+        "description": "Orientation du GC sur l'utilisation et la diffusion de logiciels libres"
+      }
+    },
+    "excelGuide": {
+      "title": "Importation et exportation Excel",
+      "description": "Le Carrefour d'IA du GC prend en charge l'importation et l'exportation de données de projet à l'aide du modèle Excel officiel du registre d'IA du GC.",
+      "importInstructions": "Pour importer des données, assurez-vous que votre fichier Excel correspond à la structure du modèle officiel avec toutes les colonnes requises.",
+      "exportInstructions": "Exportez le registre actuel vers Excel pour une analyse hors ligne ou à des fins d'archivage."
+    }
+  },
+  "notFound": {
+    "code": "404",
+    "title": "Oups ! Page introuvable",
+    "message": "La page que vous recherchez n'existe pas ou a été déplacée.",
+    "returnHome": "Retour à l'accueil"
+  }
+}

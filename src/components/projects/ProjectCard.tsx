@@ -1,37 +1,44 @@
 import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Eye, Shield, User, Building2, CheckCircle2, Code2, Users, Star, Sparkles } from 'lucide-react';
 import { Project, ProjectStatus } from '@/types';
+import { useLocalizedField } from '@/hooks/useLocalizedField';
 
 interface ProjectCardProps {
   project: Project;
 }
 
 const ProjectCard = ({ project }: ProjectCardProps) => {
+  const { t } = useTranslation(['components', 'enums']);
+  const getField = useLocalizedField();
+
   const getStatusInfo = (status: ProjectStatus) => {
+    const statusLabel = t(`enums:status.${status}`);
+
     switch (status) {
       case ProjectStatus.InProduction:
         return {
           badge: 'bg-gcds-color-green-100 text-gcds-color-green-900 border-gcds-color-green-300',
           border: 'border-l-gcds-color-green-500',
           icon: CheckCircle2,
-          label: 'Production'
+          label: statusLabel
         };
       case ProjectStatus.InDevelopment:
         return {
           badge: 'bg-gcds-color-yellow-100 text-gcds-color-yellow-900 border-gcds-color-yellow-300',
           border: 'border-l-gcds-color-yellow-500',
           icon: Code2,
-          label: 'Development'
+          label: statusLabel
         };
       case ProjectStatus.Retired:
         return {
           badge: 'bg-gcds-color-grayscale-100 text-gcds-color-grayscale-900 border-gcds-color-grayscale-300',
           border: 'border-l-gcds-color-grayscale-400',
           icon: Users,
-          label: 'Retired'
+          label: statusLabel
         };
       default:
         return {
@@ -46,9 +53,15 @@ const ProjectCard = ({ project }: ProjectCardProps) => {
   const statusInfo = getStatusInfo(project.status);
   const StatusIcon = statusInfo.icon;
 
+  // Get localized text fields
+  const projectName = getField(project, 'name');
+  const projectDescription = getField(project, 'description');
+  const projectCapabilities = getField(project, 'capabilities');
+  const organizationName = getField(project.organization, 'name');
+
   // Extract capabilities as tags
-  const capabilities = project.capabilities
-    ? project.capabilities.split(',').map(c => c.trim()).slice(0, 3)
+  const capabilities = projectCapabilities
+    ? projectCapabilities.split(',').map(c => c.trim()).slice(0, 3)
     : [];
 
   return (
@@ -57,7 +70,7 @@ const ProjectCard = ({ project }: ProjectCardProps) => {
       {project.featured && (
         <div className="absolute top-3 -right-10 bg-gcds-color-yellow-500 text-white text-xs font-bold px-12 py-1 transform rotate-45 shadow-md z-10">
           <Star className="h-3 w-3 inline mr-1" />
-          FEATURED
+          {t('components:projectCard.featured')}
         </div>
       )}
 
@@ -87,11 +100,11 @@ const ProjectCard = ({ project }: ProjectCardProps) => {
         {/* Title and Department */}
         <div className="space-y-2">
           <h3 className="text-xl font-bold text-card-foreground group-hover:text-primary transition-colors leading-tight line-clamp-2">
-            {project.name}
+            {projectName}
           </h3>
           <div className="flex items-center gap-2 text-sm text-muted-foreground">
             <Building2 className="h-4 w-4 shrink-0 text-gcds-color-blue-600" />
-            <span className="font-medium line-clamp-1">{project.organization?.nameEN || 'Unknown Organization'}</span>
+            <span className="font-medium line-clamp-1">{organizationName || 'Unknown Organization'}</span>
           </div>
           {project.statusYear && (
             <p className="text-xs text-muted-foreground flex items-center gap-1.5">
@@ -105,7 +118,7 @@ const ProjectCard = ({ project }: ProjectCardProps) => {
       <CardContent className="space-y-3 flex-1 flex flex-col pt-3 pb-4">
         {/* Description */}
         <p className="text-sm text-muted-foreground leading-relaxed line-clamp-3 min-h-[60px]">
-          {project.description}
+          {projectDescription}
         </p>
 
         {/* Capabilities Tags */}
@@ -120,9 +133,9 @@ const ProjectCard = ({ project }: ProjectCardProps) => {
                 {cap}
               </Badge>
             ))}
-            {project.capabilities && project.capabilities.split(',').length > 3 && (
+            {projectCapabilities && projectCapabilities.split(',').length > 3 && (
               <Badge variant="outline" className="text-xs px-2.5 py-0.5 bg-gcds-color-blue-50 text-gcds-color-blue-800 border-gcds-color-blue-200 font-medium">
-                +{project.capabilities.split(',').length - 3} more
+                +{projectCapabilities.split(',').length - 3} more
               </Badge>
             )}
           </div>
@@ -134,21 +147,15 @@ const ProjectCard = ({ project }: ProjectCardProps) => {
             <div className="flex items-start gap-2">
               <Code2 className="h-3.5 w-3.5 text-gcds-color-blue-600 shrink-0 mt-0.5" />
               <div>
-                <div className="font-semibold text-gcds-text-primary">Developed by</div>
-                <div className="text-muted-foreground">{project.developedBy === 'Government' ? 'In-house' : project.developedBy}</div>
+                <div className="font-semibold text-gcds-text-primary">{t('components:projectCard.developedBy')}</div>
+                <div className="text-muted-foreground">{t(`enums:developedBy.${project.developedBy}`)}</div>
               </div>
             </div>
             <div className="flex items-start gap-2">
               <Users className="h-3.5 w-3.5 text-gcds-color-purple-600 shrink-0 mt-0.5" />
               <div>
-                <div className="font-semibold text-gcds-text-primary">Primary Users</div>
-                <div className="text-muted-foreground">
-                  {project.primaryUsers === 'MembersOfPublic'
-                    ? 'Public'
-                    : project.primaryUsers === 'Employees'
-                    ? 'Staff'
-                    : project.primaryUsers}
-                </div>
+                <div className="font-semibold text-gcds-text-primary">{t('components:projectCard.primaryUsers')}</div>
+                <div className="text-muted-foreground">{t(`enums:primaryUsers.${project.primaryUsers}`)}</div>
               </div>
             </div>
           </div>
@@ -159,7 +166,7 @@ const ProjectCard = ({ project }: ProjectCardProps) => {
         <Button asChild size="sm" className="flex-1 group-hover:shadow-md transition-all">
           <Link to={`/project/${project.id}`}>
             <Eye className="mr-2 h-4 w-4" />
-            View Details
+            {t('components:projectCard.viewDetails')}
           </Link>
         </Button>
       </CardFooter>

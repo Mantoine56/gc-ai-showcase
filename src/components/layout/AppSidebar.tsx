@@ -1,4 +1,5 @@
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import {
   Home,
   BookOpen,
@@ -24,31 +25,32 @@ import {
   useSidebar,
 } from "@/components/ui/sidebar";
 
-// Main navigation items - Projects section
-const projectsNavigation = [
-  { title: "All Projects", url: "/", icon: Home },
-  { title: "Featured", url: "/?tab=featured", icon: Star },
-  { title: "Trending", url: "/?tab=trending", icon: TrendingUp },
-  { title: "Recent", url: "/?tab=recent", icon: Clock },
-];
-
-// Browse section
-const browseNavigation = [
-  { title: "Resources", url: "/resources", icon: BookOpen },
-  { title: "About", url: "/about", icon: Info },
-];
-
-// Other navigation items
-const otherNavigation = [
-  { title: "Admin Stats", url: "/admin/stats", icon: BarChart3 },
-];
-
 export function AppSidebar() {
   const { state } = useSidebar();
   const location = useLocation();
   const navigate = useNavigate();
+  const { t } = useTranslation('common');
   const currentPath = location.pathname;
   const isCollapsed = state === "collapsed";
+
+  // Main navigation items - Projects section
+  const projectsNavigation = [
+    { title: t('nav.allProjects'), url: "/", icon: Home },
+    { title: t('nav.featured'), url: "/?tab=featured", icon: Star },
+    { title: t('nav.trending'), url: "/?tab=trending", icon: TrendingUp },
+    { title: t('nav.recent'), url: "/?tab=recent", icon: Clock },
+  ];
+
+  // Browse section
+  const browseNavigation = [
+    { title: t('nav.resources'), url: "/resources", icon: BookOpen },
+    { title: t('nav.about'), url: "/about", icon: Info },
+  ];
+
+  // Other navigation items
+  const otherNavigation = [
+    { title: t('nav.adminStats'), url: "/admin/stats", icon: BarChart3 },
+  ];
 
   const isActive = (path: string) => {
     // Handle tab-based navigation (e.g., /?tab=featured)
@@ -119,7 +121,7 @@ export function AppSidebar() {
         <SidebarGroup className="px-[var(--gcds-spacing-300)] pt-[var(--gcds-spacing-400)] pb-[var(--gcds-spacing-300)]">
           {!isCollapsed && (
             <SidebarGroupLabel className="text-[length:var(--gcds-font-sizes-caption)] font-semibold text-[hsl(var(--gcds-text-secondary))] uppercase tracking-wider px-2 mb-1.5">
-              Projects
+              {t('sidebar.projects')}
             </SidebarGroupLabel>
           )}
           <SidebarGroupContent>
@@ -133,7 +135,7 @@ export function AppSidebar() {
         <SidebarGroup className="px-[var(--gcds-spacing-300)] py-[var(--gcds-spacing-300)]">
           {!isCollapsed && (
             <SidebarGroupLabel className="text-[length:var(--gcds-font-sizes-caption)] font-semibold text-[hsl(var(--gcds-text-secondary))] uppercase tracking-wider px-2 mb-1.5">
-              Browse
+              {t('sidebar.browse')}
             </SidebarGroupLabel>
           )}
           <SidebarGroupContent>
@@ -147,7 +149,7 @@ export function AppSidebar() {
         <SidebarGroup className="px-[var(--gcds-spacing-300)] py-[var(--gcds-spacing-300)] flex-1">
           {!isCollapsed && (
             <SidebarGroupLabel className="text-[length:var(--gcds-font-sizes-caption)] font-semibold text-[hsl(var(--gcds-text-secondary))] uppercase tracking-wider px-2 mb-1.5">
-              More
+              {t('sidebar.more')}
             </SidebarGroupLabel>
           )}
           <SidebarGroupContent>
@@ -164,7 +166,7 @@ export function AppSidebar() {
                 className="w-full bg-[hsl(var(--gcds-button-primary-default-background))] hover:bg-[hsl(var(--gcds-button-primary-hover-background))] text-[hsl(var(--gcds-button-primary-default-text))] font-medium rounded-lg shadow-[var(--gcds-shadow-sm)] hover:shadow-[var(--gcds-shadow-md)] transition-all duration-[var(--gcds-transition-base)] h-10"
               >
                 <Plus className="mr-2 h-4 w-4" />
-                New Project
+                {t('header.newProject')}
               </Button>
             </SidebarGroupContent>
           </SidebarGroup>
@@ -178,8 +180,8 @@ export function AppSidebar() {
                 onClick={() => navigate('/submit')}
                 size="icon"
                 className="w-10 h-10 bg-[hsl(var(--gcds-button-primary-default-background))] hover:bg-[hsl(var(--gcds-button-primary-hover-background))] text-[hsl(var(--gcds-button-primary-default-text))] shadow-[var(--gcds-shadow-sm)] hover:shadow-[var(--gcds-shadow-md)] transition-all duration-[var(--gcds-transition-base)]"
-                aria-label="New Project"
-                title="New Project"
+                aria-label={t('header.newProject')}
+                title={t('header.newProject')}
               >
                 <Plus className="h-5 w-5" />
               </Button>

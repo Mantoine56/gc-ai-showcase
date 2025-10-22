@@ -1,0 +1,77 @@
+{
+  "nav": {
+    "projects": "Projets",
+    "resources": "Ressources",
+    "about": "À propos",
+    "allProjects": "Tous les projets",
+    "featured": "En vedette",
+    "trending": "Tendances",
+    "recent": "Récents",
+    "adminStats": "Statistiques admin",
+    "more": "Plus"
+  },
+  "header": {
+    "appName": "Carrefour IA GC",
+    "tagline": "Partager, Apprendre, Réutiliser",
+    "addProject": "Ajouter un projet",
+    "addProjectShort": "Ajouter",
+    "newProject": "Nouveau projet",
+    "githubRepo": "Dépôt GitHub",
+    "toggleTheme": "Basculer le thème",
+    "notifications": "Notifications",
+    "toggleAIAssistant": "Basculer l'assistant IA",
+    "aiAssistant": "Assistant IA"
+  },
+  "footer": {
+    "brandDescription": "Une plateforme complète de registre et de transparence pour les initiatives d'intelligence artificielle au sein du gouvernement du Canada.",
+    "quickLinks": "Liens rapides",
+    "government": "Gouvernement",
+    "browseProjects": "Parcourir les projets",
+    "aboutRoadmap": "À propos et feuille de route",
+    "canadaCa": "Canada.ca",
+    "gcDesignSystem": "Système de design du GC",
+    "aiDataPolicy": "Politique sur l'IA et les données",
+    "accessibilityStatement": "Déclaration d'accessibilité",
+    "copyright": "© {{year}} Gouvernement du Canada",
+    "license": "Sous licence MIT",
+    "contact": "Contact : gc-ai-hub@canada.ca",
+    "builtWith": "Créé avec ❤️ pour la communauté du GC"
+  },
+  "sidebar": {
+    "projects": "Projets",
+    "browse": "Parcourir",
+    "more": "Plus"
+  },
+  "actions": {
+    "submit": "Soumettre",
+    "cancel": "Annuler",
+    "save": "Enregistrer",
+    "delete": "Supprimer",
+    "edit": "Modifier",
+    "close": "Fermer",
+    "next": "Suivant",
+    "previous": "Précédent",
+    "back": "Retour",
+    "viewDetails": "Voir les détails",
+    "learnMore": "En savoir plus",
+    "getStarted": "Commencer",
+    "exploreProjects": "Explorer les projets",
+    "clearAll": "Tout effacer",
+    "apply": "Appliquer",
+    "reset": "Réinitialiser"
+  },
+  "common": {
+    "loading": "Chargement...",
+    "error": "Erreur",
+    "success": "Succès",
+    "warning": "Avertissement",
+    "info": "Information",
+    "search": "Rechercher",
+    "filter": "Filtrer",
+    "filters": "Filtres",
+    "sort": "Trier",
+    "language": "Langue",
+    "english": "English",
+    "french": "Français"
+  }
+}

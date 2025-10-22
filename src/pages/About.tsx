@@ -4,51 +4,54 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Lightbulb, Target, Users, Rocket, Shield, FileSpreadsheet, Upload } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 const About = () => {
+  const { t } = useTranslation(['pages', 'enums']);
+
   const roadmapItems = [
     {
-      quarter: "Phase 1 (Complete)",
-      status: "Complete",
+      quarter: t('about.roadmap.phase1.title'),
+      status: 'complete',
       items: [
-        "Core project registry with full CRUD operations",
-        "Multi-step submission wizard with validation",
-        "Advanced filtering and search capabilities",
-        "AI-powered assistant for natural language queries",
-        "Excel import/export functionality"
+        t('about.roadmap.phase1.item1'),
+        t('about.roadmap.phase1.item2'),
+        t('about.roadmap.phase1.item3'),
+        t('about.roadmap.phase1.item4'),
+        t('about.roadmap.phase1.item5')
       ]
     },
     {
-      quarter: "Phase 2 (Planned)",
-      status: "Planned",
+      quarter: t('about.roadmap.phase2.title'),
+      status: 'planned',
       items: [
-        "User authentication with Azure AD integration",
-        "Role-based access control (Admin, Editor, Viewer)",
-        "Project moderation workflow (Draft → Review → Published)",
-        "Email notifications for submissions and updates",
-        "Audit logging for all registry changes"
+        t('about.roadmap.phase2.item1'),
+        t('about.roadmap.phase2.item2'),
+        t('about.roadmap.phase2.item3'),
+        t('about.roadmap.phase2.item4'),
+        t('about.roadmap.phase2.item5')
       ]
     },
     {
-      quarter: "Phase 3 (Future)",
-      status: "Planned",
+      quarter: t('about.roadmap.phase3.title'),
+      status: 'planned',
       items: [
-        "Bilingual support (English/French)",
-        "Enhanced analytics and reporting dashboards",
-        "API versioning and documentation (OpenAPI/Swagger)",
-        "Integration with Open Government portal",
-        "Mobile-responsive optimizations"
+        t('about.roadmap.phase3.item1'),
+        t('about.roadmap.phase3.item2'),
+        t('about.roadmap.phase3.item3'),
+        t('about.roadmap.phase3.item4'),
+        t('about.roadmap.phase3.item5')
       ]
     }
   ];
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case 'Complete':
+      case 'complete':
         return 'bg-gcds-color-green-100 text-gcds-color-green-900';
-      case 'In Progress':
+      case 'inProgress':
         return 'bg-gcds-color-blue-100 text-gcds-color-blue-900';
-      case 'Planned':
+      case 'planned':
         return 'bg-gcds-color-purple-100 text-gcds-color-purple-900';
       default:
         return 'bg-gcds-color-grayscale-100 text-gcds-color-grayscale-900';
@@ -61,11 +64,10 @@ const About = () => {
         {/* Page Header */}
         <div className="text-center mb-16">
           <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-6">
-            About GC AI Hub
+            {t('about.title')}
           </h1>
           <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-            A comprehensive registry and transparency platform for artificial intelligence
-            initiatives across the Government of Canada.
+            {t('about.description')}
           </p>
         </div>
 
@@ -75,15 +77,12 @@ const About = () => {
             <CardHeader>
               <CardTitle className="flex items-center gap-3">
                 <Target className="h-6 w-6 text-gcds-color-blue-700" />
-                Our Mission
+                {t('about.mission.title')}
               </CardTitle>
             </CardHeader>
             <CardContent>
               <p className="text-muted-foreground leading-relaxed">
-                To provide a central registry that promotes transparency and enables discovery
-                of AI initiatives across Government of Canada departments. We aim to reduce
-                duplication, facilitate collaboration, and support responsible AI governance
-                through comprehensive project documentation and compliance tracking.
+                {t('about.mission.description')}
               </p>
             </CardContent>
           </Card>
@@ -92,15 +91,12 @@ const About = () => {
             <CardHeader>
               <CardTitle className="flex items-center gap-3">
                 <Lightbulb className="h-6 w-6 text-gcds-color-purple-700" />
-                Our Vision
+                {t('about.vision.title')}
               </CardTitle>
             </CardHeader>
             <CardContent>
               <p className="text-muted-foreground leading-relaxed">
-                A future where all Government of Canada AI initiatives are transparently documented,
-                easily discoverable, and fully compliant with federal regulations. Through improved
-                visibility and knowledge sharing, we enable departments to learn from each other's
-                experiences and serve Canadians more effectively.
+                {t('about.vision.description')}
               </p>
             </CardContent>
           </Card>
@@ -108,14 +104,14 @@ const About = () => {
 
         {/* Key Principles */}
         <div className="mb-16">
-          <h2 className="text-3xl font-bold text-center mb-8">Our Principles</h2>
+          <h2 className="text-3xl font-bold text-center mb-8">{t('about.principles.title')}</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <Card className="text-center hover:shadow-card-hover transition-all duration-300">
               <CardContent className="p-6">
                 <Target className="h-12 w-12 text-gcds-color-blue-700 mx-auto mb-4" />
-                <h3 className="font-bold mb-2">Transparency</h3>
+                <h3 className="font-bold mb-2">{t('about.principles.transparency.title')}</h3>
                 <p className="text-sm text-muted-foreground">
-                  Making AI initiatives visible and accessible across government departments
+                  {t('about.principles.transparency.description')}
                 </p>
               </CardContent>
             </Card>
@@ -123,9 +119,9 @@ const About = () => {
             <Card className="text-center hover:shadow-card-hover transition-all duration-300">
               <CardContent className="p-6">
                 <Shield className="h-12 w-12 text-gcds-color-purple-700 mx-auto mb-4" />
-                <h3 className="font-bold mb-2">Compliance</h3>
+                <h3 className="font-bold mb-2">{t('about.principles.compliance.title')}</h3>
                 <p className="text-sm text-muted-foreground">
-                  Tracking adherence to GC policies, privacy laws, and automated decision-making directives
+                  {t('about.principles.compliance.description')}
                 </p>
               </CardContent>
             </Card>
@@ -133,9 +129,9 @@ const About = () => {
             <Card className="text-center hover:shadow-card-hover transition-all duration-300">
               <CardContent className="p-6">
                 <Users className="h-12 w-12 text-gcds-color-blue-700 mx-auto mb-4" />
-                <h3 className="font-bold mb-2">Collaboration</h3>
+                <h3 className="font-bold mb-2">{t('about.principles.collaboration.title')}</h3>
                 <p className="text-sm text-muted-foreground">
-                  Enabling departments to discover and learn from each other's AI initiatives
+                  {t('about.principles.collaboration.description')}
                 </p>
               </CardContent>
             </Card>
@@ -144,35 +140,35 @@ const About = () => {
 
         {/* Platform Capabilities */}
         <div className="bg-gcds-background-secondary rounded-lg p-8 mb-16">
-          <h2 className="text-3xl font-bold text-center mb-8">Platform Capabilities</h2>
+          <h2 className="text-3xl font-bold text-center mb-8">{t('about.capabilities.title')}</h2>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
             <div>
               <div className="text-4xl font-bold text-gcds-color-blue-700 mb-2">
                 <Target className="h-12 w-12 mx-auto" />
               </div>
-              <div className="font-semibold text-gcds-text-primary mb-1">Project Registry</div>
-              <div className="text-sm text-muted-foreground">Comprehensive AI project database</div>
+              <div className="font-semibold text-gcds-text-primary mb-1">{t('about.capabilities.registry.title')}</div>
+              <div className="text-sm text-muted-foreground">{t('about.capabilities.registry.description')}</div>
             </div>
             <div>
               <div className="text-4xl font-bold text-gcds-color-purple-700 mb-2">
                 <Shield className="h-12 w-12 mx-auto" />
               </div>
-              <div className="font-semibold text-gcds-text-primary mb-1">Compliance Tracking</div>
-              <div className="text-sm text-muted-foreground">ADS, PIB, and policy adherence</div>
+              <div className="font-semibold text-gcds-text-primary mb-1">{t('about.capabilities.compliance.title')}</div>
+              <div className="text-sm text-muted-foreground">{t('about.capabilities.compliance.description')}</div>
             </div>
             <div>
               <div className="text-4xl font-bold text-gcds-color-green-700 mb-2">
                 <FileSpreadsheet className="h-12 w-12 mx-auto" />
               </div>
-              <div className="font-semibold text-gcds-text-primary mb-1">Data Management</div>
-              <div className="text-sm text-muted-foreground">Excel import/export functionality</div>
+              <div className="font-semibold text-gcds-text-primary mb-1">{t('about.capabilities.dataManagement.title')}</div>
+              <div className="text-sm text-muted-foreground">{t('about.capabilities.dataManagement.description')}</div>
             </div>
             <div>
               <div className="text-4xl font-bold text-gcds-color-blue-700 mb-2">
                 <Lightbulb className="h-12 w-12 mx-auto" />
               </div>
-              <div className="font-semibold text-gcds-text-primary mb-1">AI Assistant</div>
-              <div className="text-sm text-muted-foreground">Natural language project search</div>
+              <div className="font-semibold text-gcds-text-primary mb-1">{t('about.capabilities.aiAssistant.title')}</div>
+              <div className="text-sm text-muted-foreground">{t('about.capabilities.aiAssistant.description')}</div>
             </div>
           </div>
         </div>
@@ -180,9 +176,9 @@ const About = () => {
         {/* Roadmap */}
         <div className="mb-16">
           <div className="text-center mb-8">
-            <h2 className="text-3xl font-bold mb-4">Roadmap</h2>
+            <h2 className="text-3xl font-bold mb-4">{t('about.roadmap.title')}</h2>
             <p className="text-muted-foreground max-w-2xl mx-auto">
-              Our journey to make AI more accessible and collaborative across government
+              {t('about.roadmap.description')}
             </p>
           </div>
           
@@ -196,7 +192,7 @@ const About = () => {
                       {item.quarter}
                     </CardTitle>
                     <Badge className={getStatusColor(item.status)}>
-                      {item.status}
+                      {t(`enums.status.${item.status}`)}
                     </Badge>
                   </div>
                 </CardHeader>
@@ -219,28 +215,27 @@ const About = () => {
         <div className="text-center">
           <Card className="max-w-2xl mx-auto bg-gradient-card">
             <CardContent className="p-8">
-              <h2 className="text-2xl font-bold mb-4">Get Started</h2>
+              <h2 className="text-2xl font-bold mb-4">{t('about.getStarted.title')}</h2>
               <p className="text-muted-foreground mb-6">
-                Help build a comprehensive view of AI across the Government of Canada. Submit your department's
-                AI projects to increase transparency, enable knowledge sharing, and support responsible AI governance.
+                {t('about.getStarted.description')}
               </p>
               <div className="flex flex-col sm:flex-row gap-3 justify-center">
                 <Button size="lg" className="bg-gcds-color-blue-700 hover:bg-gcds-color-blue-800" asChild>
                   <Link to="/submit">
                     <Upload className="mr-2 h-4 w-4" />
-                    Submit a Project
+                    {t('about.getStarted.submitButton')}
                   </Link>
                 </Button>
                 <Button variant="outline" size="lg" asChild>
                   <Link to="/">
                     <Target className="mr-2 h-4 w-4" />
-                    Browse Projects
+                    {t('about.getStarted.browseButton')}
                   </Link>
                 </Button>
                 <Button variant="outline" size="lg" asChild>
                   <Link to="/resources">
                     <Shield className="mr-2 h-4 w-4" />
-                    View Resources
+                    {t('about.getStarted.resourcesButton')}
                   </Link>
                 </Button>
               </div>

@@ -1,0 +1,31 @@
+{
+  "status": {
+    "InProduction": "En production",
+    "InDevelopment": "En développement",
+    "Retired": "Retiré",
+    "production": "Production",
+    "development": "Développement",
+    "retired": "Retiré"
+  },
+  "primaryUsers": {
+    "Employees": "Employés du gouvernement",
+    "MembersOfPublic": "Membres du public",
+    "Both": "Employés et public",
+    "Neither": "Ni l'un ni l'autre",
+    "staff": "Personnel",
+    "public": "Public",
+    "both": "Les deux"
+  },
+  "developedBy": {
+    "Government": "Gouvernement (interne)",
+    "Vendor": "Fournisseur",
+    "Other": "Autre",
+    "inHouse": "Interne",
+    "vendor": "Fournisseur",
+    "other": "Autre"
+  },
+  "boolean": {
+    "yes": "Oui",
+    "no": "Non"
+  }
+}

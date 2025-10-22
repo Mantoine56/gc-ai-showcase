@@ -1,0 +1,81 @@
+{
+  "hero": {
+    "badge": "Government of Canada AI Innovation",
+    "headline": "GC AI Hub: Share, Learn, Re-use",
+    "subtitle": "Discover and collaborate on AI initiatives across Government of Canada departments. From proof-of-concepts to production systems, explore what's possible.",
+    "stats": {
+      "activeProjects": "Active Projects",
+      "departments": "Departments",
+      "openSource": "Open Source"
+    }
+  },
+  "projectCard": {
+    "featured": "FEATURED",
+    "viewDetails": "View Details",
+    "developedBy": "Developed by",
+    "primaryUsers": "Primary Users"
+  },
+  "searchAndFilter": {
+    "searchPlaceholder": "Search projects by title, description, or technology...",
+    "filtersButton": "Filters",
+    "clearAll": "Clear all",
+    "departments": "Departments",
+    "technologiesCategories": "Technologies & Categories",
+    "activeFilters": "Active filters:"
+  },
+  "advancedFilters": {
+    "title": "Filters",
+    "sortBy": "Sort by",
+    "sortOrder": "Sort order",
+    "ascending": "Ascending",
+    "descending": "Descending",
+    "department": "Department",
+    "status": "Status",
+    "automatedDecisionSystem": "Automated Decision System",
+    "personalInformation": "Personal Information",
+    "sortOptions": {
+      "createdDate": "Created Date",
+      "updatedDate": "Updated Date",
+      "name": "Name",
+      "organization": "Organization"
+    }
+  },
+  "projectGrid": {
+    "loading": "Loading projects...",
+    "noProjects": "No projects found matching your criteria."
+  },
+  "projectsTable": {
+    "columns": {
+      "name": "Name",
+      "organization": "Organization",
+      "status": "Status",
+      "primaryUsers": "Primary Users",
+      "developedBy": "Developed By",
+      "created": "Created"
+    }
+  },
+  "pagination": {
+    "previous": "Previous",
+    "next": "Next",
+    "page": "Page {{current}} of {{total}}"
+  },
+  "toast": {
+    "success": {
+      "projectSubmitted": "Project submitted successfully!",
+      "projectSubmittedDescription": "Your AI system has been submitted for review. You will be notified when it is published.",
+      "projectUpdated": "Project updated successfully!",
+      "changesSaved": "Your changes have been saved."
+    },
+    "error": {
+      "submissionFailed": "Failed to submit project",
+      "updateFailed": "Failed to update project",
+      "loadFailed": "Failed to load data",
+      "unexpectedError": "An unexpected error occurred"
+    }
+  },
+  "languageSwitcher": {
+    "label": "Language",
+    "english": "English",
+    "french": "Français"
+  }
+}

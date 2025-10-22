@@ -1,0 +1,31 @@
+{
+  "required": "{{field}} is required",
+  "maxLength": "{{field}} must be {{max}} characters or less",
+  "minLength": "{{field}} must be at least {{min}} characters",
+  "invalid": "{{field}} is invalid",
+  "project": {
+    "nameRequired": "Project name is required",
+    "nameMaxLength": "Project name must be 50 characters or less",
+    "nameBothLanguages": "Project name is required in both English and French",
+    "organizationRequired": "Organization is required",
+    "descriptionRequired": "Description is required",
+    "descriptionMaxLength": "Description must be 1000 characters or less",
+    "descriptionBothLanguages": "Description is required in both English and French",
+    "capabilitiesMaxLength": "Capabilities must be 300 characters or less",
+    "capabilitiesBothLanguages": "If providing capabilities, both English and French are required",
+    "outcomesMaxLength": "Outcomes must be 500 characters or less",
+    "outcomesBothLanguages": "If providing outcomes, both English and French are required",
+    "primaryUsersRequired": "Primary users selection is required",
+    "developedByRequired": "Developed by selection is required",
+    "vendorNameRequired": "Vendor name is required when developed by vendor",
+    "statusRequired": "Status is required",
+    "dataSourcesBothLanguages": "If providing data sources, both English and French are required",
+    "pibBothLanguages": "If providing PIBs, both English and French are required",
+    "atipBothLanguages": "If providing ATIP references, both English and French are required"
+  },
+  "form": {
+    "submissionFailed": "Failed to submit project",
+    "unexpectedError": "An unexpected error occurred",
+    "pleaseTryAgain": "Please try again or contact support"
+  }
+}

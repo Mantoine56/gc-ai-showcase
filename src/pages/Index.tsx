@@ -1,4 +1,5 @@
 import { useState, useMemo, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { DashboardLayout } from '@/components/layout/DashboardLayout';
 import SearchAndFilter from '@/components/projects/SearchAndFilter';
 import AdvancedFilters from '@/components/projects/AdvancedFilters';
@@ -12,9 +13,12 @@ import { Search, LayoutGrid, Table } from 'lucide-react';
 import { TrendingUp, Star, Clock, BarChart3, Building2 } from 'lucide-react';
 import { useProjects, useGlobalStats } from '@/hooks/useProjects';
 import { useOrganizations } from '@/hooks/useOrganizations';
+import { useLocalizedField } from '@/hooks/useLocalizedField';
 import { ProjectFilters, ProjectStatus } from '@/types';
 
 const Index = () => {
+  const { t } = useTranslation('pages');
+  const getField = useLocalizedField();
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedDepartments, setSelectedDepartments] = useState<string[]>([]);
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
@@ -89,9 +93,9 @@ const Index = () => {
     if (!organizations) return [];
     return organizations.map(org => ({
       id: org.id,
-      name: org.nameEN,
+      name: getField(org, 'name'),
     }));
-  }, [organizations]);
+  }, [organizations, getField]);
 
   // Filter projects client-side for additional filters not in API
   const filteredProjects = useMemo(() => {
@@ -227,9 +231,9 @@ const Index = () => {
         <div className="space-y-4">
           {/* Title Section */}
           <div>
-            <h1 className="text-2xl font-bold text-gcds-text-primary">AI Projects Dashboard</h1>
+            <h1 className="text-2xl font-bold text-gcds-text-primary">{t('dashboard.title')}</h1>
             <p className="text-gcds-text-secondary mt-1.5">
-              Discover and explore {totalProjects} AI initiatives across Government of Canada departments
+              {t('dashboard.description', { count: totalProjects })}
             </p>
           </div>
 
@@ -243,7 +247,7 @@ const Index = () => {
                 </div>
                 <div className="min-w-0 flex-1">
                   <div className="text-2xl font-bold text-gcds-text-primary">{totalProjects}</div>
-                  <div className="text-xs font-medium text-gcds-text-secondary mt-0.5">Total Projects</div>
+                  <div className="text-xs font-medium text-gcds-text-secondary mt-0.5">{t('dashboard.stats.totalProjects')}</div>
                 </div>
               </div>
             </div>
@@ -256,7 +260,7 @@ const Index = () => {
                 </div>
                 <div className="min-w-0 flex-1">
                   <div className="text-2xl font-bold text-gcds-text-primary">{totalDepartments}</div>
-                  <div className="text-xs font-medium text-gcds-text-secondary mt-0.5">Departments</div>
+                  <div className="text-xs font-medium text-gcds-text-secondary mt-0.5">{t('dashboard.stats.departments')}</div>
                 </div>
               </div>
             </div>
@@ -269,7 +273,7 @@ const Index = () => {
                 </div>
                 <div className="min-w-0 flex-1">
                   <div className="text-2xl font-bold text-gcds-text-primary">{totalFeatured}</div>
-                  <div className="text-xs font-medium text-gcds-text-secondary mt-0.5">Featured</div>
+                  <div className="text-xs font-medium text-gcds-text-secondary mt-0.5">{t('dashboard.stats.featured')}</div>
                 </div>
               </div>
             </div>
@@ -282,7 +286,7 @@ const Index = () => {
                 </div>
                 <div className="min-w-0 flex-1">
                   <div className="text-2xl font-bold text-gcds-text-primary">{totalInProduction}</div>
-                  <div className="text-xs font-medium text-gcds-text-secondary mt-0.5">In Production</div>
+                  <div className="text-xs font-medium text-gcds-text-secondary mt-0.5">{t('dashboard.stats.inProduction')}</div>
                 </div>
               </div>
             </div>
@@ -297,7 +301,7 @@ const Index = () => {
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
               <Input
                 type="text"
-                placeholder="Search AI systems by name, description, or capabilities..."
+                placeholder={t('dashboard.searchPlaceholder')}
                 value={searchQuery}
                 onChange={(e) => {
                   setSearchQuery(e.target.value);
@@ -314,19 +318,19 @@ const Index = () => {
               <TabsList className="grid w-full grid-cols-4 lg:w-fit lg:inline-flex h-9">
                 <TabsTrigger value="all" className="flex items-center gap-1.5 text-xs px-3">
                   <BarChart3 className="h-3.5 w-3.5" />
-                  All ({pagination?.total || 0})
+                  {t('dashboard.tabs.all')} ({pagination?.total || 0})
                 </TabsTrigger>
                 <TabsTrigger value="featured" className="flex items-center gap-1.5 text-xs px-3">
                   <Star className="h-3.5 w-3.5" />
-                  Featured ({featuredProjects.length})
+                  {t('dashboard.tabs.featured')} ({featuredProjects.length})
                 </TabsTrigger>
                 <TabsTrigger value="trending" className="flex items-center gap-1.5 text-xs px-3">
                   <TrendingUp className="h-3.5 w-3.5" />
-                  Trending ({trendingProjects.length})
+                  {t('dashboard.tabs.trending')} ({trendingProjects.length})
                 </TabsTrigger>
                 <TabsTrigger value="recent" className="flex items-center gap-1.5 text-xs px-3">
                   <Clock className="h-3.5 w-3.5" />
-                  Recent ({recentProjects.length})
+                  {t('dashboard.tabs.recent')} ({recentProjects.length})
                 </TabsTrigger>
               </TabsList>
             </Tabs>
@@ -394,7 +398,7 @@ const Index = () => {
 
           {error && (
             <div className="text-center py-8 text-gcds-text-danger">
-              Error loading projects: {(error as Error).message}
+              {t('dashboard.errorLoading', { error: (error as Error).message })}
             </div>
           )}
 
@@ -407,7 +411,11 @@ const Index = () => {
                 onPageChange={setPage}
               />
               <div className="text-center text-sm text-muted-foreground">
-                Showing {((pagination.page - 1) * pagination.limit) + 1} - {Math.min(pagination.page * pagination.limit, pagination.total)} of {pagination.total} projects
+                {t('dashboard.showingResults', {
+                  start: ((pagination.page - 1) * pagination.limit) + 1,
+                  end: Math.min(pagination.page * pagination.limit, pagination.total),
+                  total: pagination.total
+                })}
               </div>
             </div>
           )}

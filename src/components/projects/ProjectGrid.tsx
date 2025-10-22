@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next';
 import ProjectCard from './ProjectCard';
 import { Skeleton } from '@/components/ui/skeleton';
 import { AlertCircle } from 'lucide-react';
@@ -10,6 +11,8 @@ interface ProjectGridProps {
 }
 
 const ProjectGrid = ({ projects, isLoading = false, searchQuery = '' }: ProjectGridProps) => {
+  const { t } = useTranslation('components');
+
   if (isLoading) {
     return (
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
@@ -34,12 +37,12 @@ const ProjectGrid = ({ projects, isLoading = false, searchQuery = '' }: ProjectG
           <AlertCircle className="h-12 w-12 text-muted-foreground" />
         </div>
         <h3 className="text-lg font-semibold text-foreground mb-2">
-          No projects found
+          {t('projectGrid.noProjects')}
         </h3>
         <p className="text-muted-foreground max-w-md mx-auto">
           {searchQuery
             ? `No projects match your search for "${searchQuery}". Try adjusting your filters or search terms.`
-            : "No projects match your current filters. Try adjusting your selection."
+            : t('projectGrid.noProjects')
           }
         </p>
       </div>
@@ -56,7 +59,7 @@ const ProjectGrid = ({ projects, isLoading = false, searchQuery = '' }: ProjectG
       {featuredProjects.length > 0 && (
         <div>
           <div className="flex items-center gap-2 mb-6">
-            <h2 className="text-2xl font-bold text-foreground">Featured Projects</h2>
+            <h2 className="text-2xl font-bold text-foreground">{t('nav.featured', { ns: 'common' })} {t('nav.projects', { ns: 'common' })}</h2>
             <div className="h-1 bg-gradient-to-r from-primary to-secondary rounded-full w-16" />
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -72,7 +75,7 @@ const ProjectGrid = ({ projects, isLoading = false, searchQuery = '' }: ProjectG
         <div>
           <div className="flex items-center gap-2 mb-6">
             <h2 className="text-2xl font-bold text-foreground">
-              {featuredProjects.length > 0 ? 'All Projects' : 'Projects'}
+              {featuredProjects.length > 0 ? t('nav.allProjects', { ns: 'common' }) : t('nav.projects', { ns: 'common' })}
             </h2>
             <span className="text-sm text-muted-foreground bg-muted px-2 py-1 rounded-full">
               {regularProjects.length} result{regularProjects.length !== 1 ? 's' : ''}

@@ -46,15 +46,17 @@ model Project {
 
   // Core Identity
   aiRegisterId               String?         @unique // TBS use only, read-only
-  name                       String          // AI system name (max 50 chars)
+  nameEN                     String          // AI system name - English (max 50 chars)
+  nameFR                     String          // AI system name - French (max 50 chars)
   serviceInventoryId         String?         // Optional alphanumeric ID
 
   // Organization relationship
   organizationId             String
   organization               Organization    @relation(fields: [organizationId], references: [id])
 
-  // Description and Purpose
-  description                String          // Purpose of AI system (max 1000 chars)
+  // Description and Purpose (Bilingual)
+  descriptionEN              String          // Purpose of AI system - English (max 1000 chars)
+  descriptionFR              String          // Purpose of AI system - French (max 1000 chars)
   primaryUsers               PrimaryUsers    // Who uses the AI system
 
   // Development
@@ -65,20 +67,25 @@ model Project {
   status                     ProjectStatus
   statusYear                 Int?            // 4-digit year
 
-  // Capabilities and Features
-  capabilities               String?         // Optional (max 300 chars)
+  // Capabilities and Features (Bilingual)
+  capabilitiesEN             String?         // Optional - English (max 300 chars)
+  capabilitiesFR             String?         // Optional - French (max 300 chars)
 
   // Compliance and Governance
   isAutomatedDecisionSystem  Boolean         @default(false) // ADS
   openGovAiaId               String?         // AIA ID or "Not applicable"
-  dataSources                String?         // Free text
+  dataSourcesEN              String?         // Free text - English
+  dataSourcesFR              String?         // Free text - French
   involvesPersonalInfo       Boolean         @default(false)
-  personalInformationBanks   String?         // Comma/semicolon-separated PIB codes (stored as JSON array string)
+  personalInformationBanksEN String?         // Comma/semicolon-separated PIB codes - English
+  personalInformationBanksFR String?         // Comma/semicolon-separated PIB codes - French
   hasUserNotification        Boolean         @default(false)
-  atipRequestRefs            String?         // ATIP request IDs (free text)
+  atipRequestRefsEN          String?         // ATIP request IDs - English (free text)
+  atipRequestRefsFR          String?         // ATIP request IDs - French (free text)
 
-  // Outcomes and Results
-  outcomes                   String?         // Max 500 chars
+  // Outcomes and Results (Bilingual)
+  outcomesEN                 String?         // Max 500 chars - English
+  outcomesFR                 String?         // Max 500 chars - French
 
   // Internal TBS fields
   source1                    String?         // Hidden/internal
@@ -105,7 +112,7 @@ model Project {
   @@index([statusYear])
   @@index([moderationState])
   @@index([createdAt])
-  @@unique([name, organizationId]) // Prevent duplicates within same org
+  @@unique([nameEN, organizationId]) // Prevent duplicates within same org
 }
 
 // Organization/Department model

@@ -1,0 +1,77 @@
+{
+  "nav": {
+    "projects": "Projects",
+    "resources": "Resources",
+    "about": "About",
+    "allProjects": "All Projects",
+    "featured": "Featured",
+    "trending": "Trending",
+    "recent": "Recent",
+    "adminStats": "Admin Stats",
+    "more": "More"
+  },
+  "header": {
+    "appName": "GC AI Hub",
+    "tagline": "Share, Learn, Re-use",
+    "addProject": "Add Project",
+    "addProjectShort": "Add",
+    "newProject": "New Project",
+    "githubRepo": "GitHub Repository",
+    "toggleTheme": "Toggle theme",
+    "notifications": "Notifications",
+    "toggleAIAssistant": "Toggle AI Assistant",
+    "aiAssistant": "AI Assistant"
+  },
+  "footer": {
+    "brandDescription": "A comprehensive registry and transparency platform for artificial intelligence initiatives across the Government of Canada.",
+    "quickLinks": "Quick Links",
+    "government": "Government",
+    "browseProjects": "Browse Projects",
+    "aboutRoadmap": "About & Roadmap",
+    "canadaCa": "Canada.ca",
+    "gcDesignSystem": "GC Design System",
+    "aiDataPolicy": "AI & Data Policy",
+    "accessibilityStatement": "Accessibility Statement",
+    "copyright": "© {{year}} Government of Canada",
+    "license": "MIT Licensed",
+    "contact": "Contact: gc-ai-hub@canada.ca",
+    "builtWith": "Built with ❤️ for the GC community"
+  },
+  "sidebar": {
+    "projects": "Projects",
+    "browse": "Browse",
+    "more": "More"
+  },
+  "actions": {
+    "submit": "Submit",
+    "cancel": "Cancel",
+    "save": "Save",
+    "delete": "Delete",
+    "edit": "Edit",
+    "close": "Close",
+    "next": "Next",
+    "previous": "Previous",
+    "back": "Back",
+    "viewDetails": "View Details",
+    "learnMore": "Learn More",
+    "getStarted": "Get Started",
+    "exploreProjects": "Explore Projects",
+    "clearAll": "Clear all",
+    "apply": "Apply",
+    "reset": "Reset"
+  },
+  "common": {
+    "loading": "Loading...",
+    "error": "Error",
+    "success": "Success",
+    "warning": "Warning",
+    "info": "Information",
+    "search": "Search",
+    "filter": "Filter",
+    "filters": "Filters",
+    "sort": "Sort",
+    "language": "Language",
+    "english": "English",
+    "french": "Français"
+  }
+}

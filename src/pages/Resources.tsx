@@ -4,8 +4,11 @@ import { Button } from '@/components/ui/button';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { ExternalLink, BookOpen, FileSpreadsheet, Shield, Users, Upload } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 const Resources = () => {
+  const { t } = useTranslation(['pages', 'common']);
+
   const policies = [
     {
       title: "Directive on Automated Decision-Making",
@@ -53,11 +56,10 @@ const Resources = () => {
         {/* Page Header */}
         <div className="text-center mb-16">
           <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-6">
-            Resources & Guidance
+            {t('resources.title')}
           </h1>
           <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-            Essential resources for submitting AI projects, understanding compliance requirements,
-            and navigating Government of Canada AI policies and guidelines.
+            {t('resources.subtitle')}
           </p>
         </div>
 
@@ -66,32 +68,32 @@ const Resources = () => {
           <Card className="text-center hover:shadow-card-hover transition-all duration-300">
             <CardContent className="p-6">
               <Upload className="h-12 w-12 text-gcds-color-blue-700 mx-auto mb-4" />
-              <h3 className="font-bold mb-2">Submit Projects</h3>
-              <p className="text-sm text-muted-foreground">Add your AI initiative</p>
+              <h3 className="font-bold mb-2">{t('resources.quickLinks.submitProjects.title')}</h3>
+              <p className="text-sm text-muted-foreground">{t('resources.quickLinks.submitProjects.description')}</p>
             </CardContent>
           </Card>
 
           <Card className="text-center hover:shadow-card-hover transition-all duration-300">
             <CardContent className="p-6">
               <Shield className="h-12 w-12 text-gcds-color-purple-700 mx-auto mb-4" />
-              <h3 className="font-bold mb-2">Compliance</h3>
-              <p className="text-sm text-muted-foreground">Policy & guidelines</p>
+              <h3 className="font-bold mb-2">{t('resources.quickLinks.compliance.title')}</h3>
+              <p className="text-sm text-muted-foreground">{t('resources.quickLinks.compliance.description')}</p>
             </CardContent>
           </Card>
 
           <Card className="text-center hover:shadow-card-hover transition-all duration-300">
             <CardContent className="p-6">
               <FileSpreadsheet className="h-12 w-12 text-gcds-color-green-700 mx-auto mb-4" />
-              <h3 className="font-bold mb-2">Import/Export</h3>
-              <p className="text-sm text-muted-foreground">Excel data management</p>
+              <h3 className="font-bold mb-2">{t('resources.quickLinks.importExport.title')}</h3>
+              <p className="text-sm text-muted-foreground">{t('resources.quickLinks.importExport.description')}</p>
             </CardContent>
           </Card>
 
           <Card className="text-center hover:shadow-card-hover transition-all duration-300">
             <CardContent className="p-6">
               <BookOpen className="h-12 w-12 text-gcds-color-blue-700 mx-auto mb-4" />
-              <h3 className="font-bold mb-2">Design System</h3>
-              <p className="text-sm text-muted-foreground">GCDS standards</p>
+              <h3 className="font-bold mb-2">{t('resources.quickLinks.designSystem.title')}</h3>
+              <p className="text-sm text-muted-foreground">{t('resources.quickLinks.designSystem.description')}</p>
             </CardContent>
           </Card>
         </div>
@@ -104,50 +106,27 @@ const Resources = () => {
               <AccordionTrigger className="text-xl font-bold hover:no-underline">
                 <div className="flex items-center gap-3">
                   <Upload className="h-6 w-6 text-gcds-color-blue-700" />
-                  How to Submit Your AI Project
+                  {t('resources.submissionGuide.title')}
                 </div>
               </AccordionTrigger>
               <AccordionContent className="pt-4">
-                <p className="text-muted-foreground mb-6">
-                  GC AI Hub provides transparency and discoverability for AI initiatives across the Government of Canada.
-                  Follow these steps to add your project to the registry.
-                </p>
                 <div className="space-y-6">
                   <div>
-                    <h4 className="font-semibold mb-3 text-gcds-text-primary">Submission Process</h4>
+                    <h4 className="font-semibold mb-3 text-gcds-text-primary">{t('resources.submissionGuide.requiredInfo')}</h4>
                     <ol className="list-decimal list-inside space-y-2 text-sm text-muted-foreground">
-                      <li>Click the "Add Project" button in the top navigation</li>
-                      <li>Complete the 5-step submission wizard:
-                        <ul className="list-disc list-inside ml-6 mt-1 space-y-1">
-                          <li>Step 1: Project identity and organization</li>
-                          <li>Step 2: Purpose, description, and capabilities</li>
-                          <li>Step 3: Compliance requirements (ADS, PIB)</li>
-                          <li>Step 4: Operational details and status</li>
-                          <li>Step 5: Review and submit</li>
-                        </ul>
-                      </li>
-                      <li>Review all information in the final step</li>
-                      <li>Submit for publication to the registry</li>
+                      <li>{t('resources.submissionGuide.steps.step1')}</li>
+                      <li>{t('resources.submissionGuide.steps.step2')}</li>
+                      <li>{t('resources.submissionGuide.steps.step3')}</li>
+                      <li>{t('resources.submissionGuide.steps.step4')}</li>
+                      <li>{t('resources.submissionGuide.steps.step5')}</li>
                     </ol>
-                  </div>
-
-                  <div>
-                    <h4 className="font-semibold mb-3 text-gcds-text-primary">Required Information</h4>
-                    <ul className="list-disc list-inside space-y-2 text-sm text-muted-foreground">
-                      <li>Project name and description</li>
-                      <li>Organization/department</li>
-                      <li>AI capabilities and use cases</li>
-                      <li>Primary users (employees, public, or both)</li>
-                      <li>Development status and timeline</li>
-                      <li>Compliance details (ADS, PIB, privacy)</li>
-                    </ul>
                   </div>
 
                   <div className="flex flex-col sm:flex-row gap-3">
                     <Button asChild className="bg-gcds-color-blue-700 hover:bg-gcds-color-blue-800">
                       <Link to="/submit">
                         <Upload className="mr-2 h-4 w-4" />
-                        Submit a Project
+                        {t('common.actions.submit')}
                       </Link>
                     </Button>
                   </div>
@@ -160,13 +139,10 @@ const Resources = () => {
               <AccordionTrigger className="text-xl font-bold hover:no-underline">
                 <div className="flex items-center gap-3">
                   <Shield className="h-6 w-6 text-gcds-color-purple-700" />
-                  GC AI Policies & Guidelines
+                  {t('resources.policies.title')}
                 </div>
               </AccordionTrigger>
               <AccordionContent className="pt-4">
-                <p className="text-muted-foreground mb-6">
-                  Essential policy documents and compliance requirements for AI development in government.
-                </p>
                 <div className="space-y-4">
                   {policies.map((policy) => (
                     <Card key={policy.title} className="hover:shadow-card-hover transition-all duration-300">
@@ -196,13 +172,10 @@ const Resources = () => {
               <AccordionTrigger className="text-xl font-bold hover:no-underline">
                 <div className="flex items-center gap-3">
                   <BookOpen className="h-6 w-6 text-gcds-color-blue-700" />
-                  Design Guidelines
+                  {t('resources.quickLinks.designSystem.title')}
                 </div>
               </AccordionTrigger>
               <AccordionContent className="pt-4">
-                <p className="text-muted-foreground mb-6">
-                  Official design systems and style guides for creating government-compliant interfaces.
-                </p>
                 <div className="space-y-4">
                   {designResources.map((resource) => (
                     <Card key={resource.title} className="hover:shadow-card-hover transition-all duration-300">
@@ -232,12 +205,12 @@ const Resources = () => {
               <AccordionTrigger className="text-xl font-bold hover:no-underline">
                 <div className="flex items-center gap-3">
                   <FileSpreadsheet className="h-6 w-6 text-gcds-color-green-700" />
-                  Excel Import & Export
+                  {t('resources.excelGuide.title')}
                 </div>
               </AccordionTrigger>
               <AccordionContent className="pt-4">
                 <p className="text-muted-foreground mb-6">
-                  Manage multiple projects efficiently using Excel spreadsheets for bulk import and export operations.
+                  {t('resources.excelGuide.description')}
                 </p>
                 <div className="space-y-6">
                   <div>

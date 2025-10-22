@@ -1,5 +1,6 @@
 import { ReactNode, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from 'react-i18next';
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { AppSidebar } from "./AppSidebar";
 import { Button } from "@/components/ui/button";
@@ -7,6 +8,7 @@ import { Bell, Plus, Bot } from "lucide-react";
 import Footer from "./Footer";
 import EnhancedAIChatSidebar from "@/components/chat/EnhancedAIChatSidebar";
 import ChatToggleButton from "@/components/chat/ChatToggleButton";
+import { LanguageSwitcher } from "@/components/LanguageSwitcher";
 import gcLogo from "@/assets/gc-logo.png";
 
 interface DashboardLayoutProps {
@@ -15,6 +17,7 @@ interface DashboardLayoutProps {
 
 export function DashboardLayout({ children }: DashboardLayoutProps) {
   const navigate = useNavigate();
+  const { t } = useTranslation('common');
   const [isChatOpen, setIsChatOpen] = useState(false);
 
   const toggleChat = () => {
@@ -42,7 +45,7 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
                   />
                   <div className="hidden sm:flex">
                     <span className="text-[length:var(--gcds-font-sizes-h6)] font-bold text-[hsl(var(--gcds-text-primary))]">
-                      GC AI Hub
+                      {t('header.appName')}
                     </span>
                   </div>
                 </div>
@@ -58,6 +61,8 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
                   <Bell className="h-4 w-4 text-[hsl(var(--gcds-text-secondary))]" />
                 </Button>
 
+                <LanguageSwitcher />
+
                 <Button
                   variant={isChatOpen ? "default" : "ghost"}
                   size="sm"
@@ -67,10 +72,10 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
                       ? "bg-[hsl(var(--gcds-button-primary-default-background))] text-[hsl(var(--gcds-button-primary-default-text))] hover:bg-[hsl(var(--gcds-button-primary-hover-background))] shadow-[var(--gcds-shadow-sm)]"
                       : "hover:bg-[hsl(var(--gcds-background-accent))] text-[hsl(var(--gcds-text-secondary))] hover:text-[hsl(var(--gcds-text-primary))]"
                   }`}
-                  aria-label={isChatOpen ? "Close AI Assistant" : "Open AI Assistant"}
+                  aria-label={t('header.toggleAIAssistant')}
                 >
                   <Bot className="h-4 w-4 mr-2" />
-                  <span className="hidden sm:inline">AI Assistant</span>
+                  <span className="hidden sm:inline">{t('header.aiAssistant')}</span>
                   {isChatOpen && (
                     <div className="ml-2 w-2 h-2 bg-[hsl(142_76%_36%)] rounded-full animate-pulse"></div>
                   )}
@@ -82,8 +87,8 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
                   className="bg-[hsl(var(--gcds-button-primary-default-background))] text-[hsl(var(--gcds-button-primary-default-text))] hover:bg-[hsl(var(--gcds-button-primary-hover-background))] h-9 px-3 text-xs shadow-[var(--gcds-shadow-sm)] hover:shadow-[var(--gcds-shadow-md)] transition-all duration-[var(--gcds-transition-base)] min-h-[44px] md:min-h-0"
                 >
                   <Plus className="h-3 w-3 mr-1" />
-                  <span className="hidden sm:inline">Add Project</span>
-                  <span className="sm:hidden">Add</span>
+                  <span className="hidden sm:inline">{t('header.addProject')}</span>
+                  <span className="sm:hidden">{t('header.addProjectShort')}</span>
                 </Button>
               </div>
             </div>

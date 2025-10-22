@@ -1,4 +1,5 @@
 import { useParams, Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { DashboardLayout } from '@/components/layout/DashboardLayout';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -21,10 +22,13 @@ import {
   TrendingUp,
 } from 'lucide-react';
 import { useProject } from '@/hooks/useProjects';
+import { useLocalizedField } from '@/hooks/useLocalizedField';
 import { ProjectStatus, PrimaryUsers, DevelopedBy } from '@/types';
 
 const ProjectDetail = () => {
   const { id } = useParams<{ id: string }>();
+  const { t } = useTranslation('pages');
+  const getField = useLocalizedField();
   const { data: project, isLoading, error } = useProject(id!);
 
   if (isLoading) {
@@ -54,14 +58,14 @@ const ProjectDetail = () => {
       <DashboardLayout>
         <div className="p-6">
           <div className="text-center py-12">
-            <h1 className="text-2xl font-bold mb-4">Project Not Found</h1>
+            <h1 className="text-2xl font-bold mb-4">{t('projectDetail.notFound')}</h1>
             <p className="text-muted-foreground mb-8">
-              The project you're looking for doesn't exist or has been removed.
+              {t('projectDetail.notFoundMessage')}
             </p>
             <Button asChild>
               <Link to="/">
                 <ArrowLeft className="mr-2 h-4 w-4" />
-                Back to Dashboard
+                {t('projectDetail.backToDashboard')}
               </Link>
             </Button>
           </div>
@@ -84,56 +88,37 @@ const ProjectDetail = () => {
   };
 
   const getStatusLabel = (status: ProjectStatus) => {
-    switch (status) {
-      case ProjectStatus.InProduction:
-        return 'In Production';
-      case ProjectStatus.InDevelopment:
-        return 'In Development';
-      case ProjectStatus.Retired:
-        return 'Retired';
-      default:
-        return status;
-    }
+    return t(`enums:status.${status}`);
   };
 
   const getPrimaryUsersLabel = (users: PrimaryUsers) => {
-    switch (users) {
-      case PrimaryUsers.Employees:
-        return 'Government Employees';
-      case PrimaryUsers.MembersOfPublic:
-        return 'Members of the Public';
-      case PrimaryUsers.Both:
-        return 'Both Employees and Public';
-      case PrimaryUsers.Neither:
-        return 'Neither';
-      default:
-        return users;
-    }
+    return t(`enums:primaryUsers.${users}`);
   };
 
   const getDevelopedByLabel = (dev: DevelopedBy) => {
-    switch (dev) {
-      case DevelopedBy.Government:
-        return 'Government (In-house)';
-      case DevelopedBy.Vendor:
-        return 'Vendor';
-      case DevelopedBy.Other:
-        return 'Other';
-      default:
-        return dev;
-    }
+    return t(`enums:developedBy.${dev}`);
   };
 
-  const capabilities = project.capabilities
-    ? project.capabilities.split(',').map(c => c.trim())
+  // Get localized fields
+  const projectName = getField(project, 'name');
+  const projectDescription = getField(project, 'description');
+  const projectCapabilities = getField(project, 'capabilities');
+  const projectOutcomes = getField(project, 'outcomes');
+  const projectDataSources = getField(project, 'dataSources');
+  const projectPIBs = getField(project, 'personalInformationBanks');
+  const projectATIPRefs = getField(project, 'atipRequestRefs');
+  const organizationName = getField(project.organization, 'name');
+
+  const capabilities = projectCapabilities
+    ? projectCapabilities.split(',').map(c => c.trim())
     : [];
 
-  const dataSources = project.dataSources
-    ? project.dataSources.split(',').map(d => d.trim())
+  const dataSources = projectDataSources
+    ? projectDataSources.split(',').map(d => d.trim())
     : [];
 
-  const personalInformationBanks = project.personalInformationBanks
-    ? project.personalInformationBanks.split(',').map(p => p.trim())
+  const personalInformationBanks = projectPIBs
+    ? projectPIBs.split(',').map(p => p.trim())
     : [];
 
   return (
@@ -144,7 +129,7 @@ const ProjectDetail = () => {
           <Button variant="ghost" asChild className="pl-0">
             <Link to="/">
               <ArrowLeft className="mr-2 h-4 w-4" />
-              Back to Dashboard
+              {t('projectDetail.backToDashboard')}
             </Link>
           </Button>
         </div>
@@ -158,36 +143,36 @@ const ProjectDetail = () => {
             {project.featured && (
               <Badge variant="outline" className="text-gcds-color-yellow-700 border-gcds-color-yellow-700">
                 <Star className="h-3 w-3 mr-1" />
-                Featured
+                {t('projectDetail.badges.featured')}
               </Badge>
             )}
             {project.isAutomatedDecisionSystem && (
               <Badge variant="outline" className="text-gcds-color-blue-700 border-gcds-color-blue-700">
                 <Shield className="h-3 w-3 mr-1" />
-                Automated Decision System
+                {t('projectDetail.badges.automatedDecisionSystem')}
               </Badge>
             )}
             {project.involvesPersonalInfo && (
               <Badge variant="outline" className="text-gcds-color-purple-700 border-gcds-color-purple-700">
                 <User className="h-3 w-3 mr-1" />
-                Involves Personal Information
+                {t('projectDetail.badges.involvesPersonalInformation')}
               </Badge>
             )}
           </div>
 
           <div>
             <h1 className="text-3xl lg:text-4xl font-bold text-gcds-text-primary">
-              {project.name}
+              {projectName}
             </h1>
             <div className="flex flex-wrap items-center gap-4 mt-3 text-muted-foreground">
               <div className="flex items-center gap-2">
                 <Building2 className="h-4 w-4" />
-                <span>{project.organization?.nameEN || 'Unknown Organization'}</span>
+                <span>{organizationName || 'Unknown Organization'}</span>
               </div>
               {project.statusYear && (
                 <div className="flex items-center gap-2">
                   <Calendar className="h-4 w-4" />
-                  <span>Since {project.statusYear}</span>
+                  <span>{t('projectDetail.metadata.since', { year: project.statusYear })}</span>
                 </div>
               )}
               {project.aiRegisterId && (
@@ -207,11 +192,11 @@ const ProjectDetail = () => {
             {/* Overview */}
             <Card>
               <CardHeader>
-                <CardTitle>Overview</CardTitle>
+                <CardTitle>{t('projectDetail.sections.overview')}</CardTitle>
               </CardHeader>
               <CardContent>
                 <p className="text-muted-foreground leading-relaxed">
-                  {project.description}
+                  {projectDescription}
                 </p>
               </CardContent>
             </Card>
@@ -222,7 +207,7 @@ const ProjectDetail = () => {
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2">
                     <TrendingUp className="h-5 w-5" />
-                    Capabilities
+                    {t('projectDetail.sections.capabilities')}
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
@@ -242,17 +227,17 @@ const ProjectDetail = () => {
             )}
 
             {/* Outcomes */}
-            {project.outcomes && (
+            {projectOutcomes && (
               <Card>
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2">
                     <CheckCircle className="h-5 w-5 text-gcds-color-green-700" />
-                    Outcomes & Impact
+                    {t('projectDetail.sections.outcomes')}
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
                   <p className="text-muted-foreground leading-relaxed">
-                    {project.outcomes}
+                    {projectOutcomes}
                   </p>
                 </CardContent>
               </Card>
@@ -263,12 +248,12 @@ const ProjectDetail = () => {
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <Database className="h-5 w-5" />
-                  Data & Privacy
+                  {t('projectDetail.sections.dataPrivacy')}
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
                 <div>
-                  <h4 className="font-semibold text-sm mb-2">Data Sources</h4>
+                  <h4 className="font-semibold text-sm mb-2">{t('projectDetail.subsections.dataSources')}</h4>
                   {dataSources.length > 0 ? (
                     <div className="space-y-1">
                       {dataSources.map((source, index) => (
@@ -285,24 +270,24 @@ const ProjectDetail = () => {
                 <Separator />
 
                 <div>
-                  <h4 className="font-semibold text-sm mb-2">Personal Information</h4>
+                  <h4 className="font-semibold text-sm mb-2">{t('projectDetail.subsections.personalInformation')}</h4>
                   <div className="flex items-center gap-2 text-sm">
                     {project.involvesPersonalInfo ? (
                       <>
                         <CheckCircle className="h-4 w-4 text-gcds-color-green-700" />
-                        <span>This system involves personal information</span>
+                        <span>{t('projectDetail.dataStatus.involvesPI')}</span>
                       </>
                     ) : (
                       <>
                         <XCircle className="h-4 w-4 text-gcds-color-grayscale-400" />
-                        <span>This system does not involve personal information</span>
+                        <span>{t('projectDetail.dataStatus.noPI')}</span>
                       </>
                     )}
                   </div>
                   {personalInformationBanks.length > 0 && (
                     <div className="mt-2 space-y-1">
                       <p className="text-xs text-muted-foreground font-semibold">
-                        Personal Information Banks:
+                        {t('projectDetail.subsections.personalInformation')}:
                       </p>
                       {personalInformationBanks.map((bank, index) => (
                         <div key={index} className="text-xs text-muted-foreground">
@@ -316,17 +301,17 @@ const ProjectDetail = () => {
                 <Separator />
 
                 <div>
-                  <h4 className="font-semibold text-sm mb-2">User Notification</h4>
+                  <h4 className="font-semibold text-sm mb-2">{t('projectDetail.subsections.userNotification')}</h4>
                   <div className="flex items-center gap-2 text-sm">
                     {project.hasUserNotification ? (
                       <>
                         <CheckCircle className="h-4 w-4 text-gcds-color-green-700" />
-                        <span>Users are notified about AI use</span>
+                        <span>{t('projectDetail.dataStatus.userNotified')}</span>
                       </>
                     ) : (
                       <>
                         <XCircle className="h-4 w-4 text-gcds-color-grayscale-400" />
-                        <span>No user notification implemented</span>
+                        <span>{t('projectDetail.dataStatus.noNotification')}</span>
                       </>
                     )}
                   </div>
@@ -339,24 +324,24 @@ const ProjectDetail = () => {
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <Shield className="h-5 w-5" />
-                  Compliance & Governance
+                  {t('projectDetail.sections.compliance')}
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
                 <div>
                   <h4 className="font-semibold text-sm mb-2">
-                    Automated Decision System (ADS)
+                    {t('projectDetail.subsections.automatedDecisionSystem')}
                   </h4>
                   <div className="flex items-center gap-2 text-sm">
                     {project.isAutomatedDecisionSystem ? (
                       <>
                         <AlertTriangle className="h-4 w-4 text-gcds-color-yellow-700" />
-                        <span>This is an Automated Decision System</span>
+                        <span>{t('projectDetail.dataStatus.isADS')}</span>
                       </>
                     ) : (
                       <>
                         <CheckCircle className="h-4 w-4 text-gcds-color-grayscale-400" />
-                        <span>Not an Automated Decision System</span>
+                        <span>{t('projectDetail.dataStatus.notADS')}</span>
                       </>
                     )}
                   </div>
@@ -367,7 +352,7 @@ const ProjectDetail = () => {
                     <Separator />
                     <div>
                       <h4 className="font-semibold text-sm mb-2">
-                        Open Government AIA ID
+                        {t('projectDetail.subsections.openGovAiaId')}
                       </h4>
                       <p className="text-sm text-muted-foreground font-mono">
                         {project.openGovAiaId}
@@ -376,13 +361,13 @@ const ProjectDetail = () => {
                   </>
                 )}
 
-                {project.atipRequestRefs && (
+                {projectATIPRefs && (
                   <>
                     <Separator />
                     <div>
-                      <h4 className="font-semibold text-sm mb-2">ATIP Request References</h4>
+                      <h4 className="font-semibold text-sm mb-2">{t('projectDetail.subsections.atipReferences')}</h4>
                       <p className="text-sm text-muted-foreground">
-                        {project.atipRequestRefs}
+                        {projectATIPRefs}
                       </p>
                     </div>
                   </>
@@ -396,15 +381,15 @@ const ProjectDetail = () => {
             {/* Quick Info */}
             <Card>
               <CardHeader>
-                <CardTitle>Quick Info</CardTitle>
+                <CardTitle>{t('projectDetail.sections.quickInfo')}</CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
                 <div>
                   <h4 className="text-xs font-semibold text-muted-foreground uppercase mb-1">
-                    Organization
+                    {t('projectDetail.metadata.organization')}
                   </h4>
                   <p className="text-sm font-medium">
-                    {project.organization?.nameEN || 'Unknown'}
+                    {organizationName || 'Unknown'}
                   </p>
                   {project.organization?.acronym && (
                     <p className="text-xs text-muted-foreground">
@@ -417,7 +402,7 @@ const ProjectDetail = () => {
 
                 <div>
                   <h4 className="text-xs font-semibold text-muted-foreground uppercase mb-1">
-                    Primary Users
+                    {t('projectDetail.metadata.primaryUsers')}
                   </h4>
                   <div className="flex items-center gap-2">
                     <Users className="h-4 w-4 text-muted-foreground" />
@@ -429,12 +414,12 @@ const ProjectDetail = () => {
 
                 <div>
                   <h4 className="text-xs font-semibold text-muted-foreground uppercase mb-1">
-                    Developed By
+                    {t('projectDetail.metadata.developedBy')}
                   </h4>
                   <p className="text-sm">{getDevelopedByLabel(project.developedBy)}</p>
                   {project.vendorName && (
                     <p className="text-xs text-muted-foreground mt-1">
-                      Vendor: {project.vendorName}
+                      {t('projectDetail.metadata.vendor', { name: project.vendorName })}
                     </p>
                   )}
                 </div>
@@ -443,14 +428,14 @@ const ProjectDetail = () => {
 
                 <div>
                   <h4 className="text-xs font-semibold text-muted-foreground uppercase mb-1">
-                    Status
+                    {t('projectDetail.metadata.status')}
                   </h4>
                   <Badge className={getStatusColor(project.status)}>
                     {getStatusLabel(project.status)}
                   </Badge>
                   {project.statusYear && (
                     <p className="text-xs text-muted-foreground mt-1">
-                      Since {project.statusYear}
+                      {t('projectDetail.metadata.since', { year: project.statusYear })}
                     </p>
                   )}
                 </div>
@@ -460,7 +445,7 @@ const ProjectDetail = () => {
                     <Separator />
                     <div>
                       <h4 className="text-xs font-semibold text-muted-foreground uppercase mb-1">
-                        Service Inventory ID
+                        {t('projectDetail.metadata.serviceInventoryId')}
                       </h4>
                       <p className="text-xs font-mono text-muted-foreground">
                         {project.serviceInventoryId}
@@ -476,16 +461,16 @@ const ProjectDetail = () => {
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <FileText className="h-5 w-5" />
-                  Metadata
+                  {t('projectDetail.sections.metadata')}
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-3 text-xs text-muted-foreground">
                 <div>
-                  <span className="font-semibold">Created:</span>{' '}
+                  <span className="font-semibold">{t('projectDetail.metadata.created')}:</span>{' '}
                   {new Date(project.createdAt).toLocaleDateString()}
                 </div>
                 <div>
-                  <span className="font-semibold">Last Updated:</span>{' '}
+                  <span className="font-semibold">{t('projectDetail.metadata.lastUpdated')}:</span>{' '}
                   {new Date(project.updatedAt).toLocaleDateString()}
                 </div>
                 {project.moderationState && (

@@ -1,0 +1,31 @@
+{
+  "required": "{{field}} est requis",
+  "maxLength": "{{field}} doit contenir au maximum {{max}} caractères",
+  "minLength": "{{field}} doit contenir au moins {{min}} caractères",
+  "invalid": "{{field}} n'est pas valide",
+  "project": {
+    "nameRequired": "Le nom du projet est requis",
+    "nameMaxLength": "Le nom du projet doit contenir au maximum 50 caractères",
+    "nameBothLanguages": "Le nom du projet est requis en anglais et en français",
+    "organizationRequired": "L'organisation est requise",
+    "descriptionRequired": "La description est requise",
+    "descriptionMaxLength": "La description doit contenir au maximum 1000 caractères",
+    "descriptionBothLanguages": "La description est requise en anglais et en français",
+    "capabilitiesMaxLength": "Les capacités doivent contenir au maximum 300 caractères",
+    "capabilitiesBothLanguages": "Si vous fournissez des capacités, l'anglais et le français sont requis",
+    "outcomesMaxLength": "Les résultats doivent contenir au maximum 500 caractères",
+    "outcomesBothLanguages": "Si vous fournissez des résultats, l'anglais et le français sont requis",
+    "primaryUsersRequired": "La sélection des utilisateurs principaux est requise",
+    "developedByRequired": "La sélection de \"Développé par\" est requise",
+    "vendorNameRequired": "Le nom du fournisseur est requis lorsque développé par un fournisseur",
+    "statusRequired": "Le statut est requis",
+    "dataSourcesBothLanguages": "Si vous fournissez des sources de données, l'anglais et le français sont requis",
+    "pibBothLanguages": "Si vous fournissez des FRP, l'anglais et le français sont requis",
+    "atipBothLanguages": "Si vous fournissez des références d'AIPRP, l'anglais et le français sont requis"
+  },
+  "form": {
+    "submissionFailed": "Échec de la soumission du projet",
+    "unexpectedError": "Une erreur inattendue s'est produite",
+    "pleaseTryAgain": "Veuillez réessayer ou contacter le soutien"
+  }
+}

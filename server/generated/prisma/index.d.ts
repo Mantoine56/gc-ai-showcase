@@ -1399,24 +1399,31 @@ export namespace Prisma {
   export type ProjectMinAggregateOutputType = {
     id: string | null
     aiRegisterId: string | null
-    name: string | null
+    nameEN: string | null
+    nameFR: string | null
     serviceInventoryId: string | null
     organizationId: string | null
-    description: string | null
+    descriptionEN: string | null
+    descriptionFR: string | null
     primaryUsers: $Enums.PrimaryUsers | null
     developedBy: $Enums.DevelopedBy | null
     vendorName: string | null
     status: $Enums.ProjectStatus | null
     statusYear: number | null
-    capabilities: string | null
+    capabilitiesEN: string | null
+    capabilitiesFR: string | null
     isAutomatedDecisionSystem: boolean | null
     openGovAiaId: string | null
-    dataSources: string | null
+    dataSourcesEN: string | null
+    dataSourcesFR: string | null
     involvesPersonalInfo: boolean | null
-    personalInformationBanks: string | null
+    personalInformationBanksEN: string | null
+    personalInformationBanksFR: string | null
     hasUserNotification: boolean | null
-    atipRequestRefs: string | null
-    outcomes: string | null
+    atipRequestRefsEN: string | null
+    atipRequestRefsFR: string | null
+    outcomesEN: string | null
+    outcomesFR: string | null
     source1: string | null
     source2: string | null
     moderationState: $Enums.ModerationState | null
@@ -1430,24 +1437,31 @@ export namespace Prisma {
   export type ProjectMaxAggregateOutputType = {
     id: string | null
     aiRegisterId: string | null
-    name: string | null
+    nameEN: string | null
+    nameFR: string | null
     serviceInventoryId: string | null
     organizationId: string | null
-    description: string | null
+    descriptionEN: string | null
+    descriptionFR: string | null
     primaryUsers: $Enums.PrimaryUsers | null
     developedBy: $Enums.DevelopedBy | null
     vendorName: string | null
     status: $Enums.ProjectStatus | null
     statusYear: number | null
-    capabilities: string | null
+    capabilitiesEN: string | null
+    capabilitiesFR: string | null
     isAutomatedDecisionSystem: boolean | null
     openGovAiaId: string | null
-    dataSources: string | null
+    dataSourcesEN: string | null
+    dataSourcesFR: string | null
     involvesPersonalInfo: boolean | null
-    personalInformationBanks: string | null
+    personalInformationBanksEN: string | null
+    personalInformationBanksFR: string | null
     hasUserNotification: boolean | null
-    atipRequestRefs: string | null
-    outcomes: string | null
+    atipRequestRefsEN: string | null
+    atipRequestRefsFR: string | null
+    outcomesEN: string | null
+    outcomesFR: string | null
     source1: string | null
     source2: string | null
     moderationState: $Enums.ModerationState | null
@@ -1461,24 +1475,31 @@ export namespace Prisma {
   export type ProjectCountAggregateOutputType = {
     id: number
     aiRegisterId: number
-    name: number
+    nameEN: number
+    nameFR: number
     serviceInventoryId: number
     organizationId: number
-    description: number
+    descriptionEN: number
+    descriptionFR: number
     primaryUsers: number
     developedBy: number
     vendorName: number
     status: number
     statusYear: number
-    capabilities: number
+    capabilitiesEN: number
+    capabilitiesFR: number
     isAutomatedDecisionSystem: number
     openGovAiaId: number
-    dataSources: number
+    dataSourcesEN: number
+    dataSourcesFR: number
     involvesPersonalInfo: number
-    personalInformationBanks: number
+    personalInformationBanksEN: number
+    personalInformationBanksFR: number
     hasUserNotification: number
-    atipRequestRefs: number
-    outcomes: number
+    atipRequestRefsEN: number
+    atipRequestRefsFR: number
+    outcomesEN: number
+    outcomesFR: number
     source1: number
     source2: number
     moderationState: number
@@ -1502,24 +1523,31 @@ export namespace Prisma {
   export type ProjectMinAggregateInputType = {
     id?: true
     aiRegisterId?: true
-    name?: true
+    nameEN?: true
+    nameFR?: true
     serviceInventoryId?: true
     organizationId?: true
-    description?: true
+    descriptionEN?: true
+    descriptionFR?: true
     primaryUsers?: true
     developedBy?: true
     vendorName?: true
     status?: true
     statusYear?: true
-    capabilities?: true
+    capabilitiesEN?: true
+    capabilitiesFR?: true
     isAutomatedDecisionSystem?: true
     openGovAiaId?: true
-    dataSources?: true
+    dataSourcesEN?: true
+    dataSourcesFR?: true
     involvesPersonalInfo?: true
-    personalInformationBanks?: true
+    personalInformationBanksEN?: true
+    personalInformationBanksFR?: true
     hasUserNotification?: true
-    atipRequestRefs?: true
-    outcomes?: true
+    atipRequestRefsEN?: true
+    atipRequestRefsFR?: true
+    outcomesEN?: true
+    outcomesFR?: true
     source1?: true
     source2?: true
     moderationState?: true
@@ -1533,24 +1561,31 @@ export namespace Prisma {
   export type ProjectMaxAggregateInputType = {
     id?: true
     aiRegisterId?: true
-    name?: true
+    nameEN?: true
+    nameFR?: true
     serviceInventoryId?: true
     organizationId?: true
-    description?: true
+    descriptionEN?: true
+    descriptionFR?: true
     primaryUsers?: true
     developedBy?: true
     vendorName?: true
     status?: true
     statusYear?: true
-    capabilities?: true
+    capabilitiesEN?: true
+    capabilitiesFR?: true
     isAutomatedDecisionSystem?: true
     openGovAiaId?: true
-    dataSources?: true
+    dataSourcesEN?: true
+    dataSourcesFR?: true
     involvesPersonalInfo?: true
-    personalInformationBanks?: true
+    personalInformationBanksEN?: true
+    personalInformationBanksFR?: true
     hasUserNotification?: true
-    atipRequestRefs?: true
-    outcomes?: true
+    atipRequestRefsEN?: true
+    atipRequestRefsFR?: true
+    outcomesEN?: true
+    outcomesFR?: true
     source1?: true
     source2?: true
     moderationState?: true
@@ -1564,24 +1599,31 @@ export namespace Prisma {
   export type ProjectCountAggregateInputType = {
     id?: true
     aiRegisterId?: true
-    name?: true
+    nameEN?: true
+    nameFR?: true
     serviceInventoryId?: true
     organizationId?: true
-    description?: true
+    descriptionEN?: true
+    descriptionFR?: true
     primaryUsers?: true
     developedBy?: true
     vendorName?: true
     status?: true
     statusYear?: true
-    capabilities?: true
+    capabilitiesEN?: true
+    capabilitiesFR?: true
     isAutomatedDecisionSystem?: true
     openGovAiaId?: true
-    dataSources?: true
+    dataSourcesEN?: true
+    dataSourcesFR?: true
     involvesPersonalInfo?: true
-    personalInformationBanks?: true
+    personalInformationBanksEN?: true
+    personalInformationBanksFR?: true
     hasUserNotification?: true
-    atipRequestRefs?: true
-    outcomes?: true
+    atipRequestRefsEN?: true
+    atipRequestRefsFR?: true
+    outcomesEN?: true
+    outcomesFR?: true
     source1?: true
     source2?: true
     moderationState?: true
@@ -1682,24 +1724,31 @@ export namespace Prisma {
   export type ProjectGroupByOutputType = {
     id: string
     aiRegisterId: string | null
-    name: string
+    nameEN: string
+    nameFR: string
     serviceInventoryId: string | null
     organizationId: string
-    description: string
+    descriptionEN: string
+    descriptionFR: string
     primaryUsers: $Enums.PrimaryUsers
     developedBy: $Enums.DevelopedBy
     vendorName: string | null
     status: $Enums.ProjectStatus
     statusYear: number | null
-    capabilities: string | null
+    capabilitiesEN: string | null
+    capabilitiesFR: string | null
     isAutomatedDecisionSystem: boolean
     openGovAiaId: string | null
-    dataSources: string | null
+    dataSourcesEN: string | null
+    dataSourcesFR: string | null
     involvesPersonalInfo: boolean
-    personalInformationBanks: string | null
+    personalInformationBanksEN: string | null
+    personalInformationBanksFR: string | null
     hasUserNotification: boolean
-    atipRequestRefs: string | null
-    outcomes: string | null
+    atipRequestRefsEN: string | null
+    atipRequestRefsFR: string | null
+    outcomesEN: string | null
+    outcomesFR: string | null
     source1: string | null
     source2: string | null
     moderationState: $Enums.ModerationState
@@ -1732,24 +1781,31 @@ export namespace Prisma {
   export type ProjectSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     aiRegisterId?: boolean
-    name?: boolean
+    nameEN?: boolean
+    nameFR?: boolean
     serviceInventoryId?: boolean
     organizationId?: boolean
-    description?: boolean
+    descriptionEN?: boolean
+    descriptionFR?: boolean
     primaryUsers?: boolean
     developedBy?: boolean
     vendorName?: boolean
     status?: boolean
     statusYear?: boolean
-    capabilities?: boolean
+    capabilitiesEN?: boolean
+    capabilitiesFR?: boolean
     isAutomatedDecisionSystem?: boolean
     openGovAiaId?: boolean
-    dataSources?: boolean
+    dataSourcesEN?: boolean
+    dataSourcesFR?: boolean
     involvesPersonalInfo?: boolean
-    personalInformationBanks?: boolean
+    personalInformationBanksEN?: boolean
+    personalInformationBanksFR?: boolean
     hasUserNotification?: boolean
-    atipRequestRefs?: boolean
-    outcomes?: boolean
+    atipRequestRefsEN?: boolean
+    atipRequestRefsFR?: boolean
+    outcomesEN?: boolean
+    outcomesFR?: boolean
     source1?: boolean
     source2?: boolean
     moderationState?: boolean
@@ -1766,24 +1822,31 @@ export namespace Prisma {
   export type ProjectSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     aiRegisterId?: boolean
-    name?: boolean
+    nameEN?: boolean
+    nameFR?: boolean
     serviceInventoryId?: boolean
     organizationId?: boolean
-    description?: boolean
+    descriptionEN?: boolean
+    descriptionFR?: boolean
     primaryUsers?: boolean
     developedBy?: boolean
     vendorName?: boolean
     status?: boolean
     statusYear?: boolean
-    capabilities?: boolean
+    capabilitiesEN?: boolean
+    capabilitiesFR?: boolean
     isAutomatedDecisionSystem?: boolean
     openGovAiaId?: boolean
-    dataSources?: boolean
+    dataSourcesEN?: boolean
+    dataSourcesFR?: boolean
     involvesPersonalInfo?: boolean
-    personalInformationBanks?: boolean
+    personalInformationBanksEN?: boolean
+    personalInformationBanksFR?: boolean
     hasUserNotification?: boolean
-    atipRequestRefs?: boolean
-    outcomes?: boolean
+    atipRequestRefsEN?: boolean
+    atipRequestRefsFR?: boolean
+    outcomesEN?: boolean
+    outcomesFR?: boolean
     source1?: boolean
     source2?: boolean
     moderationState?: boolean
@@ -1798,24 +1861,31 @@ export namespace Prisma {
   export type ProjectSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     aiRegisterId?: boolean
-    name?: boolean
+    nameEN?: boolean
+    nameFR?: boolean
     serviceInventoryId?: boolean
     organizationId?: boolean
-    description?: boolean
+    descriptionEN?: boolean
+    descriptionFR?: boolean
     primaryUsers?: boolean
     developedBy?: boolean
     vendorName?: boolean
     status?: boolean
     statusYear?: boolean
-    capabilities?: boolean
+    capabilitiesEN?: boolean
+    capabilitiesFR?: boolean
     isAutomatedDecisionSystem?: boolean
     openGovAiaId?: boolean
-    dataSources?: boolean
+    dataSourcesEN?: boolean
+    dataSourcesFR?: boolean
     involvesPersonalInfo?: boolean
-    personalInformationBanks?: boolean
+    personalInformationBanksEN?: boolean
+    personalInformationBanksFR?: boolean
     hasUserNotification?: boolean
-    atipRequestRefs?: boolean
-    outcomes?: boolean
+    atipRequestRefsEN?: boolean
+    atipRequestRefsFR?: boolean
+    outcomesEN?: boolean
+    outcomesFR?: boolean
     source1?: boolean
     source2?: boolean
     moderationState?: boolean
@@ -1830,24 +1900,31 @@ export namespace Prisma {
   export type ProjectSelectScalar = {
     id?: boolean
     aiRegisterId?: boolean
-    name?: boolean
+    nameEN?: boolean
+    nameFR?: boolean
     serviceInventoryId?: boolean
     organizationId?: boolean
-    description?: boolean
+    descriptionEN?: boolean
+    descriptionFR?: boolean
     primaryUsers?: boolean
     developedBy?: boolean
     vendorName?: boolean
     status?: boolean
     statusYear?: boolean
-    capabilities?: boolean
+    capabilitiesEN?: boolean
+    capabilitiesFR?: boolean
     isAutomatedDecisionSystem?: boolean
     openGovAiaId?: boolean
-    dataSources?: boolean
+    dataSourcesEN?: boolean
+    dataSourcesFR?: boolean
     involvesPersonalInfo?: boolean
-    personalInformationBanks?: boolean
+    personalInformationBanksEN?: boolean
+    personalInformationBanksFR?: boolean
     hasUserNotification?: boolean
-    atipRequestRefs?: boolean
-    outcomes?: boolean
+    atipRequestRefsEN?: boolean
+    atipRequestRefsFR?: boolean
+    outcomesEN?: boolean
+    outcomesFR?: boolean
     source1?: boolean
     source2?: boolean
     moderationState?: boolean
@@ -1858,7 +1935,7 @@ export namespace Prisma {
     updatedAt?: boolean
   }
 
-  export type ProjectOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "aiRegisterId" | "name" | "serviceInventoryId" | "organizationId" | "description" | "primaryUsers" | "developedBy" | "vendorName" | "status" | "statusYear" | "capabilities" | "isAutomatedDecisionSystem" | "openGovAiaId" | "dataSources" | "involvesPersonalInfo" | "personalInformationBanks" | "hasUserNotification" | "atipRequestRefs" | "outcomes" | "source1" | "source2" | "moderationState" | "featured" | "createdBy" | "updatedBy" | "createdAt" | "updatedAt", ExtArgs["result"]["project"]>
+  export type ProjectOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "aiRegisterId" | "nameEN" | "nameFR" | "serviceInventoryId" | "organizationId" | "descriptionEN" | "descriptionFR" | "primaryUsers" | "developedBy" | "vendorName" | "status" | "statusYear" | "capabilitiesEN" | "capabilitiesFR" | "isAutomatedDecisionSystem" | "openGovAiaId" | "dataSourcesEN" | "dataSourcesFR" | "involvesPersonalInfo" | "personalInformationBanksEN" | "personalInformationBanksFR" | "hasUserNotification" | "atipRequestRefsEN" | "atipRequestRefsFR" | "outcomesEN" | "outcomesFR" | "source1" | "source2" | "moderationState" | "featured" | "createdBy" | "updatedBy" | "createdAt" | "updatedAt", ExtArgs["result"]["project"]>
   export type ProjectInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     organization?: boolean | OrganizationDefaultArgs<ExtArgs>
     codeRequests?: boolean | Project$codeRequestsArgs<ExtArgs>
@@ -1880,24 +1957,31 @@ export namespace Prisma {
     scalars: $Extensions.GetPayloadResult<{
       id: string
       aiRegisterId: string | null
-      name: string
+      nameEN: string
+      nameFR: string
       serviceInventoryId: string | null
       organizationId: string
-      description: string
+      descriptionEN: string
+      descriptionFR: string
       primaryUsers: $Enums.PrimaryUsers
       developedBy: $Enums.DevelopedBy
       vendorName: string | null
       status: $Enums.ProjectStatus
       statusYear: number | null
-      capabilities: string | null
+      capabilitiesEN: string | null
+      capabilitiesFR: string | null
       isAutomatedDecisionSystem: boolean
       openGovAiaId: string | null
-      dataSources: string | null
+      dataSourcesEN: string | null
+      dataSourcesFR: string | null
       involvesPersonalInfo: boolean
-      personalInformationBanks: string | null
+      personalInformationBanksEN: string | null
+      personalInformationBanksFR: string | null
       hasUserNotification: boolean
-      atipRequestRefs: string | null
-      outcomes: string | null
+      atipRequestRefsEN: string | null
+      atipRequestRefsFR: string | null
+      outcomesEN: string | null
+      outcomesFR: string | null
       source1: string | null
       source2: string | null
       moderationState: $Enums.ModerationState
@@ -2333,24 +2417,31 @@ export namespace Prisma {
   interface ProjectFieldRefs {
     readonly id: FieldRef<"Project", 'String'>
     readonly aiRegisterId: FieldRef<"Project", 'String'>
-    readonly name: FieldRef<"Project", 'String'>
+    readonly nameEN: FieldRef<"Project", 'String'>
+    readonly nameFR: FieldRef<"Project", 'String'>
     readonly serviceInventoryId: FieldRef<"Project", 'String'>
     readonly organizationId: FieldRef<"Project", 'String'>
-    readonly description: FieldRef<"Project", 'String'>
+    readonly descriptionEN: FieldRef<"Project", 'String'>
+    readonly descriptionFR: FieldRef<"Project", 'String'>
     readonly primaryUsers: FieldRef<"Project", 'PrimaryUsers'>
     readonly developedBy: FieldRef<"Project", 'DevelopedBy'>
     readonly vendorName: FieldRef<"Project", 'String'>
     readonly status: FieldRef<"Project", 'ProjectStatus'>
     readonly statusYear: FieldRef<"Project", 'Int'>
-    readonly capabilities: FieldRef<"Project", 'String'>
+    readonly capabilitiesEN: FieldRef<"Project", 'String'>
+    readonly capabilitiesFR: FieldRef<"Project", 'String'>
     readonly isAutomatedDecisionSystem: FieldRef<"Project", 'Boolean'>
     readonly openGovAiaId: FieldRef<"Project", 'String'>
-    readonly dataSources: FieldRef<"Project", 'String'>
+    readonly dataSourcesEN: FieldRef<"Project", 'String'>
+    readonly dataSourcesFR: FieldRef<"Project", 'String'>
     readonly involvesPersonalInfo: FieldRef<"Project", 'Boolean'>
-    readonly personalInformationBanks: FieldRef<"Project", 'String'>
+    readonly personalInformationBanksEN: FieldRef<"Project", 'String'>
+    readonly personalInformationBanksFR: FieldRef<"Project", 'String'>
     readonly hasUserNotification: FieldRef<"Project", 'Boolean'>
-    readonly atipRequestRefs: FieldRef<"Project", 'String'>
-    readonly outcomes: FieldRef<"Project", 'String'>
+    readonly atipRequestRefsEN: FieldRef<"Project", 'String'>
+    readonly atipRequestRefsFR: FieldRef<"Project", 'String'>
+    readonly outcomesEN: FieldRef<"Project", 'String'>
+    readonly outcomesFR: FieldRef<"Project", 'String'>
     readonly source1: FieldRef<"Project", 'String'>
     readonly source2: FieldRef<"Project", 'String'>
     readonly moderationState: FieldRef<"Project", 'ModerationState'>
@@ -7180,24 +7271,31 @@ export namespace Prisma {
   export const ProjectScalarFieldEnum: {
     id: 'id',
     aiRegisterId: 'aiRegisterId',
-    name: 'name',
+    nameEN: 'nameEN',
+    nameFR: 'nameFR',
     serviceInventoryId: 'serviceInventoryId',
     organizationId: 'organizationId',
-    description: 'description',
+    descriptionEN: 'descriptionEN',
+    descriptionFR: 'descriptionFR',
     primaryUsers: 'primaryUsers',
     developedBy: 'developedBy',
     vendorName: 'vendorName',
     status: 'status',
     statusYear: 'statusYear',
-    capabilities: 'capabilities',
+    capabilitiesEN: 'capabilitiesEN',
+    capabilitiesFR: 'capabilitiesFR',
     isAutomatedDecisionSystem: 'isAutomatedDecisionSystem',
     openGovAiaId: 'openGovAiaId',
-    dataSources: 'dataSources',
+    dataSourcesEN: 'dataSourcesEN',
+    dataSourcesFR: 'dataSourcesFR',
     involvesPersonalInfo: 'involvesPersonalInfo',
-    personalInformationBanks: 'personalInformationBanks',
+    personalInformationBanksEN: 'personalInformationBanksEN',
+    personalInformationBanksFR: 'personalInformationBanksFR',
     hasUserNotification: 'hasUserNotification',
-    atipRequestRefs: 'atipRequestRefs',
-    outcomes: 'outcomes',
+    atipRequestRefsEN: 'atipRequestRefsEN',
+    atipRequestRefsFR: 'atipRequestRefsFR',
+    outcomesEN: 'outcomesEN',
+    outcomesFR: 'outcomesFR',
     source1: 'source1',
     source2: 'source2',
     moderationState: 'moderationState',
@@ -7356,24 +7454,31 @@ export namespace Prisma {
     NOT?: ProjectWhereInput | ProjectWhereInput[]
     id?: StringFilter<"Project"> | string
     aiRegisterId?: StringNullableFilter<"Project"> | string | null
-    name?: StringFilter<"Project"> | string
+    nameEN?: StringFilter<"Project"> | string
+    nameFR?: StringFilter<"Project"> | string
     serviceInventoryId?: StringNullableFilter<"Project"> | string | null
     organizationId?: StringFilter<"Project"> | string
-    description?: StringFilter<"Project"> | string
+    descriptionEN?: StringFilter<"Project"> | string
+    descriptionFR?: StringFilter<"Project"> | string
     primaryUsers?: EnumPrimaryUsersFilter<"Project"> | $Enums.PrimaryUsers
     developedBy?: EnumDevelopedByFilter<"Project"> | $Enums.DevelopedBy
     vendorName?: StringNullableFilter<"Project"> | string | null
     status?: EnumProjectStatusFilter<"Project"> | $Enums.ProjectStatus
     statusYear?: IntNullableFilter<"Project"> | number | null
-    capabilities?: StringNullableFilter<"Project"> | string | null
+    capabilitiesEN?: StringNullableFilter<"Project"> | string | null
+    capabilitiesFR?: StringNullableFilter<"Project"> | string | null
     isAutomatedDecisionSystem?: BoolFilter<"Project"> | boolean
     openGovAiaId?: StringNullableFilter<"Project"> | string | null
-    dataSources?: StringNullableFilter<"Project"> | string | null
+    dataSourcesEN?: StringNullableFilter<"Project"> | string | null
+    dataSourcesFR?: StringNullableFilter<"Project"> | string | null
     involvesPersonalInfo?: BoolFilter<"Project"> | boolean
-    personalInformationBanks?: StringNullableFilter<"Project"> | string | null
+    personalInformationBanksEN?: StringNullableFilter<"Project"> | string | null
+    personalInformationBanksFR?: StringNullableFilter<"Project"> | string | null
     hasUserNotification?: BoolFilter<"Project"> | boolean
-    atipRequestRefs?: StringNullableFilter<"Project"> | string | null
-    outcomes?: StringNullableFilter<"Project"> | string | null
+    atipRequestRefsEN?: StringNullableFilter<"Project"> | string | null
+    atipRequestRefsFR?: StringNullableFilter<"Project"> | string | null
+    outcomesEN?: StringNullableFilter<"Project"> | string | null
+    outcomesFR?: StringNullableFilter<"Project"> | string | null
     source1?: StringNullableFilter<"Project"> | string | null
     source2?: StringNullableFilter<"Project"> | string | null
     moderationState?: EnumModerationStateFilter<"Project"> | $Enums.ModerationState
@@ -7389,24 +7494,31 @@ export namespace Prisma {
   export type ProjectOrderByWithRelationInput = {
     id?: SortOrder
     aiRegisterId?: SortOrderInput | SortOrder
-    name?: SortOrder
+    nameEN?: SortOrder
+    nameFR?: SortOrder
     serviceInventoryId?: SortOrderInput | SortOrder
     organizationId?: SortOrder
-    description?: SortOrder
+    descriptionEN?: SortOrder
+    descriptionFR?: SortOrder
     primaryUsers?: SortOrder
     developedBy?: SortOrder
     vendorName?: SortOrderInput | SortOrder
     status?: SortOrder
     statusYear?: SortOrderInput | SortOrder
-    capabilities?: SortOrderInput | SortOrder
+    capabilitiesEN?: SortOrderInput | SortOrder
+    capabilitiesFR?: SortOrderInput | SortOrder
     isAutomatedDecisionSystem?: SortOrder
     openGovAiaId?: SortOrderInput | SortOrder
-    dataSources?: SortOrderInput | SortOrder
+    dataSourcesEN?: SortOrderInput | SortOrder
+    dataSourcesFR?: SortOrderInput | SortOrder
     involvesPersonalInfo?: SortOrder
-    personalInformationBanks?: SortOrderInput | SortOrder
+    personalInformationBanksEN?: SortOrderInput | SortOrder
+    personalInformationBanksFR?: SortOrderInput | SortOrder
     hasUserNotification?: SortOrder
-    atipRequestRefs?: SortOrderInput | SortOrder
-    outcomes?: SortOrderInput | SortOrder
+    atipRequestRefsEN?: SortOrderInput | SortOrder
+    atipRequestRefsFR?: SortOrderInput | SortOrder
+    outcomesEN?: SortOrderInput | SortOrder
+    outcomesFR?: SortOrderInput | SortOrder
     source1?: SortOrderInput | SortOrder
     source2?: SortOrderInput | SortOrder
     moderationState?: SortOrder
@@ -7422,28 +7534,35 @@ export namespace Prisma {
   export type ProjectWhereUniqueInput = Prisma.AtLeast<{
     id?: string
     aiRegisterId?: string
-    name_organizationId?: ProjectNameOrganizationIdCompoundUniqueInput
+    nameEN_organizationId?: ProjectNameENOrganizationIdCompoundUniqueInput
     AND?: ProjectWhereInput | ProjectWhereInput[]
     OR?: ProjectWhereInput[]
     NOT?: ProjectWhereInput | ProjectWhereInput[]
-    name?: StringFilter<"Project"> | string
+    nameEN?: StringFilter<"Project"> | string
+    nameFR?: StringFilter<"Project"> | string
     serviceInventoryId?: StringNullableFilter<"Project"> | string | null
     organizationId?: StringFilter<"Project"> | string
-    description?: StringFilter<"Project"> | string
+    descriptionEN?: StringFilter<"Project"> | string
+    descriptionFR?: StringFilter<"Project"> | string
     primaryUsers?: EnumPrimaryUsersFilter<"Project"> | $Enums.PrimaryUsers
     developedBy?: EnumDevelopedByFilter<"Project"> | $Enums.DevelopedBy
     vendorName?: StringNullableFilter<"Project"> | string | null
     status?: EnumProjectStatusFilter<"Project"> | $Enums.ProjectStatus
     statusYear?: IntNullableFilter<"Project"> | number | null
-    capabilities?: StringNullableFilter<"Project"> | string | null
+    capabilitiesEN?: StringNullableFilter<"Project"> | string | null
+    capabilitiesFR?: StringNullableFilter<"Project"> | string | null
     isAutomatedDecisionSystem?: BoolFilter<"Project"> | boolean
     openGovAiaId?: StringNullableFilter<"Project"> | string | null
-    dataSources?: StringNullableFilter<"Project"> | string | null
+    dataSourcesEN?: StringNullableFilter<"Project"> | string | null
+    dataSourcesFR?: StringNullableFilter<"Project"> | string | null
     involvesPersonalInfo?: BoolFilter<"Project"> | boolean
-    personalInformationBanks?: StringNullableFilter<"Project"> | string | null
+    personalInformationBanksEN?: StringNullableFilter<"Project"> | string | null
+    personalInformationBanksFR?: StringNullableFilter<"Project"> | string | null
     hasUserNotification?: BoolFilter<"Project"> | boolean
-    atipRequestRefs?: StringNullableFilter<"Project"> | string | null
-    outcomes?: StringNullableFilter<"Project"> | string | null
+    atipRequestRefsEN?: StringNullableFilter<"Project"> | string | null
+    atipRequestRefsFR?: StringNullableFilter<"Project"> | string | null
+    outcomesEN?: StringNullableFilter<"Project"> | string | null
+    outcomesFR?: StringNullableFilter<"Project"> | string | null
     source1?: StringNullableFilter<"Project"> | string | null
     source2?: StringNullableFilter<"Project"> | string | null
     moderationState?: EnumModerationStateFilter<"Project"> | $Enums.ModerationState
@@ -7454,29 +7573,36 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"Project"> | Date | string
     organization?: XOR<OrganizationScalarRelationFilter, OrganizationWhereInput>
     codeRequests?: CodeRequestListRelationFilter
-  }, "id" | "aiRegisterId" | "name_organizationId">
+  }, "id" | "aiRegisterId" | "nameEN_organizationId">
 
   export type ProjectOrderByWithAggregationInput = {
     id?: SortOrder
     aiRegisterId?: SortOrderInput | SortOrder
-    name?: SortOrder
+    nameEN?: SortOrder
+    nameFR?: SortOrder
     serviceInventoryId?: SortOrderInput | SortOrder
     organizationId?: SortOrder
-    description?: SortOrder
+    descriptionEN?: SortOrder
+    descriptionFR?: SortOrder
     primaryUsers?: SortOrder
     developedBy?: SortOrder
     vendorName?: SortOrderInput | SortOrder
     status?: SortOrder
     statusYear?: SortOrderInput | SortOrder
-    capabilities?: SortOrderInput | SortOrder
+    capabilitiesEN?: SortOrderInput | SortOrder
+    capabilitiesFR?: SortOrderInput | SortOrder
     isAutomatedDecisionSystem?: SortOrder
     openGovAiaId?: SortOrderInput | SortOrder
-    dataSources?: SortOrderInput | SortOrder
+    dataSourcesEN?: SortOrderInput | SortOrder
+    dataSourcesFR?: SortOrderInput | SortOrder
     involvesPersonalInfo?: SortOrder
-    personalInformationBanks?: SortOrderInput | SortOrder
+    personalInformationBanksEN?: SortOrderInput | SortOrder
+    personalInformationBanksFR?: SortOrderInput | SortOrder
     hasUserNotification?: SortOrder
-    atipRequestRefs?: SortOrderInput | SortOrder
-    outcomes?: SortOrderInput | SortOrder
+    atipRequestRefsEN?: SortOrderInput | SortOrder
+    atipRequestRefsFR?: SortOrderInput | SortOrder
+    outcomesEN?: SortOrderInput | SortOrder
+    outcomesFR?: SortOrderInput | SortOrder
     source1?: SortOrderInput | SortOrder
     source2?: SortOrderInput | SortOrder
     moderationState?: SortOrder
@@ -7498,24 +7624,31 @@ export namespace Prisma {
     NOT?: ProjectScalarWhereWithAggregatesInput | ProjectScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"Project"> | string
     aiRegisterId?: StringNullableWithAggregatesFilter<"Project"> | string | null
-    name?: StringWithAggregatesFilter<"Project"> | string
+    nameEN?: StringWithAggregatesFilter<"Project"> | string
+    nameFR?: StringWithAggregatesFilter<"Project"> | string
     serviceInventoryId?: StringNullableWithAggregatesFilter<"Project"> | string | null
     organizationId?: StringWithAggregatesFilter<"Project"> | string
-    description?: StringWithAggregatesFilter<"Project"> | string
+    descriptionEN?: StringWithAggregatesFilter<"Project"> | string
+    descriptionFR?: StringWithAggregatesFilter<"Project"> | string
     primaryUsers?: EnumPrimaryUsersWithAggregatesFilter<"Project"> | $Enums.PrimaryUsers
     developedBy?: EnumDevelopedByWithAggregatesFilter<"Project"> | $Enums.DevelopedBy
     vendorName?: StringNullableWithAggregatesFilter<"Project"> | string | null
     status?: EnumProjectStatusWithAggregatesFilter<"Project"> | $Enums.ProjectStatus
     statusYear?: IntNullableWithAggregatesFilter<"Project"> | number | null
-    capabilities?: StringNullableWithAggregatesFilter<"Project"> | string | null
+    capabilitiesEN?: StringNullableWithAggregatesFilter<"Project"> | string | null
+    capabilitiesFR?: StringNullableWithAggregatesFilter<"Project"> | string | null
     isAutomatedDecisionSystem?: BoolWithAggregatesFilter<"Project"> | boolean
     openGovAiaId?: StringNullableWithAggregatesFilter<"Project"> | string | null
-    dataSources?: StringNullableWithAggregatesFilter<"Project"> | string | null
+    dataSourcesEN?: StringNullableWithAggregatesFilter<"Project"> | string | null
+    dataSourcesFR?: StringNullableWithAggregatesFilter<"Project"> | string | null
     involvesPersonalInfo?: BoolWithAggregatesFilter<"Project"> | boolean
-    personalInformationBanks?: StringNullableWithAggregatesFilter<"Project"> | string | null
+    personalInformationBanksEN?: StringNullableWithAggregatesFilter<"Project"> | string | null
+    personalInformationBanksFR?: StringNullableWithAggregatesFilter<"Project"> | string | null
     hasUserNotification?: BoolWithAggregatesFilter<"Project"> | boolean
-    atipRequestRefs?: StringNullableWithAggregatesFilter<"Project"> | string | null
-    outcomes?: StringNullableWithAggregatesFilter<"Project"> | string | null
+    atipRequestRefsEN?: StringNullableWithAggregatesFilter<"Project"> | string | null
+    atipRequestRefsFR?: StringNullableWithAggregatesFilter<"Project"> | string | null
+    outcomesEN?: StringNullableWithAggregatesFilter<"Project"> | string | null
+    outcomesFR?: StringNullableWithAggregatesFilter<"Project"> | string | null
     source1?: StringNullableWithAggregatesFilter<"Project"> | string | null
     source2?: StringNullableWithAggregatesFilter<"Project"> | string | null
     moderationState?: EnumModerationStateWithAggregatesFilter<"Project"> | $Enums.ModerationState
@@ -7789,23 +7922,30 @@ export namespace Prisma {
   export type ProjectCreateInput = {
     id?: string
     aiRegisterId?: string | null
-    name: string
+    nameEN: string
+    nameFR: string
     serviceInventoryId?: string | null
-    description: string
+    descriptionEN: string
+    descriptionFR: string
     primaryUsers: $Enums.PrimaryUsers
     developedBy: $Enums.DevelopedBy
     vendorName?: string | null
     status: $Enums.ProjectStatus
     statusYear?: number | null
-    capabilities?: string | null
+    capabilitiesEN?: string | null
+    capabilitiesFR?: string | null
     isAutomatedDecisionSystem?: boolean
     openGovAiaId?: string | null
-    dataSources?: string | null
+    dataSourcesEN?: string | null
+    dataSourcesFR?: string | null
     involvesPersonalInfo?: boolean
-    personalInformationBanks?: string | null
+    personalInformationBanksEN?: string | null
+    personalInformationBanksFR?: string | null
     hasUserNotification?: boolean
-    atipRequestRefs?: string | null
-    outcomes?: string | null
+    atipRequestRefsEN?: string | null
+    atipRequestRefsFR?: string | null
+    outcomesEN?: string | null
+    outcomesFR?: string | null
     source1?: string | null
     source2?: string | null
     moderationState?: $Enums.ModerationState
@@ -7821,24 +7961,31 @@ export namespace Prisma {
   export type ProjectUncheckedCreateInput = {
     id?: string
     aiRegisterId?: string | null
-    name: string
+    nameEN: string
+    nameFR: string
     serviceInventoryId?: string | null
     organizationId: string
-    description: string
+    descriptionEN: string
+    descriptionFR: string
     primaryUsers: $Enums.PrimaryUsers
     developedBy: $Enums.DevelopedBy
     vendorName?: string | null
     status: $Enums.ProjectStatus
     statusYear?: number | null
-    capabilities?: string | null
+    capabilitiesEN?: string | null
+    capabilitiesFR?: string | null
     isAutomatedDecisionSystem?: boolean
     openGovAiaId?: string | null
-    dataSources?: string | null
+    dataSourcesEN?: string | null
+    dataSourcesFR?: string | null
     involvesPersonalInfo?: boolean
-    personalInformationBanks?: string | null
+    personalInformationBanksEN?: string | null
+    personalInformationBanksFR?: string | null
     hasUserNotification?: boolean
-    atipRequestRefs?: string | null
-    outcomes?: string | null
+    atipRequestRefsEN?: string | null
+    atipRequestRefsFR?: string | null
+    outcomesEN?: string | null
+    outcomesFR?: string | null
     source1?: string | null
     source2?: string | null
     moderationState?: $Enums.ModerationState
@@ -7853,23 +8000,30 @@ export namespace Prisma {
   export type ProjectUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     aiRegisterId?: NullableStringFieldUpdateOperationsInput | string | null
-    name?: StringFieldUpdateOperationsInput | string
+    nameEN?: StringFieldUpdateOperationsInput | string
+    nameFR?: StringFieldUpdateOperationsInput | string
     serviceInventoryId?: NullableStringFieldUpdateOperationsInput | string | null
-    description?: StringFieldUpdateOperationsInput | string
+    descriptionEN?: StringFieldUpdateOperationsInput | string
+    descriptionFR?: StringFieldUpdateOperationsInput | string
     primaryUsers?: EnumPrimaryUsersFieldUpdateOperationsInput | $Enums.PrimaryUsers
     developedBy?: EnumDevelopedByFieldUpdateOperationsInput | $Enums.DevelopedBy
     vendorName?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumProjectStatusFieldUpdateOperationsInput | $Enums.ProjectStatus
     statusYear?: NullableIntFieldUpdateOperationsInput | number | null
-    capabilities?: NullableStringFieldUpdateOperationsInput | string | null
+    capabilitiesEN?: NullableStringFieldUpdateOperationsInput | string | null
+    capabilitiesFR?: NullableStringFieldUpdateOperationsInput | string | null
     isAutomatedDecisionSystem?: BoolFieldUpdateOperationsInput | boolean
     openGovAiaId?: NullableStringFieldUpdateOperationsInput | string | null
-    dataSources?: NullableStringFieldUpdateOperationsInput | string | null
+    dataSourcesEN?: NullableStringFieldUpdateOperationsInput | string | null
+    dataSourcesFR?: NullableStringFieldUpdateOperationsInput | string | null
     involvesPersonalInfo?: BoolFieldUpdateOperationsInput | boolean
-    personalInformationBanks?: NullableStringFieldUpdateOperationsInput | string | null
+    personalInformationBanksEN?: NullableStringFieldUpdateOperationsInput | string | null
+    personalInformationBanksFR?: NullableStringFieldUpdateOperationsInput | string | null
     hasUserNotification?: BoolFieldUpdateOperationsInput | boolean
-    atipRequestRefs?: NullableStringFieldUpdateOperationsInput | string | null
-    outcomes?: NullableStringFieldUpdateOperationsInput | string | null
+    atipRequestRefsEN?: NullableStringFieldUpdateOperationsInput | string | null
+    atipRequestRefsFR?: NullableStringFieldUpdateOperationsInput | string | null
+    outcomesEN?: NullableStringFieldUpdateOperationsInput | string | null
+    outcomesFR?: NullableStringFieldUpdateOperationsInput | string | null
     source1?: NullableStringFieldUpdateOperationsInput | string | null
     source2?: NullableStringFieldUpdateOperationsInput | string | null
     moderationState?: EnumModerationStateFieldUpdateOperationsInput | $Enums.ModerationState
@@ -7885,24 +8039,31 @@ export namespace Prisma {
   export type ProjectUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     aiRegisterId?: NullableStringFieldUpdateOperationsInput | string | null
-    name?: StringFieldUpdateOperationsInput | string
+    nameEN?: StringFieldUpdateOperationsInput | string
+    nameFR?: StringFieldUpdateOperationsInput | string
     serviceInventoryId?: NullableStringFieldUpdateOperationsInput | string | null
     organizationId?: StringFieldUpdateOperationsInput | string
-    description?: StringFieldUpdateOperationsInput | string
+    descriptionEN?: StringFieldUpdateOperationsInput | string
+    descriptionFR?: StringFieldUpdateOperationsInput | string
     primaryUsers?: EnumPrimaryUsersFieldUpdateOperationsInput | $Enums.PrimaryUsers
     developedBy?: EnumDevelopedByFieldUpdateOperationsInput | $Enums.DevelopedBy
     vendorName?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumProjectStatusFieldUpdateOperationsInput | $Enums.ProjectStatus
     statusYear?: NullableIntFieldUpdateOperationsInput | number | null
-    capabilities?: NullableStringFieldUpdateOperationsInput | string | null
+    capabilitiesEN?: NullableStringFieldUpdateOperationsInput | string | null
+    capabilitiesFR?: NullableStringFieldUpdateOperationsInput | string | null
     isAutomatedDecisionSystem?: BoolFieldUpdateOperationsInput | boolean
     openGovAiaId?: NullableStringFieldUpdateOperationsInput | string | null
-    dataSources?: NullableStringFieldUpdateOperationsInput | string | null
+    dataSourcesEN?: NullableStringFieldUpdateOperationsInput | string | null
+    dataSourcesFR?: NullableStringFieldUpdateOperationsInput | string | null
     involvesPersonalInfo?: BoolFieldUpdateOperationsInput | boolean
-    personalInformationBanks?: NullableStringFieldUpdateOperationsInput | string | null
+    personalInformationBanksEN?: NullableStringFieldUpdateOperationsInput | string | null
+    personalInformationBanksFR?: NullableStringFieldUpdateOperationsInput | string | null
     hasUserNotification?: BoolFieldUpdateOperationsInput | boolean
-    atipRequestRefs?: NullableStringFieldUpdateOperationsInput | string | null
-    outcomes?: NullableStringFieldUpdateOperationsInput | string | null
+    atipRequestRefsEN?: NullableStringFieldUpdateOperationsInput | string | null
+    atipRequestRefsFR?: NullableStringFieldUpdateOperationsInput | string | null
+    outcomesEN?: NullableStringFieldUpdateOperationsInput | string | null
+    outcomesFR?: NullableStringFieldUpdateOperationsInput | string | null
     source1?: NullableStringFieldUpdateOperationsInput | string | null
     source2?: NullableStringFieldUpdateOperationsInput | string | null
     moderationState?: EnumModerationStateFieldUpdateOperationsInput | $Enums.ModerationState
@@ -7917,24 +8078,31 @@ export namespace Prisma {
   export type ProjectCreateManyInput = {
     id?: string
     aiRegisterId?: string | null
-    name: string
+    nameEN: string
+    nameFR: string
     serviceInventoryId?: string | null
     organizationId: string
-    description: string
+    descriptionEN: string
+    descriptionFR: string
     primaryUsers: $Enums.PrimaryUsers
     developedBy: $Enums.DevelopedBy
     vendorName?: string | null
     status: $Enums.ProjectStatus
     statusYear?: number | null
-    capabilities?: string | null
+    capabilitiesEN?: string | null
+    capabilitiesFR?: string | null
     isAutomatedDecisionSystem?: boolean
     openGovAiaId?: string | null
-    dataSources?: string | null
+    dataSourcesEN?: string | null
+    dataSourcesFR?: string | null
     involvesPersonalInfo?: boolean
-    personalInformationBanks?: string | null
+    personalInformationBanksEN?: string | null
+    personalInformationBanksFR?: string | null
     hasUserNotification?: boolean
-    atipRequestRefs?: string | null
-    outcomes?: string | null
+    atipRequestRefsEN?: string | null
+    atipRequestRefsFR?: string | null
+    outcomesEN?: string | null
+    outcomesFR?: string | null
     source1?: string | null
     source2?: string | null
     moderationState?: $Enums.ModerationState
@@ -7948,23 +8116,30 @@ export namespace Prisma {
   export type ProjectUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
     aiRegisterId?: NullableStringFieldUpdateOperationsInput | string | null
-    name?: StringFieldUpdateOperationsInput | string
+    nameEN?: StringFieldUpdateOperationsInput | string
+    nameFR?: StringFieldUpdateOperationsInput | string
     serviceInventoryId?: NullableStringFieldUpdateOperationsInput | string | null
-    description?: StringFieldUpdateOperationsInput | string
+    descriptionEN?: StringFieldUpdateOperationsInput | string
+    descriptionFR?: StringFieldUpdateOperationsInput | string
     primaryUsers?: EnumPrimaryUsersFieldUpdateOperationsInput | $Enums.PrimaryUsers
     developedBy?: EnumDevelopedByFieldUpdateOperationsInput | $Enums.DevelopedBy
     vendorName?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumProjectStatusFieldUpdateOperationsInput | $Enums.ProjectStatus
     statusYear?: NullableIntFieldUpdateOperationsInput | number | null
-    capabilities?: NullableStringFieldUpdateOperationsInput | string | null
+    capabilitiesEN?: NullableStringFieldUpdateOperationsInput | string | null
+    capabilitiesFR?: NullableStringFieldUpdateOperationsInput | string | null
     isAutomatedDecisionSystem?: BoolFieldUpdateOperationsInput | boolean
     openGovAiaId?: NullableStringFieldUpdateOperationsInput | string | null
-    dataSources?: NullableStringFieldUpdateOperationsInput | string | null
+    dataSourcesEN?: NullableStringFieldUpdateOperationsInput | string | null
+    dataSourcesFR?: NullableStringFieldUpdateOperationsInput | string | null
     involvesPersonalInfo?: BoolFieldUpdateOperationsInput | boolean
-    personalInformationBanks?: NullableStringFieldUpdateOperationsInput | string | null
+    personalInformationBanksEN?: NullableStringFieldUpdateOperationsInput | string | null
+    personalInformationBanksFR?: NullableStringFieldUpdateOperationsInput | string | null
     hasUserNotification?: BoolFieldUpdateOperationsInput | boolean
-    atipRequestRefs?: NullableStringFieldUpdateOperationsInput | string | null
-    outcomes?: NullableStringFieldUpdateOperationsInput | string | null
+    atipRequestRefsEN?: NullableStringFieldUpdateOperationsInput | string | null
+    atipRequestRefsFR?: NullableStringFieldUpdateOperationsInput | string | null
+    outcomesEN?: NullableStringFieldUpdateOperationsInput | string | null
+    outcomesFR?: NullableStringFieldUpdateOperationsInput | string | null
     source1?: NullableStringFieldUpdateOperationsInput | string | null
     source2?: NullableStringFieldUpdateOperationsInput | string | null
     moderationState?: EnumModerationStateFieldUpdateOperationsInput | $Enums.ModerationState
@@ -7978,24 +8153,31 @@ export namespace Prisma {
   export type ProjectUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
     aiRegisterId?: NullableStringFieldUpdateOperationsInput | string | null
-    name?: StringFieldUpdateOperationsInput | string
+    nameEN?: StringFieldUpdateOperationsInput | string
+    nameFR?: StringFieldUpdateOperationsInput | string
     serviceInventoryId?: NullableStringFieldUpdateOperationsInput | string | null
     organizationId?: StringFieldUpdateOperationsInput | string
-    description?: StringFieldUpdateOperationsInput | string
+    descriptionEN?: StringFieldUpdateOperationsInput | string
+    descriptionFR?: StringFieldUpdateOperationsInput | string
     primaryUsers?: EnumPrimaryUsersFieldUpdateOperationsInput | $Enums.PrimaryUsers
     developedBy?: EnumDevelopedByFieldUpdateOperationsInput | $Enums.DevelopedBy
     vendorName?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumProjectStatusFieldUpdateOperationsInput | $Enums.ProjectStatus
     statusYear?: NullableIntFieldUpdateOperationsInput | number | null
-    capabilities?: NullableStringFieldUpdateOperationsInput | string | null
+    capabilitiesEN?: NullableStringFieldUpdateOperationsInput | string | null
+    capabilitiesFR?: NullableStringFieldUpdateOperationsInput | string | null
     isAutomatedDecisionSystem?: BoolFieldUpdateOperationsInput | boolean
     openGovAiaId?: NullableStringFieldUpdateOperationsInput | string | null
-    dataSources?: NullableStringFieldUpdateOperationsInput | string | null
+    dataSourcesEN?: NullableStringFieldUpdateOperationsInput | string | null
+    dataSourcesFR?: NullableStringFieldUpdateOperationsInput | string | null
     involvesPersonalInfo?: BoolFieldUpdateOperationsInput | boolean
-    personalInformationBanks?: NullableStringFieldUpdateOperationsInput | string | null
+    personalInformationBanksEN?: NullableStringFieldUpdateOperationsInput | string | null
+    personalInformationBanksFR?: NullableStringFieldUpdateOperationsInput | string | null
     hasUserNotification?: BoolFieldUpdateOperationsInput | boolean
-    atipRequestRefs?: NullableStringFieldUpdateOperationsInput | string | null
-    outcomes?: NullableStringFieldUpdateOperationsInput | string | null
+    atipRequestRefsEN?: NullableStringFieldUpdateOperationsInput | string | null
+    atipRequestRefsFR?: NullableStringFieldUpdateOperationsInput | string | null
+    outcomesEN?: NullableStringFieldUpdateOperationsInput | string | null
+    outcomesFR?: NullableStringFieldUpdateOperationsInput | string | null
     source1?: NullableStringFieldUpdateOperationsInput | string | null
     source2?: NullableStringFieldUpdateOperationsInput | string | null
     moderationState?: EnumModerationStateFieldUpdateOperationsInput | $Enums.ModerationState
@@ -8395,32 +8577,39 @@ export namespace Prisma {
     _count?: SortOrder
   }
 
-  export type ProjectNameOrganizationIdCompoundUniqueInput = {
-    name: string
+  export type ProjectNameENOrganizationIdCompoundUniqueInput = {
+    nameEN: string
     organizationId: string
   }
 
   export type ProjectCountOrderByAggregateInput = {
     id?: SortOrder
     aiRegisterId?: SortOrder
-    name?: SortOrder
+    nameEN?: SortOrder
+    nameFR?: SortOrder
     serviceInventoryId?: SortOrder
     organizationId?: SortOrder
-    description?: SortOrder
+    descriptionEN?: SortOrder
+    descriptionFR?: SortOrder
     primaryUsers?: SortOrder
     developedBy?: SortOrder
     vendorName?: SortOrder
     status?: SortOrder
     statusYear?: SortOrder
-    capabilities?: SortOrder
+    capabilitiesEN?: SortOrder
+    capabilitiesFR?: SortOrder
     isAutomatedDecisionSystem?: SortOrder
     openGovAiaId?: SortOrder
-    dataSources?: SortOrder
+    dataSourcesEN?: SortOrder
+    dataSourcesFR?: SortOrder
     involvesPersonalInfo?: SortOrder
-    personalInformationBanks?: SortOrder
+    personalInformationBanksEN?: SortOrder
+    personalInformationBanksFR?: SortOrder
     hasUserNotification?: SortOrder
-    atipRequestRefs?: SortOrder
-    outcomes?: SortOrder
+    atipRequestRefsEN?: SortOrder
+    atipRequestRefsFR?: SortOrder
+    outcomesEN?: SortOrder
+    outcomesFR?: SortOrder
     source1?: SortOrder
     source2?: SortOrder
     moderationState?: SortOrder
@@ -8438,24 +8627,31 @@ export namespace Prisma {
   export type ProjectMaxOrderByAggregateInput = {
     id?: SortOrder
     aiRegisterId?: SortOrder
-    name?: SortOrder
+    nameEN?: SortOrder
+    nameFR?: SortOrder
     serviceInventoryId?: SortOrder
     organizationId?: SortOrder
-    description?: SortOrder
+    descriptionEN?: SortOrder
+    descriptionFR?: SortOrder
     primaryUsers?: SortOrder
     developedBy?: SortOrder
     vendorName?: SortOrder
     status?: SortOrder
     statusYear?: SortOrder
-    capabilities?: SortOrder
+    capabilitiesEN?: SortOrder
+    capabilitiesFR?: SortOrder
     isAutomatedDecisionSystem?: SortOrder
     openGovAiaId?: SortOrder
-    dataSources?: SortOrder
+    dataSourcesEN?: SortOrder
+    dataSourcesFR?: SortOrder
     involvesPersonalInfo?: SortOrder
-    personalInformationBanks?: SortOrder
+    personalInformationBanksEN?: SortOrder
+    personalInformationBanksFR?: SortOrder
     hasUserNotification?: SortOrder
-    atipRequestRefs?: SortOrder
-    outcomes?: SortOrder
+    atipRequestRefsEN?: SortOrder
+    atipRequestRefsFR?: SortOrder
+    outcomesEN?: SortOrder
+    outcomesFR?: SortOrder
     source1?: SortOrder
     source2?: SortOrder
     moderationState?: SortOrder
@@ -8469,24 +8665,31 @@ export namespace Prisma {
   export type ProjectMinOrderByAggregateInput = {
     id?: SortOrder
     aiRegisterId?: SortOrder
-    name?: SortOrder
+    nameEN?: SortOrder
+    nameFR?: SortOrder
     serviceInventoryId?: SortOrder
     organizationId?: SortOrder
-    description?: SortOrder
+    descriptionEN?: SortOrder
+    descriptionFR?: SortOrder
     primaryUsers?: SortOrder
     developedBy?: SortOrder
     vendorName?: SortOrder
     status?: SortOrder
     statusYear?: SortOrder
-    capabilities?: SortOrder
+    capabilitiesEN?: SortOrder
+    capabilitiesFR?: SortOrder
     isAutomatedDecisionSystem?: SortOrder
     openGovAiaId?: SortOrder
-    dataSources?: SortOrder
+    dataSourcesEN?: SortOrder
+    dataSourcesFR?: SortOrder
     involvesPersonalInfo?: SortOrder
-    personalInformationBanks?: SortOrder
+    personalInformationBanksEN?: SortOrder
+    personalInformationBanksFR?: SortOrder
     hasUserNotification?: SortOrder
-    atipRequestRefs?: SortOrder
-    outcomes?: SortOrder
+    atipRequestRefsEN?: SortOrder
+    atipRequestRefsFR?: SortOrder
+    outcomesEN?: SortOrder
+    outcomesFR?: SortOrder
     source1?: SortOrder
     source2?: SortOrder
     moderationState?: SortOrder
@@ -9308,23 +9511,30 @@ export namespace Prisma {
   export type ProjectCreateWithoutOrganizationInput = {
     id?: string
     aiRegisterId?: string | null
-    name: string
+    nameEN: string
+    nameFR: string
     serviceInventoryId?: string | null
-    description: string
+    descriptionEN: string
+    descriptionFR: string
     primaryUsers: $Enums.PrimaryUsers
     developedBy: $Enums.DevelopedBy
     vendorName?: string | null
     status: $Enums.ProjectStatus
     statusYear?: number | null
-    capabilities?: string | null
+    capabilitiesEN?: string | null
+    capabilitiesFR?: string | null
     isAutomatedDecisionSystem?: boolean
     openGovAiaId?: string | null
-    dataSources?: string | null
+    dataSourcesEN?: string | null
+    dataSourcesFR?: string | null
     involvesPersonalInfo?: boolean
-    personalInformationBanks?: string | null
+    personalInformationBanksEN?: string | null
+    personalInformationBanksFR?: string | null
     hasUserNotification?: boolean
-    atipRequestRefs?: string | null
-    outcomes?: string | null
+    atipRequestRefsEN?: string | null
+    atipRequestRefsFR?: string | null
+    outcomesEN?: string | null
+    outcomesFR?: string | null
     source1?: string | null
     source2?: string | null
     moderationState?: $Enums.ModerationState
@@ -9339,23 +9549,30 @@ export namespace Prisma {
   export type ProjectUncheckedCreateWithoutOrganizationInput = {
     id?: string
     aiRegisterId?: string | null
-    name: string
+    nameEN: string
+    nameFR: string
     serviceInventoryId?: string | null
-    description: string
+    descriptionEN: string
+    descriptionFR: string
     primaryUsers: $Enums.PrimaryUsers
     developedBy: $Enums.DevelopedBy
     vendorName?: string | null
     status: $Enums.ProjectStatus
     statusYear?: number | null
-    capabilities?: string | null
+    capabilitiesEN?: string | null
+    capabilitiesFR?: string | null
     isAutomatedDecisionSystem?: boolean
     openGovAiaId?: string | null
-    dataSources?: string | null
+    dataSourcesEN?: string | null
+    dataSourcesFR?: string | null
     involvesPersonalInfo?: boolean
-    personalInformationBanks?: string | null
+    personalInformationBanksEN?: string | null
+    personalInformationBanksFR?: string | null
     hasUserNotification?: boolean
-    atipRequestRefs?: string | null
-    outcomes?: string | null
+    atipRequestRefsEN?: string | null
+    atipRequestRefsFR?: string | null
+    outcomesEN?: string | null
+    outcomesFR?: string | null
     source1?: string | null
     source2?: string | null
     moderationState?: $Enums.ModerationState
@@ -9398,24 +9615,31 @@ export namespace Prisma {
     NOT?: ProjectScalarWhereInput | ProjectScalarWhereInput[]
     id?: StringFilter<"Project"> | string
     aiRegisterId?: StringNullableFilter<"Project"> | string | null
-    name?: StringFilter<"Project"> | string
+    nameEN?: StringFilter<"Project"> | string
+    nameFR?: StringFilter<"Project"> | string
     serviceInventoryId?: StringNullableFilter<"Project"> | string | null
     organizationId?: StringFilter<"Project"> | string
-    description?: StringFilter<"Project"> | string
+    descriptionEN?: StringFilter<"Project"> | string
+    descriptionFR?: StringFilter<"Project"> | string
     primaryUsers?: EnumPrimaryUsersFilter<"Project"> | $Enums.PrimaryUsers
     developedBy?: EnumDevelopedByFilter<"Project"> | $Enums.DevelopedBy
     vendorName?: StringNullableFilter<"Project"> | string | null
     status?: EnumProjectStatusFilter<"Project"> | $Enums.ProjectStatus
     statusYear?: IntNullableFilter<"Project"> | number | null
-    capabilities?: StringNullableFilter<"Project"> | string | null
+    capabilitiesEN?: StringNullableFilter<"Project"> | string | null
+    capabilitiesFR?: StringNullableFilter<"Project"> | string | null
     isAutomatedDecisionSystem?: BoolFilter<"Project"> | boolean
     openGovAiaId?: StringNullableFilter<"Project"> | string | null
-    dataSources?: StringNullableFilter<"Project"> | string | null
+    dataSourcesEN?: StringNullableFilter<"Project"> | string | null
+    dataSourcesFR?: StringNullableFilter<"Project"> | string | null
     involvesPersonalInfo?: BoolFilter<"Project"> | boolean
-    personalInformationBanks?: StringNullableFilter<"Project"> | string | null
+    personalInformationBanksEN?: StringNullableFilter<"Project"> | string | null
+    personalInformationBanksFR?: StringNullableFilter<"Project"> | string | null
     hasUserNotification?: BoolFilter<"Project"> | boolean
-    atipRequestRefs?: StringNullableFilter<"Project"> | string | null
-    outcomes?: StringNullableFilter<"Project"> | string | null
+    atipRequestRefsEN?: StringNullableFilter<"Project"> | string | null
+    atipRequestRefsFR?: StringNullableFilter<"Project"> | string | null
+    outcomesEN?: StringNullableFilter<"Project"> | string | null
+    outcomesFR?: StringNullableFilter<"Project"> | string | null
     source1?: StringNullableFilter<"Project"> | string | null
     source2?: StringNullableFilter<"Project"> | string | null
     moderationState?: EnumModerationStateFilter<"Project"> | $Enums.ModerationState
@@ -9485,23 +9709,30 @@ export namespace Prisma {
   export type ProjectCreateWithoutCodeRequestsInput = {
     id?: string
     aiRegisterId?: string | null
-    name: string
+    nameEN: string
+    nameFR: string
     serviceInventoryId?: string | null
-    description: string
+    descriptionEN: string
+    descriptionFR: string
     primaryUsers: $Enums.PrimaryUsers
     developedBy: $Enums.DevelopedBy
     vendorName?: string | null
     status: $Enums.ProjectStatus
     statusYear?: number | null
-    capabilities?: string | null
+    capabilitiesEN?: string | null
+    capabilitiesFR?: string | null
     isAutomatedDecisionSystem?: boolean
     openGovAiaId?: string | null
-    dataSources?: string | null
+    dataSourcesEN?: string | null
+    dataSourcesFR?: string | null
     involvesPersonalInfo?: boolean
-    personalInformationBanks?: string | null
+    personalInformationBanksEN?: string | null
+    personalInformationBanksFR?: string | null
     hasUserNotification?: boolean
-    atipRequestRefs?: string | null
-    outcomes?: string | null
+    atipRequestRefsEN?: string | null
+    atipRequestRefsFR?: string | null
+    outcomesEN?: string | null
+    outcomesFR?: string | null
     source1?: string | null
     source2?: string | null
     moderationState?: $Enums.ModerationState
@@ -9516,24 +9747,31 @@ export namespace Prisma {
   export type ProjectUncheckedCreateWithoutCodeRequestsInput = {
     id?: string
     aiRegisterId?: string | null
-    name: string
+    nameEN: string
+    nameFR: string
     serviceInventoryId?: string | null
     organizationId: string
-    description: string
+    descriptionEN: string
+    descriptionFR: string
     primaryUsers: $Enums.PrimaryUsers
     developedBy: $Enums.DevelopedBy
     vendorName?: string | null
     status: $Enums.ProjectStatus
     statusYear?: number | null
-    capabilities?: string | null
+    capabilitiesEN?: string | null
+    capabilitiesFR?: string | null
     isAutomatedDecisionSystem?: boolean
     openGovAiaId?: string | null
-    dataSources?: string | null
+    dataSourcesEN?: string | null
+    dataSourcesFR?: string | null
     involvesPersonalInfo?: boolean
-    personalInformationBanks?: string | null
+    personalInformationBanksEN?: string | null
+    personalInformationBanksFR?: string | null
     hasUserNotification?: boolean
-    atipRequestRefs?: string | null
-    outcomes?: string | null
+    atipRequestRefsEN?: string | null
+    atipRequestRefsFR?: string | null
+    outcomesEN?: string | null
+    outcomesFR?: string | null
     source1?: string | null
     source2?: string | null
     moderationState?: $Enums.ModerationState
@@ -9563,23 +9801,30 @@ export namespace Prisma {
   export type ProjectUpdateWithoutCodeRequestsInput = {
     id?: StringFieldUpdateOperationsInput | string
     aiRegisterId?: NullableStringFieldUpdateOperationsInput | string | null
-    name?: StringFieldUpdateOperationsInput | string
+    nameEN?: StringFieldUpdateOperationsInput | string
+    nameFR?: StringFieldUpdateOperationsInput | string
     serviceInventoryId?: NullableStringFieldUpdateOperationsInput | string | null
-    description?: StringFieldUpdateOperationsInput | string
+    descriptionEN?: StringFieldUpdateOperationsInput | string
+    descriptionFR?: StringFieldUpdateOperationsInput | string
     primaryUsers?: EnumPrimaryUsersFieldUpdateOperationsInput | $Enums.PrimaryUsers
     developedBy?: EnumDevelopedByFieldUpdateOperationsInput | $Enums.DevelopedBy
     vendorName?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumProjectStatusFieldUpdateOperationsInput | $Enums.ProjectStatus
     statusYear?: NullableIntFieldUpdateOperationsInput | number | null
-    capabilities?: NullableStringFieldUpdateOperationsInput | string | null
+    capabilitiesEN?: NullableStringFieldUpdateOperationsInput | string | null
+    capabilitiesFR?: NullableStringFieldUpdateOperationsInput | string | null
     isAutomatedDecisionSystem?: BoolFieldUpdateOperationsInput | boolean
     openGovAiaId?: NullableStringFieldUpdateOperationsInput | string | null
-    dataSources?: NullableStringFieldUpdateOperationsInput | string | null
+    dataSourcesEN?: NullableStringFieldUpdateOperationsInput | string | null
+    dataSourcesFR?: NullableStringFieldUpdateOperationsInput | string | null
     involvesPersonalInfo?: BoolFieldUpdateOperationsInput | boolean
-    personalInformationBanks?: NullableStringFieldUpdateOperationsInput | string | null
+    personalInformationBanksEN?: NullableStringFieldUpdateOperationsInput | string | null
+    personalInformationBanksFR?: NullableStringFieldUpdateOperationsInput | string | null
     hasUserNotification?: BoolFieldUpdateOperationsInput | boolean
-    atipRequestRefs?: NullableStringFieldUpdateOperationsInput | string | null
-    outcomes?: NullableStringFieldUpdateOperationsInput | string | null
+    atipRequestRefsEN?: NullableStringFieldUpdateOperationsInput | string | null
+    atipRequestRefsFR?: NullableStringFieldUpdateOperationsInput | string | null
+    outcomesEN?: NullableStringFieldUpdateOperationsInput | string | null
+    outcomesFR?: NullableStringFieldUpdateOperationsInput | string | null
     source1?: NullableStringFieldUpdateOperationsInput | string | null
     source2?: NullableStringFieldUpdateOperationsInput | string | null
     moderationState?: EnumModerationStateFieldUpdateOperationsInput | $Enums.ModerationState
@@ -9594,24 +9839,31 @@ export namespace Prisma {
   export type ProjectUncheckedUpdateWithoutCodeRequestsInput = {
     id?: StringFieldUpdateOperationsInput | string
     aiRegisterId?: NullableStringFieldUpdateOperationsInput | string | null
-    name?: StringFieldUpdateOperationsInput | string
+    nameEN?: StringFieldUpdateOperationsInput | string
+    nameFR?: StringFieldUpdateOperationsInput | string
     serviceInventoryId?: NullableStringFieldUpdateOperationsInput | string | null
     organizationId?: StringFieldUpdateOperationsInput | string
-    description?: StringFieldUpdateOperationsInput | string
+    descriptionEN?: StringFieldUpdateOperationsInput | string
+    descriptionFR?: StringFieldUpdateOperationsInput | string
     primaryUsers?: EnumPrimaryUsersFieldUpdateOperationsInput | $Enums.PrimaryUsers
     developedBy?: EnumDevelopedByFieldUpdateOperationsInput | $Enums.DevelopedBy
     vendorName?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumProjectStatusFieldUpdateOperationsInput | $Enums.ProjectStatus
     statusYear?: NullableIntFieldUpdateOperationsInput | number | null
-    capabilities?: NullableStringFieldUpdateOperationsInput | string | null
+    capabilitiesEN?: NullableStringFieldUpdateOperationsInput | string | null
+    capabilitiesFR?: NullableStringFieldUpdateOperationsInput | string | null
     isAutomatedDecisionSystem?: BoolFieldUpdateOperationsInput | boolean
     openGovAiaId?: NullableStringFieldUpdateOperationsInput | string | null
-    dataSources?: NullableStringFieldUpdateOperationsInput | string | null
+    dataSourcesEN?: NullableStringFieldUpdateOperationsInput | string | null
+    dataSourcesFR?: NullableStringFieldUpdateOperationsInput | string | null
     involvesPersonalInfo?: BoolFieldUpdateOperationsInput | boolean
-    personalInformationBanks?: NullableStringFieldUpdateOperationsInput | string | null
+    personalInformationBanksEN?: NullableStringFieldUpdateOperationsInput | string | null
+    personalInformationBanksFR?: NullableStringFieldUpdateOperationsInput | string | null
     hasUserNotification?: BoolFieldUpdateOperationsInput | boolean
-    atipRequestRefs?: NullableStringFieldUpdateOperationsInput | string | null
-    outcomes?: NullableStringFieldUpdateOperationsInput | string | null
+    atipRequestRefsEN?: NullableStringFieldUpdateOperationsInput | string | null
+    atipRequestRefsFR?: NullableStringFieldUpdateOperationsInput | string | null
+    outcomesEN?: NullableStringFieldUpdateOperationsInput | string | null
+    outcomesFR?: NullableStringFieldUpdateOperationsInput | string | null
     source1?: NullableStringFieldUpdateOperationsInput | string | null
     source2?: NullableStringFieldUpdateOperationsInput | string | null
     moderationState?: EnumModerationStateFieldUpdateOperationsInput | $Enums.ModerationState
@@ -9717,23 +9969,30 @@ export namespace Prisma {
   export type ProjectCreateManyOrganizationInput = {
     id?: string
     aiRegisterId?: string | null
-    name: string
+    nameEN: string
+    nameFR: string
     serviceInventoryId?: string | null
-    description: string
+    descriptionEN: string
+    descriptionFR: string
     primaryUsers: $Enums.PrimaryUsers
     developedBy: $Enums.DevelopedBy
     vendorName?: string | null
     status: $Enums.ProjectStatus
     statusYear?: number | null
-    capabilities?: string | null
+    capabilitiesEN?: string | null
+    capabilitiesFR?: string | null
     isAutomatedDecisionSystem?: boolean
     openGovAiaId?: string | null
-    dataSources?: string | null
+    dataSourcesEN?: string | null
+    dataSourcesFR?: string | null
     involvesPersonalInfo?: boolean
-    personalInformationBanks?: string | null
+    personalInformationBanksEN?: string | null
+    personalInformationBanksFR?: string | null
     hasUserNotification?: boolean
-    atipRequestRefs?: string | null
-    outcomes?: string | null
+    atipRequestRefsEN?: string | null
+    atipRequestRefsFR?: string | null
+    outcomesEN?: string | null
+    outcomesFR?: string | null
     source1?: string | null
     source2?: string | null
     moderationState?: $Enums.ModerationState
@@ -9747,23 +10006,30 @@ export namespace Prisma {
   export type ProjectUpdateWithoutOrganizationInput = {
     id?: StringFieldUpdateOperationsInput | string
     aiRegisterId?: NullableStringFieldUpdateOperationsInput | string | null
-    name?: StringFieldUpdateOperationsInput | string
+    nameEN?: StringFieldUpdateOperationsInput | string
+    nameFR?: StringFieldUpdateOperationsInput | string
     serviceInventoryId?: NullableStringFieldUpdateOperationsInput | string | null
-    description?: StringFieldUpdateOperationsInput | string
+    descriptionEN?: StringFieldUpdateOperationsInput | string
+    descriptionFR?: StringFieldUpdateOperationsInput | string
     primaryUsers?: EnumPrimaryUsersFieldUpdateOperationsInput | $Enums.PrimaryUsers
     developedBy?: EnumDevelopedByFieldUpdateOperationsInput | $Enums.DevelopedBy
     vendorName?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumProjectStatusFieldUpdateOperationsInput | $Enums.ProjectStatus
     statusYear?: NullableIntFieldUpdateOperationsInput | number | null
-    capabilities?: NullableStringFieldUpdateOperationsInput | string | null
+    capabilitiesEN?: NullableStringFieldUpdateOperationsInput | string | null
+    capabilitiesFR?: NullableStringFieldUpdateOperationsInput | string | null
     isAutomatedDecisionSystem?: BoolFieldUpdateOperationsInput | boolean
     openGovAiaId?: NullableStringFieldUpdateOperationsInput | string | null
-    dataSources?: NullableStringFieldUpdateOperationsInput | string | null
+    dataSourcesEN?: NullableStringFieldUpdateOperationsInput | string | null
+    dataSourcesFR?: NullableStringFieldUpdateOperationsInput | string | null
     involvesPersonalInfo?: BoolFieldUpdateOperationsInput | boolean
-    personalInformationBanks?: NullableStringFieldUpdateOperationsInput | string | null
+    personalInformationBanksEN?: NullableStringFieldUpdateOperationsInput | string | null
+    personalInformationBanksFR?: NullableStringFieldUpdateOperationsInput | string | null
     hasUserNotification?: BoolFieldUpdateOperationsInput | boolean
-    atipRequestRefs?: NullableStringFieldUpdateOperationsInput | string | null
-    outcomes?: NullableStringFieldUpdateOperationsInput | string | null
+    atipRequestRefsEN?: NullableStringFieldUpdateOperationsInput | string | null
+    atipRequestRefsFR?: NullableStringFieldUpdateOperationsInput | string | null
+    outcomesEN?: NullableStringFieldUpdateOperationsInput | string | null
+    outcomesFR?: NullableStringFieldUpdateOperationsInput | string | null
     source1?: NullableStringFieldUpdateOperationsInput | string | null
     source2?: NullableStringFieldUpdateOperationsInput | string | null
     moderationState?: EnumModerationStateFieldUpdateOperationsInput | $Enums.ModerationState
@@ -9778,23 +10044,30 @@ export namespace Prisma {
   export type ProjectUncheckedUpdateWithoutOrganizationInput = {
     id?: StringFieldUpdateOperationsInput | string
     aiRegisterId?: NullableStringFieldUpdateOperationsInput | string | null
-    name?: StringFieldUpdateOperationsInput | string
+    nameEN?: StringFieldUpdateOperationsInput | string
+    nameFR?: StringFieldUpdateOperationsInput | string
     serviceInventoryId?: NullableStringFieldUpdateOperationsInput | string | null
-    description?: StringFieldUpdateOperationsInput | string
+    descriptionEN?: StringFieldUpdateOperationsInput | string
+    descriptionFR?: StringFieldUpdateOperationsInput | string
     primaryUsers?: EnumPrimaryUsersFieldUpdateOperationsInput | $Enums.PrimaryUsers
     developedBy?: EnumDevelopedByFieldUpdateOperationsInput | $Enums.DevelopedBy
     vendorName?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumProjectStatusFieldUpdateOperationsInput | $Enums.ProjectStatus
     statusYear?: NullableIntFieldUpdateOperationsInput | number | null
-    capabilities?: NullableStringFieldUpdateOperationsInput | string | null
+    capabilitiesEN?: NullableStringFieldUpdateOperationsInput | string | null
+    capabilitiesFR?: NullableStringFieldUpdateOperationsInput | string | null
     isAutomatedDecisionSystem?: BoolFieldUpdateOperationsInput | boolean
     openGovAiaId?: NullableStringFieldUpdateOperationsInput | string | null
-    dataSources?: NullableStringFieldUpdateOperationsInput | string | null
+    dataSourcesEN?: NullableStringFieldUpdateOperationsInput | string | null
+    dataSourcesFR?: NullableStringFieldUpdateOperationsInput | string | null
     involvesPersonalInfo?: BoolFieldUpdateOperationsInput | boolean
-    personalInformationBanks?: NullableStringFieldUpdateOperationsInput | string | null
+    personalInformationBanksEN?: NullableStringFieldUpdateOperationsInput | string | null
+    personalInformationBanksFR?: NullableStringFieldUpdateOperationsInput | string | null
     hasUserNotification?: BoolFieldUpdateOperationsInput | boolean
-    atipRequestRefs?: NullableStringFieldUpdateOperationsInput | string | null
-    outcomes?: NullableStringFieldUpdateOperationsInput | string | null
+    atipRequestRefsEN?: NullableStringFieldUpdateOperationsInput | string | null
+    atipRequestRefsFR?: NullableStringFieldUpdateOperationsInput | string | null
+    outcomesEN?: NullableStringFieldUpdateOperationsInput | string | null
+    outcomesFR?: NullableStringFieldUpdateOperationsInput | string | null
     source1?: NullableStringFieldUpdateOperationsInput | string | null
     source2?: NullableStringFieldUpdateOperationsInput | string | null
     moderationState?: EnumModerationStateFieldUpdateOperationsInput | $Enums.ModerationState
@@ -9809,23 +10082,30 @@ export namespace Prisma {
   export type ProjectUncheckedUpdateManyWithoutOrganizationInput = {
     id?: StringFieldUpdateOperationsInput | string
     aiRegisterId?: NullableStringFieldUpdateOperationsInput | string | null
-    name?: StringFieldUpdateOperationsInput | string
+    nameEN?: StringFieldUpdateOperationsInput | string
+    nameFR?: StringFieldUpdateOperationsInput | string
     serviceInventoryId?: NullableStringFieldUpdateOperationsInput | string | null
-    description?: StringFieldUpdateOperationsInput | string
+    descriptionEN?: StringFieldUpdateOperationsInput | string
+    descriptionFR?: StringFieldUpdateOperationsInput | string
     primaryUsers?: EnumPrimaryUsersFieldUpdateOperationsInput | $Enums.PrimaryUsers
     developedBy?: EnumDevelopedByFieldUpdateOperationsInput | $Enums.DevelopedBy
     vendorName?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumProjectStatusFieldUpdateOperationsInput | $Enums.ProjectStatus
     statusYear?: NullableIntFieldUpdateOperationsInput | number | null
-    capabilities?: NullableStringFieldUpdateOperationsInput | string | null
+    capabilitiesEN?: NullableStringFieldUpdateOperationsInput | string | null
+    capabilitiesFR?: NullableStringFieldUpdateOperationsInput | string | null
     isAutomatedDecisionSystem?: BoolFieldUpdateOperationsInput | boolean
     openGovAiaId?: NullableStringFieldUpdateOperationsInput | string | null
-    dataSources?: NullableStringFieldUpdateOperationsInput | string | null
+    dataSourcesEN?: NullableStringFieldUpdateOperationsInput | string | null
+    dataSourcesFR?: NullableStringFieldUpdateOperationsInput | string | null
     involvesPersonalInfo?: BoolFieldUpdateOperationsInput | boolean
-    personalInformationBanks?: NullableStringFieldUpdateOperationsInput | string | null
+    personalInformationBanksEN?: NullableStringFieldUpdateOperationsInput | string | null
+    personalInformationBanksFR?: NullableStringFieldUpdateOperationsInput | string | null
     hasUserNotification?: BoolFieldUpdateOperationsInput | boolean
-    atipRequestRefs?: NullableStringFieldUpdateOperationsInput | string | null
-    outcomes?: NullableStringFieldUpdateOperationsInput | string | null
+    atipRequestRefsEN?: NullableStringFieldUpdateOperationsInput | string | null
+    atipRequestRefsFR?: NullableStringFieldUpdateOperationsInput | string | null
+    outcomesEN?: NullableStringFieldUpdateOperationsInput | string | null
+    outcomesFR?: NullableStringFieldUpdateOperationsInput | string | null
     source1?: NullableStringFieldUpdateOperationsInput | string | null
     source2?: NullableStringFieldUpdateOperationsInput | string | null
     moderationState?: EnumModerationStateFieldUpdateOperationsInput | $Enums.ModerationState

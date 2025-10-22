@@ -1,13 +1,16 @@
 import { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { Button } from '@/components/ui/button';
 import { Menu, X, Moon, Sun, Github } from 'lucide-react';
+import { LanguageSwitcher } from '@/components/LanguageSwitcher';
 import gcLogo from '@/assets/gc-logo.png';
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isDark, setIsDark] = useState(false);
   const location = useLocation();
+  const { t } = useTranslation('common');
 
   const toggleTheme = () => {
     setIsDark(!isDark);
@@ -15,9 +18,9 @@ const Header = () => {
   };
 
   const navigation = [
-    { name: 'Projects', href: '/' },
-    { name: 'Resources', href: '/resources' },
-    { name: 'About', href: '/about' },
+    { name: t('nav.projects'), href: '/' },
+    { name: t('nav.resources'), href: '/resources' },
+    { name: t('nav.about'), href: '/about' },
   ];
 
   const isActive = (href: string) => {
@@ -34,11 +37,11 @@ const Header = () => {
           <Link to="/" className="flex items-center gap-3 hover:opacity-80 transition-opacity">
             <img src={gcLogo} alt="Government of Canada" className="h-8 w-8" />
             <div className="hidden sm:block">
-              <span className="text-lg font-bold text-foreground">GC AI Hub</span>
-              <span className="text-sm text-muted-foreground ml-2">Share, Learn, Re-use</span>
+              <span className="text-lg font-bold text-foreground">{t('header.appName')}</span>
+              <span className="text-sm text-muted-foreground ml-2">{t('header.tagline')}</span>
             </div>
             <div className="sm:hidden">
-              <span className="text-lg font-bold text-foreground">GC AI</span>
+              <span className="text-lg font-bold text-foreground">{t('header.appName')}</span>
             </div>
           </Link>
 
@@ -61,11 +64,13 @@ const Header = () => {
 
           {/* Actions */}
           <div className="flex items-center gap-3">
+            <LanguageSwitcher />
             <Button
               variant="ghost"
               size="sm"
               onClick={toggleTheme}
               className="h-9 w-9 p-0"
+              aria-label={t('header.toggleTheme')}
             >
               {isDark ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
             </Button>
@@ -79,7 +84,7 @@ const Header = () => {
                 href="https://github.com/gc-ai"
                 target="_blank"
                 rel="noopener noreferrer"
-                aria-label="GitHub Repository"
+                aria-label={t('header.githubRepo')}
               >
                 <Github className="h-4 w-4" />
               </a>
@@ -89,7 +94,7 @@ const Header = () => {
               size="sm"
               className="hidden sm:inline-flex"
             >
-              Add Project
+              {t('header.addProject')}
             </Button>
 
             {/* Mobile menu button */}
@@ -123,7 +128,7 @@ const Header = () => {
                 </Link>
               ))}
               <Button variant="outline" size="sm" className="mx-3 mt-2 w-fit">
-                Add Project
+                {t('header.addProject')}
               </Button>
             </nav>
           </div>
