@@ -8,6 +8,7 @@ import projectsRouter from './routes/projects';
 import organizationsRouter from './routes/organizations';
 import registryRouter from './routes/registry';
 import assistantRouter from './routes/assistant';
+import adminRouter from './routes/admin';
 
 // Load environment variables
 dotenv.config();
@@ -47,6 +48,7 @@ app.use('/api/projects', projectsRouter);
 app.use('/api/organizations', organizationsRouter);
 app.use('/api/registry', registryRouter);
 app.use('/api/assistant', assistantRouter);
+app.use('/api/admin', adminRouter);
 
 // Serve static files in production
 if (process.env.NODE_ENV === 'production') {

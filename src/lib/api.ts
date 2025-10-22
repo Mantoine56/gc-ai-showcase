@@ -6,6 +6,7 @@ import {
   CreateProjectInput,
   UpdateProjectInput,
   ImportResult,
+  AdminStatsResponse,
 } from '@/types';
 
 // API base URL from environment variable
@@ -271,5 +272,22 @@ export const assistantApi = {
     starters: string[];
   }> {
     return fetchAPI('/assistant/starters');
+  },
+};
+
+/**
+ * Admin API
+ */
+export const adminApi = {
+  /**
+   * Get comprehensive admin analytics
+   */
+  async getStats(params?: { scope?: 'published' | 'all'; includeCodeRequests?: boolean }): Promise<AdminStatsResponse> {
+    const url = new URL(`${API_BASE_URL}/admin/stats`);
+    if (params?.scope) url.searchParams.set('scope', params.scope);
+    if (params?.includeCodeRequests !== undefined) {
+      url.searchParams.set('includeCodeRequests', String(params.includeCodeRequests));
+    }
+    return fetchAPI<AdminStatsResponse>(url.toString().replace(API_BASE_URL, ''));
   },
 };

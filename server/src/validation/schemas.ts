@@ -141,3 +141,11 @@ export type ProjectQuery = z.infer<typeof ProjectQuerySchema>;
 export type CreateOrganizationInput = z.infer<typeof CreateOrganizationSchema>;
 export type UpdateOrganizationInput = z.infer<typeof UpdateOrganizationSchema>;
 export type CreateCodeRequestInput = z.infer<typeof CreateCodeRequestSchema>;
+
+// Admin stats query schema
+export const AdminStatsQuerySchema = z.object({
+  scope: z.enum(['published', 'all']).optional().default('published'),
+  includeCodeRequests: z.enum(['true', 'false']).optional().default('true'),
+});
+
+export type AdminStatsQuery = z.infer<typeof AdminStatsQuerySchema>;

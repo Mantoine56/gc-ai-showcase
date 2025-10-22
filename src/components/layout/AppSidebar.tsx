@@ -5,6 +5,7 @@ import {
   BookOpen,
   Info,
   Plus,
+  BarChart3,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
@@ -24,6 +25,7 @@ const navigation = [
   { title: "All Projects", url: "/", icon: FolderOpen },
   { title: "Resources", url: "/resources", icon: BookOpen },
   { title: "About", url: "/about", icon: Info },
+  { title: "Admin Stats", url: "/admin/stats", icon: BarChart3 },
 ];
 
 export function AppSidebar() {

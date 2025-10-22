@@ -14,6 +14,7 @@ GC AI Hub is a modern web application designed to provide transparency and facil
 - **Multi-Step Submission** - Guided project submission workflow with validation
 - **Excel Integration** - Import/export projects in Excel format
 - **Responsive Design** - Mobile-first design using Government of Canada Design System (GCDS)
+ - **Admin Analytics** - `/admin/stats` page with comprehensive KPIs and charts (toggle: Published vs All)
 
 ### Technical Highlights
 

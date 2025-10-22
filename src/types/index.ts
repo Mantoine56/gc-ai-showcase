@@ -201,3 +201,76 @@ export interface ImportResult {
   errors: Array<{ row: number; error: string }>;
   warnings: Array<{ row: number; warning: string }>;
 }
+
+// Admin Stats types mirroring /api/admin/stats response
+export type AdminStatsScope = 'published' | 'all';
+
+export interface AdminStatsDistributionItem {
+  key: string;
+  count: number;
+}
+
+export interface AdminStatsSummary {
+  total: number;
+  featured: number;
+  inProduction: number;
+  organizations: number;
+  adsCount: number;
+  personalInfoCount: number;
+  hasUserNotificationCount: number;
+  openGovAiaProvided: number;
+}
+
+export interface AdminStatsOrganizations {
+  top: Array<{ organizationId: string; name: string; count: number }>;
+  othersCount: number;
+  matrix: Array<{ organizationId: string; name: string; status: string; count: number }>;
+}
+
+export interface AdminStatsVendors {
+  top: Array<{ vendorName: string; count: number }>;
+}
+
+export interface AdminStatsTimeSeries {
+  months: string[];
+  createdMonthly: number[];
+  publishedMonthly: number[];
+  cumulative: number[];
+}
+
+export interface AdminStatsGovernance {
+  statusYearBuckets: Array<{ year: number; count: number }>;
+  openGovAiaProvided: number;
+}
+
+export interface AdminStatsContentTopItem { key: string; count: number }
+
+export interface AdminStatsContent {
+  capabilitiesTop: AdminStatsContentTopItem[];
+  pibCodesTop: AdminStatsContentTopItem[];
+}
+
+export interface AdminStatsCodeRequests {
+  total: number;
+  countsByStatus: AdminStatsDistributionItem[];
+  months: string[];
+  createdMonthly: number[];
+  byProjectTop: Array<{ projectId: string; projectName: string; count: number }>;
+}
+
+export interface AdminStatsResponse {
+  scope: AdminStatsScope;
+  summary: AdminStatsSummary;
+  distributions: {
+    status: AdminStatsDistributionItem[];
+    moderationState: AdminStatsDistributionItem[];
+    developedBy: AdminStatsDistributionItem[];
+    primaryUsers: AdminStatsDistributionItem[];
+  };
+  organizations: AdminStatsOrganizations;
+  vendors: AdminStatsVendors;
+  timeSeries: AdminStatsTimeSeries;
+  governance: AdminStatsGovernance;
+  content: AdminStatsContent;
+  codeRequests?: AdminStatsCodeRequests;
+}
