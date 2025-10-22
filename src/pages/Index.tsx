@@ -23,8 +23,27 @@ const Index = () => {
   const [filterPersonalInfo, setFilterPersonalInfo] = useState(false);
   const [sortBy, setSortBy] = useState<string>('createdAt');
   const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('desc');
-  const [activeTab, setActiveTab] = useState('all');
+  
+  // Get initial tab from URL parameters
+  const getInitialTab = () => {
+    const params = new URLSearchParams(window.location.search);
+    return params.get('tab') || 'all';
+  };
+  
+  const [activeTab, setActiveTab] = useState(getInitialTab());
   const [page, setPage] = useState(1);
+
+  // Update URL when tab changes
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    if (activeTab === 'all') {
+      params.delete('tab');
+    } else {
+      params.set('tab', activeTab);
+    }
+    const newUrl = params.toString() ? `?${params.toString()}` : '/';
+    window.history.replaceState({}, '', newUrl);
+  }, [activeTab]);
 
   // Load view mode from localStorage
   const [viewMode, setViewMode] = useState<'grid' | 'table'>(() => {

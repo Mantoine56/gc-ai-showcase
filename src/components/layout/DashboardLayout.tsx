@@ -7,6 +7,7 @@ import { Bell, Plus, Bot } from "lucide-react";
 import Footer from "./Footer";
 import EnhancedAIChatSidebar from "@/components/chat/EnhancedAIChatSidebar";
 import ChatToggleButton from "@/components/chat/ChatToggleButton";
+import gcLogo from "@/assets/gc-logo.png";
 
 interface DashboardLayoutProps {
   children: ReactNode;
@@ -22,18 +23,31 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
 
   return (
     <SidebarProvider>
-      <div className="min-h-screen flex w-full bg-gcds-background-primary">
+      <div className="min-h-screen flex w-full bg-[hsl(var(--gcds-background-primary))]">
         <AppSidebar />
         
-        <div className={`flex-1 flex flex-col min-h-screen transition-all duration-300 ${isChatOpen ? 'lg:mr-96 md:mr-80 sm:mr-0' : ''}`}>
-          {/* Compact Header */}
-          <header className="sticky top-0 z-50 bg-gcds-background-primary/95 backdrop-blur supports-[backdrop-filter]:bg-gcds-background-primary/60 border-b border-gcds-border-secondary">
+        <div className={`flex-1 flex flex-col min-h-screen transition-all duration-[var(--gcds-transition-base)] ${isChatOpen ? 'lg:mr-96 md:mr-80 sm:mr-0' : ''}`}>
+          {/* Header with Logo and Actions */}
+          <header className="sticky top-0 z-50 bg-[hsl(var(--gcds-background-primary))]/.95 backdrop-blur supports-[backdrop-filter]:bg-[hsl(var(--gcds-background-primary))]/60 border-b border-[hsl(var(--gcds-border-secondary))] shadow-[var(--gcds-shadow-sm)]">
             <div className="flex items-center justify-between h-14 px-4">
               <div className="flex items-center gap-3">
-                <SidebarTrigger className="p-1.5 hover:bg-gcds-background-accent rounded-md transition-colors" />
-                <div>
-                  <h1 className="text-lg font-semibold text-gcds-text-primary">GC AI Hub</h1>
-                  <p className="text-xs text-gcds-text-secondary">Government of Canada AI Innovation</p>
+                <SidebarTrigger className="p-1.5 hover:bg-[hsl(var(--gcds-background-accent))] rounded-md transition-all duration-[var(--gcds-transition-fast)] text-[hsl(var(--gcds-text-secondary))] hover:text-[hsl(var(--gcds-text-primary))]" />
+                
+                {/* GC AI Hub Branding */}
+                <div className="flex items-center gap-[var(--gcds-spacing-300)]">
+                  <img 
+                    src={gcLogo} 
+                    alt="Government of Canada" 
+                    className="h-8 w-8 flex-shrink-0"
+                  />
+                  <div className="hidden sm:flex flex-col">
+                    <span className="text-[length:var(--gcds-font-sizes-h6)] font-bold text-[hsl(var(--gcds-text-primary))] leading-tight">
+                      GC AI Hub
+                    </span>
+                    <span className="text-[length:var(--gcds-font-sizes-caption)] text-[hsl(var(--gcds-text-secondary))] leading-tight">
+                      Innovation Hub
+                    </span>
+                  </div>
                 </div>
               </div>
               
@@ -41,43 +55,45 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
                 <Button
                   variant="ghost"
                   size="sm"
-                  className="h-8 w-8 p-0 hover:bg-gcds-background-accent"
+                  className="h-9 w-9 p-0 hover:bg-[hsl(var(--gcds-background-accent))] transition-all duration-[var(--gcds-transition-fast)] min-h-[44px] md:min-h-0"
+                  aria-label="Notifications"
                 >
-                  <Bell className="h-4 w-4 text-gcds-text-secondary" />
+                  <Bell className="h-4 w-4 text-[hsl(var(--gcds-text-secondary))]" />
                 </Button>
 
                 <Button
                   variant={isChatOpen ? "default" : "ghost"}
                   size="sm"
                   onClick={toggleChat}
-                  className={`h-8 px-3 text-xs font-medium transition-all duration-200 ${
+                  className={`h-9 px-3 text-xs font-medium transition-all duration-[var(--gcds-transition-base)] min-h-[44px] md:min-h-0 ${
                     isChatOpen
-                      ? "bg-gcds-color-blue-700 text-white hover:bg-gcds-color-blue-800"
-                      : "hover:bg-gcds-background-accent text-gcds-text-secondary hover:text-gcds-text-primary"
+                      ? "bg-[hsl(var(--gcds-button-primary-default-background))] text-[hsl(var(--gcds-button-primary-default-text))] hover:bg-[hsl(var(--gcds-button-primary-hover-background))] shadow-[var(--gcds-shadow-sm)]"
+                      : "hover:bg-[hsl(var(--gcds-background-accent))] text-[hsl(var(--gcds-text-secondary))] hover:text-[hsl(var(--gcds-text-primary))]"
                   }`}
                   aria-label={isChatOpen ? "Close AI Assistant" : "Open AI Assistant"}
                 >
                   <Bot className="h-4 w-4 mr-2" />
-                  AI Assistant
+                  <span className="hidden sm:inline">AI Assistant</span>
                   {isChatOpen && (
-                    <div className="ml-2 w-2 h-2 bg-gcds-color-green-500 rounded-full animate-pulse"></div>
+                    <div className="ml-2 w-2 h-2 bg-[hsl(142_76%_36%)] rounded-full animate-pulse"></div>
                   )}
                 </Button>
 
                 <Button
                   size="sm"
                   onClick={() => navigate('/submit')}
-                  className="bg-gcds-button-primary-default-background text-gcds-button-primary-default-text hover:bg-gcds-button-primary-hover-background h-8 px-3 text-xs"
+                  className="bg-[hsl(var(--gcds-button-primary-default-background))] text-[hsl(var(--gcds-button-primary-default-text))] hover:bg-[hsl(var(--gcds-button-primary-hover-background))] h-9 px-3 text-xs shadow-[var(--gcds-shadow-sm)] hover:shadow-[var(--gcds-shadow-md)] transition-all duration-[var(--gcds-transition-base)] min-h-[44px] md:min-h-0"
                 >
                   <Plus className="h-3 w-3 mr-1" />
-                  Add Project
+                  <span className="hidden sm:inline">Add Project</span>
+                  <span className="sm:hidden">Add</span>
                 </Button>
               </div>
             </div>
           </header>
 
           {/* Main Content */}
-          <main className="flex-1 bg-gcds-background-secondary">
+          <main className="flex-1 bg-[hsl(var(--gcds-background-secondary))]">
             {children}
           </main>
 
