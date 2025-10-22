@@ -13,13 +13,13 @@ const ProjectCard = ({ project }: ProjectCardProps) => {
   const getStatusColor = (status: ProjectStatus) => {
     switch (status) {
       case ProjectStatus.InProduction:
-        return 'bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-300';
+        return 'bg-gcds-color-green-100 text-gcds-color-green-900';
       case ProjectStatus.InDevelopment:
-        return 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/20 dark:text-yellow-300';
+        return 'bg-gcds-color-yellow-100 text-gcds-color-yellow-900';
       case ProjectStatus.Retired:
-        return 'bg-gray-100 text-gray-800 dark:bg-gray-900/20 dark:text-gray-300';
+        return 'bg-gcds-color-grayscale-100 text-gcds-color-grayscale-900';
       default:
-        return 'bg-gray-100 text-gray-800 dark:bg-gray-900/20 dark:text-gray-300';
+        return 'bg-gcds-color-grayscale-100 text-gcds-color-grayscale-900';
     }
   };
 
@@ -56,13 +56,13 @@ const ProjectCard = ({ project }: ProjectCardProps) => {
               </Badge>
             )}
             {project.isAutomatedDecisionSystem && (
-              <Badge variant="outline" className="text-blue-600 border-blue-600" title="Automated Decision System">
+              <Badge variant="outline" className="text-gcds-color-blue-700 border-gcds-color-blue-700" title="Automated Decision System">
                 <Shield className="h-3 w-3 mr-1" />
                 ADS
               </Badge>
             )}
             {project.involvesPersonalInfo && (
-              <Badge variant="outline" className="text-purple-600 border-purple-600" title="Involves Personal Information">
+              <Badge variant="outline" className="text-gcds-color-purple-700 border-gcds-color-purple-700" title="Involves Personal Information">
                 <User className="h-3 w-3 mr-1" />
                 PI
               </Badge>

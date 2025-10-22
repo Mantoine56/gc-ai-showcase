@@ -52,7 +52,7 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
                   onClick={toggleChat}
                   className={`h-8 px-3 text-xs font-medium transition-all duration-200 ${
                     isChatOpen
-                      ? "bg-gcds-color-blue-600 text-white hover:bg-gcds-color-blue-700"
+                      ? "bg-gcds-color-blue-700 text-white hover:bg-gcds-color-blue-800"
                       : "hover:bg-gcds-background-accent text-gcds-text-secondary hover:text-gcds-text-primary"
                   }`}
                   aria-label={isChatOpen ? "Close AI Assistant" : "Open AI Assistant"}
@@ -60,7 +60,7 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
                   <Bot className="h-4 w-4 mr-2" />
                   AI Assistant
                   {isChatOpen && (
-                    <div className="ml-2 w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+                    <div className="ml-2 w-2 h-2 bg-gcds-color-green-500 rounded-full animate-pulse"></div>
                   )}
                 </Button>
 

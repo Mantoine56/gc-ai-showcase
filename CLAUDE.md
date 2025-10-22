@@ -103,10 +103,85 @@ src/
 - Path aliases use `@/` prefix mapping to `./src/`
 - Components use `@/` imports extensively
 
-**Styling:**
+**Styling & Design Tokens:**
+- **CRITICAL:** All components MUST use GC Design System (GCDS) tokens for styling
 - Custom GCDS design tokens defined in Tailwind config (gcds-background-*, gcds-text-*, gcds-color-*, etc.)
 - Dark mode support with custom design system colors
 - Components follow Government of Canada accessibility guidelines (WCAG 2.1 AA)
+
+**GC Design System Token Guidelines:**
+
+Design tokens are the smallest building blocks of the design system, capturing design decisions in reusable code variables. They replace all hard-coded values like colour codes and pixels.
+
+**Token Types (Use in this order of preference):**
+
+1. **Component Design Tokens** (Component-specific - use with caution)
+   - Format: `--gcds-{component}-{role}-{state}-{property}`
+   - Example: `--gcds-button-primary-default-background`
+   - WARNING: Only use these for their specific components. They can change when components update.
+   - Available as Tailwind classes: `bg-gcds-button-*`, `text-gcds-button-*`, etc.
+
+2. **Global Design Tokens** (Semantic - PREFERRED for most use cases)
+   - Format: `--gcds-{property}-{role/state}` or `--gcds-{state}-{property}`
+   - Examples:
+     - Text: `--gcds-text-primary`, `--gcds-text-secondary`, `--gcds-text-danger`
+     - Backgrounds: `--gcds-background-primary`, `--gcds-background-secondary`
+     - Borders: `--gcds-border-primary`, `--gcds-border-secondary`, `--gcds-border-accent`
+     - States: `--gcds-focus-text`, `--gcds-hover-background`
+     - Spacing: `--gcds-spacing-{scale}` (e.g., `--gcds-spacing-600` = 3rem)
+     - Font sizes: `--gcds-font-sizes-{scale}` (e.g., `--gcds-font-sizes-text` = 1.25rem)
+   - These are semantic and have clear meanings/contexts
+   - Available as Tailwind classes: `text-gcds-text-primary`, `bg-gcds-background-primary`, etc.
+
+3. **Base Design Tokens** (Non-semantic - use only when global tokens don't fit)
+   - Format: `--gcds-color-{palette}-{scale}`
+   - Examples:
+     - Grayscale: `--gcds-color-grayscale-50`, `--gcds-color-grayscale-100`, `--gcds-color-grayscale-300`
+     - Blue: `--gcds-color-blue-100`, `--gcds-color-blue-700`, `--gcds-color-blue-900`
+     - Other palettes: red, green, yellow, etc.
+   - Use thoughtfully and consistently since they're not semantic
+   - Available as Tailwind classes: `bg-gcds-color-blue-700`, `text-gcds-color-grayscale-300`, etc.
+
+**Token Naming Anatomy:**
+- **Prefix:** `--gcds-` (differentiates GC Design System tokens from external tokens)
+- **Category:** Component, property, state, or colour (e.g., button, text, focus, grayscale)
+- **Role:** Sub-type like primary, secondary, danger (optional)
+- **State:** Interaction/data state like default, hover, focus (optional)
+- **Property:** CSS property like background, border, color (optional)
+- **Scale:** Proportionally increasing value (e.g., 50, 100, 300, 600, 900)
+
+**Best Practices:**
+- ✅ ALWAYS prefer global tokens over base tokens
+- ✅ Use semantic tokens (global) for clarity and future maintenance
+- ✅ Maintain visual language consistency across all components
+- ✅ Tokens automatically update across the entire codebase when GCDS updates
+- ❌ NEVER use hard-coded hex colors, RGB values, or pixel measurements
+- ❌ NEVER use component tokens outside their designated components
+- ❌ AVOID using base tokens unless no suitable global token exists
+
+**Common Token Patterns:**
+```tsx
+// Text Colors
+className="text-gcds-text-primary"        // Primary text
+className="text-gcds-text-secondary"      // Secondary/muted text
+className="text-gcds-text-danger"         // Error/danger text
+
+// Backgrounds
+className="bg-gcds-background-primary"    // Primary background
+className="bg-gcds-background-secondary"  // Secondary background
+className="bg-gcds-color-blue-100"        // Light blue background (base token)
+
+// Borders
+className="border-gcds-border-secondary"  // Default border
+className="border-gcds-border-accent"     // Accent border (e.g., hover)
+
+// Spacing (use Tailwind's spacing scale which maps to GCDS spacing)
+className="p-6 space-y-4 gap-3"           // Consistent spacing
+
+// States
+className="hover:bg-gcds-hover-background"
+className="focus:text-gcds-focus-text"
+```
 
 ### TypeScript Configuration
 
@@ -140,7 +215,7 @@ This ensures proper installation with the project's configuration.
 
 4. **Route Management:** When adding new routes, always add them in `src/App.tsx` BEFORE the catch-all "*" route
 
-5. **Design System:** Use GCDS-prefixed Tailwind classes (gcds-*) to maintain consistency with Government of Canada branding
+5. **Design System & Tokens:** ALWAYS use GCDS design tokens (gcds-* prefixed Tailwind classes). Refer to the "Styling & Design Tokens" section above for detailed token usage guidelines. NEVER use hard-coded colors or measurements
 
 6. **Component Editing:** Do not manually edit files in `src/components/ui/` - these are managed by shadcn
 
@@ -156,4 +231,5 @@ This ensures proper installation with the project's configuration.
 
 - **`GCAI-Hub-Plan.md`** - Complete product roadmap, architecture decisions, MVP scope, and data model
 - **`data.xlsx`** - Current GC AI Registry Excel file; authoritative source for field structure
+- **`docs/designtokens.md`** - GC Design System token documentation; authoritative guide for styling with GCDS tokens
 - **`src/data/projects.json`** - Demo data only; NOT representative of production schema

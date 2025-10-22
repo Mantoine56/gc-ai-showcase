@@ -91,13 +91,13 @@ export function ProjectsTable({ projects, isLoading, sortBy, sortOrder, onSortCh
   const getStatusColor = (status: ProjectStatus) => {
     switch (status) {
       case ProjectStatus.InProduction:
-        return 'bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-300';
+        return 'bg-gcds-color-green-100 text-gcds-color-green-900 dark:bg-gcds-color-green-900/20 dark:text-gcds-color-green-300';
       case ProjectStatus.InDevelopment:
-        return 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/20 dark:text-yellow-300';
+        return 'bg-gcds-color-yellow-100 text-gcds-color-yellow-900 dark:bg-gcds-color-yellow-900/20 dark:text-gcds-color-yellow-300';
       case ProjectStatus.Retired:
-        return 'bg-gray-100 text-gray-800 dark:bg-gray-900/20 dark:text-gray-300';
+        return 'bg-gcds-color-grayscale-100 text-gcds-color-grayscale-900 dark:bg-gcds-color-grayscale-900/20 dark:text-gcds-color-grayscale-300';
       default:
-        return 'bg-gray-100 text-gray-800 dark:bg-gray-900/20 dark:text-gray-300';
+        return 'bg-gcds-color-grayscale-100 text-gcds-color-grayscale-900 dark:bg-gcds-color-grayscale-900/20 dark:text-gcds-color-grayscale-300';
     }
   };
 
@@ -295,7 +295,7 @@ export function ProjectsTable({ projects, isLoading, sortBy, sortOrder, onSortCh
                           {project.name}
                         </Link>
                         {project.featured && (
-                          <Star className="h-3 w-3 text-yellow-500 fill-yellow-500" />
+                          <Star className="h-3 w-3 text-gcds-color-yellow-500 fill-gcds-color-yellow-500" />
                         )}
                       </div>
                       <div className="text-xs text-muted-foreground mt-1 line-clamp-1">
@@ -369,7 +369,7 @@ export function ProjectsTable({ projects, isLoading, sortBy, sortOrder, onSortCh
                         {project.isAutomatedDecisionSystem && (
                           <Badge
                             variant="outline"
-                            className="text-xs w-fit text-blue-600 border-blue-600"
+                            className="text-xs w-fit text-gcds-color-blue-700 border-gcds-color-blue-700"
                           >
                             <Shield className="h-3 w-3 mr-1" />
                             ADS
@@ -378,7 +378,7 @@ export function ProjectsTable({ projects, isLoading, sortBy, sortOrder, onSortCh
                         {project.involvesPersonalInfo && (
                           <Badge
                             variant="outline"
-                            className="text-xs w-fit text-purple-600 border-purple-600"
+                            className="text-xs w-fit text-gcds-color-purple-700 border-gcds-color-purple-700"
                           >
                             <User className="h-3 w-3 mr-1" />
                             PI

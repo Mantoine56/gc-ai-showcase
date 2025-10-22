@@ -73,13 +73,13 @@ const ProjectDetail = () => {
   const getStatusColor = (status: ProjectStatus) => {
     switch (status) {
       case ProjectStatus.InProduction:
-        return 'bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-300';
+        return 'bg-gcds-color-green-100 text-gcds-color-green-900';
       case ProjectStatus.InDevelopment:
-        return 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/20 dark:text-yellow-300';
+        return 'bg-gcds-color-yellow-100 text-gcds-color-yellow-900';
       case ProjectStatus.Retired:
-        return 'bg-gray-100 text-gray-800 dark:bg-gray-900/20 dark:text-gray-300';
+        return 'bg-gcds-color-grayscale-100 text-gcds-color-grayscale-900';
       default:
-        return 'bg-gray-100 text-gray-800 dark:bg-gray-900/20 dark:text-gray-300';
+        return 'bg-gcds-color-grayscale-100 text-gcds-color-grayscale-900';
     }
   };
 
@@ -156,19 +156,19 @@ const ProjectDetail = () => {
               {getStatusLabel(project.status)}
             </Badge>
             {project.featured && (
-              <Badge variant="outline" className="text-yellow-600 border-yellow-600">
+              <Badge variant="outline" className="text-gcds-color-yellow-700 border-gcds-color-yellow-700">
                 <Star className="h-3 w-3 mr-1" />
                 Featured
               </Badge>
             )}
             {project.isAutomatedDecisionSystem && (
-              <Badge variant="outline" className="text-blue-600 border-blue-600">
+              <Badge variant="outline" className="text-gcds-color-blue-700 border-gcds-color-blue-700">
                 <Shield className="h-3 w-3 mr-1" />
                 Automated Decision System
               </Badge>
             )}
             {project.involvesPersonalInfo && (
-              <Badge variant="outline" className="text-purple-600 border-purple-600">
+              <Badge variant="outline" className="text-gcds-color-purple-700 border-gcds-color-purple-700">
                 <User className="h-3 w-3 mr-1" />
                 Involves Personal Information
               </Badge>
@@ -246,7 +246,7 @@ const ProjectDetail = () => {
               <Card>
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2">
-                    <CheckCircle className="h-5 w-5 text-green-600" />
+                    <CheckCircle className="h-5 w-5 text-gcds-color-green-700" />
                     Outcomes & Impact
                   </CardTitle>
                 </CardHeader>
@@ -289,12 +289,12 @@ const ProjectDetail = () => {
                   <div className="flex items-center gap-2 text-sm">
                     {project.involvesPersonalInfo ? (
                       <>
-                        <CheckCircle className="h-4 w-4 text-green-600" />
+                        <CheckCircle className="h-4 w-4 text-gcds-color-green-700" />
                         <span>This system involves personal information</span>
                       </>
                     ) : (
                       <>
-                        <XCircle className="h-4 w-4 text-gray-400" />
+                        <XCircle className="h-4 w-4 text-gcds-color-grayscale-400" />
                         <span>This system does not involve personal information</span>
                       </>
                     )}
@@ -320,12 +320,12 @@ const ProjectDetail = () => {
                   <div className="flex items-center gap-2 text-sm">
                     {project.hasUserNotification ? (
                       <>
-                        <CheckCircle className="h-4 w-4 text-green-600" />
+                        <CheckCircle className="h-4 w-4 text-gcds-color-green-700" />
                         <span>Users are notified about AI use</span>
                       </>
                     ) : (
                       <>
-                        <XCircle className="h-4 w-4 text-gray-400" />
+                        <XCircle className="h-4 w-4 text-gcds-color-grayscale-400" />
                         <span>No user notification implemented</span>
                       </>
                     )}
@@ -350,12 +350,12 @@ const ProjectDetail = () => {
                   <div className="flex items-center gap-2 text-sm">
                     {project.isAutomatedDecisionSystem ? (
                       <>
-                        <AlertTriangle className="h-4 w-4 text-yellow-600" />
+                        <AlertTriangle className="h-4 w-4 text-gcds-color-yellow-700" />
                         <span>This is an Automated Decision System</span>
                       </>
                     ) : (
                       <>
-                        <CheckCircle className="h-4 w-4 text-gray-400" />
+                        <CheckCircle className="h-4 w-4 text-gcds-color-grayscale-400" />
                         <span>Not an Automated Decision System</span>
                       </>
                     )}
