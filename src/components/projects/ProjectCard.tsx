@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Eye, Shield, User, Building2, CheckCircle2, Code2, Users, Star, Sparkles } from 'lucide-react';
+import { Eye, Shield, User, Building2, CheckCircle2, Code2, Users, Star, Sparkles, Github } from 'lucide-react';
 import { Project, ProjectStatus } from '@/types';
 import { useLocalizedField } from '@/hooks/useLocalizedField';
 
@@ -68,28 +68,34 @@ const ProjectCard = ({ project }: ProjectCardProps) => {
     <Card className={`group h-full flex flex-col transition-all duration-300 hover:shadow-lg hover:-translate-y-1 bg-gradient-card border-l-4 ${statusInfo.border} relative overflow-hidden`}>
       <CardHeader className="space-y-4 pb-3">
         {/* Status and Compliance Badges */}
-        <div className="flex items-start justify-between gap-2 flex-wrap">
+        <div className="flex items-start justify-between gap-1.5 flex-wrap">
           <div className="flex items-center gap-1.5 flex-wrap">
-            <Badge variant="secondary" className={`${statusInfo.badge} border font-semibold shadow-sm`}>
-              <StatusIcon className="h-3.5 w-3.5 mr-1.5" />
+            <Badge variant="secondary" className={`${statusInfo.badge} border font-semibold shadow-sm text-xs px-2.5 py-0.5`}>
+              <StatusIcon className="h-3 w-3 mr-1" />
               {statusInfo.label}
             </Badge>
             {project.featured && (
-              <Badge className="bg-blue-600 hover:bg-blue-700 text-white border-blue-700 font-semibold shadow-sm">
+              <Badge className="bg-blue-600 hover:bg-blue-700 text-white border-blue-700 font-semibold shadow-sm text-xs px-2.5 py-0.5">
                 <Star className="h-3 w-3 mr-1 fill-current" />
                 {t('components:projectCard.featured')}
+              </Badge>
+            )}
+            {project.isOpenSource && (
+              <Badge className="bg-gcds-color-grayscale-900 hover:bg-gcds-color-grayscale-800 text-white border-gcds-color-grayscale-900 font-semibold shadow-sm text-xs px-2.5 py-0.5">
+                <Github className="h-3 w-3 mr-1" />
+                Open Source
               </Badge>
             )}
           </div>
           <div className="flex items-center gap-1.5 flex-wrap">
             {project.isAutomatedDecisionSystem && (
-              <Badge variant="outline" className="text-gcds-color-blue-700 border-gcds-color-blue-700 bg-gcds-color-blue-50 shadow-sm" title="Automated Decision System">
+              <Badge variant="outline" className="text-gcds-color-blue-700 border-gcds-color-blue-700 bg-gcds-color-blue-50 shadow-sm text-xs px-2.5 py-0.5" title="Automated Decision System">
                 <Shield className="h-3 w-3 mr-1" />
                 ADS
               </Badge>
             )}
             {project.involvesPersonalInfo && (
-              <Badge variant="outline" className="text-gcds-color-purple-700 border-gcds-color-purple-700 bg-gcds-color-purple-50 shadow-sm" title="Involves Personal Information">
+              <Badge variant="outline" className="text-gcds-color-purple-700 border-gcds-color-purple-700 bg-gcds-color-purple-50 shadow-sm text-xs px-2.5 py-0.5" title="Involves Personal Information">
                 <User className="h-3 w-3 mr-1" />
                 PI
               </Badge>
@@ -169,6 +175,13 @@ const ProjectCard = ({ project }: ProjectCardProps) => {
             {t('components:projectCard.viewDetails')}
           </Link>
         </Button>
+        {project.isOpenSource && project.githubUrl && (
+          <Button asChild size="sm" variant="outline" className="group-hover:shadow-md transition-all">
+            <a href={project.githubUrl} target="_blank" rel="noopener noreferrer">
+              <Github className="h-4 w-4" />
+            </a>
+          </Button>
+        )}
       </CardFooter>
     </Card>
   );

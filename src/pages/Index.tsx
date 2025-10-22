@@ -10,7 +10,7 @@ import { ProjectPagination } from '@/components/projects/ProjectPagination';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-import { Search, LayoutGrid, Table } from 'lucide-react';
+import { Search, LayoutGrid, Table, Github } from 'lucide-react';
 import { TrendingUp, Star, Clock, BarChart3, Building2 } from 'lucide-react';
 import { useProjects, useGlobalStats } from '@/hooks/useProjects';
 import { useOrganizations } from '@/hooks/useOrganizations';
@@ -76,6 +76,11 @@ const Index = () => {
     // Add featured filter for featured tab
     if (activeTab === 'featured') {
       f.featured = true;
+    }
+
+    // Add open source filter for open source tab
+    if (activeTab === 'opensource') {
+      f.isOpenSource = true;
     }
 
     return f;
@@ -159,6 +164,10 @@ const Index = () => {
     return [...filteredProjects].slice(0, 6);
   }, [filteredProjects]);
 
+  const openSourceProjects = useMemo(() => {
+    return filteredProjects.filter(p => p.isOpenSource);
+  }, [filteredProjects]);
+
   const getTabProjects = () => {
     switch (activeTab) {
       case 'featured':
@@ -167,6 +176,8 @@ const Index = () => {
         return trendingProjects;
       case 'recent':
         return recentProjects;
+      case 'opensource':
+        return openSourceProjects;
       default:
         return filteredProjects;
     }
@@ -224,6 +235,7 @@ const Index = () => {
   const totalDepartments = globalStats?.organizations || 0;
   const totalFeatured = globalStats?.featured || 0;
   const totalInProduction = globalStats?.inProduction || 0;
+  const totalOpenSource = globalStats?.openSource || 0;
 
   return (
     <DashboardLayout>
@@ -335,7 +347,7 @@ const Index = () => {
               }}
               className="w-full lg:w-auto"
             >
-              <TabsList className="grid w-full grid-cols-4 lg:w-fit lg:inline-flex h-9">
+              <TabsList className="grid w-full grid-cols-5 lg:w-fit lg:inline-flex h-9">
                 <TabsTrigger value="all" className="flex items-center gap-1.5 text-xs px-3">
                   <BarChart3 className="h-3.5 w-3.5" />
                   {t('dashboard.tabs.all')} ({totalProjects})
@@ -343,6 +355,10 @@ const Index = () => {
                 <TabsTrigger value="featured" className="flex items-center gap-1.5 text-xs px-3">
                   <Star className="h-3.5 w-3.5" />
                   {t('dashboard.tabs.featured')} ({totalFeatured})
+                </TabsTrigger>
+                <TabsTrigger value="opensource" className="flex items-center gap-1.5 text-xs px-3">
+                  <Github className="h-3.5 w-3.5" />
+                  Open Source ({totalOpenSource})
                 </TabsTrigger>
                 <TabsTrigger value="trending" className="flex items-center gap-1.5 text-xs px-3">
                   <TrendingUp className="h-3.5 w-3.5" />

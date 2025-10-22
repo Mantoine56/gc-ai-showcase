@@ -20,6 +20,8 @@ import {
   AlertTriangle,
   Star,
   TrendingUp,
+  Github,
+  ExternalLink,
 } from 'lucide-react';
 import { useProject } from '@/hooks/useProjects';
 import { useLocalizedField } from '@/hooks/useLocalizedField';
@@ -136,25 +138,31 @@ const ProjectDetail = () => {
         </div>
 
         {/* Project Header */}
-        <div className="space-y-4">
-          <div className="flex flex-wrap items-center gap-2">
-            <Badge className={getStatusColor(project.status)}>
+        <div className="space-y-3">
+          <div className="flex flex-wrap items-center gap-1.5">
+            <Badge className={`${getStatusColor(project.status)} px-2.5 py-0.5 text-xs`}>
               {getStatusLabel(project.status)}
             </Badge>
             {project.featured && (
-              <Badge variant="outline" className="text-gcds-color-yellow-700 border-gcds-color-yellow-700">
+              <Badge variant="outline" className="text-gcds-color-yellow-700 border-gcds-color-yellow-700 px-2.5 py-0.5 text-xs">
                 <Star className="h-3 w-3 mr-1" />
                 {t('projectDetail.badges.featured')}
               </Badge>
             )}
+            {project.isOpenSource && (
+              <Badge className="bg-gcds-color-grayscale-900 text-white border-gcds-color-grayscale-900 px-2.5 py-0.5 text-xs">
+                <Github className="h-3 w-3 mr-1" />
+                Open Source
+              </Badge>
+            )}
             {project.isAutomatedDecisionSystem && (
-              <Badge variant="outline" className="text-gcds-color-blue-700 border-gcds-color-blue-700">
+              <Badge variant="outline" className="text-gcds-color-blue-700 border-gcds-color-blue-700 px-2.5 py-0.5 text-xs">
                 <Shield className="h-3 w-3 mr-1" />
                 {t('projectDetail.badges.automatedDecisionSystem')}
               </Badge>
             )}
             {project.involvesPersonalInfo && (
-              <Badge variant="outline" className="text-gcds-color-purple-700 border-gcds-color-purple-700">
+              <Badge variant="outline" className="text-gcds-color-purple-700 border-gcds-color-purple-700 px-2.5 py-0.5 text-xs">
                 <User className="h-3 w-3 mr-1" />
                 {t('projectDetail.badges.involvesPersonalInformation')}
               </Badge>
@@ -464,6 +472,29 @@ const ProjectDetail = () => {
                 )}
               </CardContent>
             </Card>
+
+            {/* GitHub Repository */}
+            {project.isOpenSource && project.githubUrl && (
+              <Card className="border-gcds-border-secondary">
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2 text-gcds-text-primary">
+                    <Github className="h-5 w-5" />
+                    GitHub Repository
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <Button asChild className="w-full bg-gcds-color-grayscale-900 hover:bg-gcds-color-grayscale-800 text-white">
+                    <a href={project.githubUrl} target="_blank" rel="noopener noreferrer">
+                      <Github className="mr-2 h-4 w-4" />
+                      View on GitHub
+                    </a>
+                  </Button>
+                  <p className="text-xs text-muted-foreground mt-3">
+                    This project is open source and available on GitHub. Explore the code, contribute, or fork the repository.
+                  </p>
+                </CardContent>
+              </Card>
+            )}
 
             {/* Metadata */}
             <Card>

@@ -42,11 +42,20 @@ router.get(
       distinct: ['organizationId'],
     });
 
+    // Get open source count
+    const openSource = await prisma.project.count({
+      where: {
+        moderationState: 'Published',
+        isOpenSource: true,
+      },
+    });
+
     res.json({
       total,
       featured,
       inProduction,
       organizations: organizations.length,
+      openSource,
     });
   })
 );
@@ -65,6 +74,7 @@ router.get(
       statusYear,
       moderationState,
       featured,
+      isOpenSource,
       page,
       limit,
       sortBy,
@@ -106,6 +116,9 @@ router.get(
     if (moderationState) where.moderationState = moderationState;
     if (featured !== undefined) {
       where.featured = featured === 'true';
+    }
+    if (isOpenSource !== undefined) {
+      where.isOpenSource = isOpenSource === 'true';
     }
 
     // Default to only showing published projects for non-authenticated users (MVP)

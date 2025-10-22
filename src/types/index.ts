@@ -104,6 +104,10 @@ export interface Project {
   moderationState: ModerationState;
   featured: boolean;
 
+  // Open Source
+  isOpenSource: boolean;
+  githubUrl?: string;
+
   // Audit
   createdBy?: string;
   updatedBy?: string;
@@ -160,6 +164,7 @@ export interface ProjectStats {
   featured: number;
   inProduction: number;
   organizations: number;
+  openSource: number;
 }
 
 export interface ApiError {
@@ -178,6 +183,7 @@ export interface ProjectFilters {
   statusYear?: number;
   moderationState?: ModerationState;
   featured?: boolean;
+  isOpenSource?: boolean;
   page?: number;
   limit?: number;
   sortBy?: 'name' | 'createdAt' | 'updatedAt' | 'status' | 'statusYear';

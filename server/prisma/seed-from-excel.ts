@@ -159,6 +159,7 @@ async function main() {
   let featuredCount = 0;
   const errors: Array<{ row: number; error: string }> = [];
   const productionProjects: string[] = [];
+  const eligibleForOpenSource: string[] = [];
 
   for (let i = 0; i < data.length; i++) {
     const row: any = data[i];
@@ -222,6 +223,14 @@ async function main() {
         productionProjects.push(project.id);
       }
 
+      // Track projects eligible for open source (government-developed, in production or development)
+      if (
+        developedBy === DevelopedBy.Government &&
+        (status === ProjectStatus.InProduction || status === ProjectStatus.InDevelopment)
+      ) {
+        eligibleForOpenSource.push(project.id);
+      }
+
       // Generate 1-3 contacts per project
       const numContacts = Math.floor(Math.random() * 3) + 1; // 1, 2, or 3 contacts
       const contactRoles: ContactRole[] = [ContactRole.Primary];
@@ -266,6 +275,56 @@ async function main() {
     console.log(`⭐ Marked ${featuredCount} production projects as featured`);
   }
 
+  // Mark ~20 random eligible projects as open source with generated GitHub URLs
+  let openSourceCount = 0;
+  const numToMarkOpenSource = Math.min(20, eligibleForOpenSource.length);
+  if (numToMarkOpenSource > 0) {
+    // Generate some realistic GitHub organization names
+    const githubOrgs = [
+      'canada-ca',
+      'cds-snc',
+      'digital-canada',
+      'gc-proto',
+      'wet-boew',
+      'federal-geospatial-platform',
+      'open-data',
+      'statcan',
+      'tc-ca',
+      'nrcan',
+    ];
+
+    // Shuffle and take first N
+    const shuffled = eligibleForOpenSource.sort(() => Math.random() - 0.5);
+    const openSource = shuffled.slice(0, numToMarkOpenSource);
+
+    for (const projectId of openSource) {
+      // Get the project to create a repo name
+      const proj = await prisma.project.findUnique({ where: { id: projectId } });
+      if (proj) {
+        // Create a slug from the project name
+        const repoName = proj.nameEN
+          .toLowerCase()
+          .replace(/[^a-z0-9]+/g, '-')
+          .replace(/^-|-$/g, '')
+          .substring(0, 50);
+
+        // Pick a random GitHub org
+        const org = githubOrgs[Math.floor(Math.random() * githubOrgs.length)];
+        const githubUrl = `https://github.com/${org}/${repoName}`;
+
+        await prisma.project.update({
+          where: { id: projectId },
+          data: {
+            isOpenSource: true,
+            githubUrl,
+          },
+        });
+        openSourceCount++;
+      }
+    }
+    console.log(`🔓 Marked ${openSourceCount} projects as open source with GitHub URLs`);
+  }
+
   console.log(`\n✅ Import completed!`);
   console.log(`
     Summary:
@@ -273,6 +332,7 @@ async function main() {
     - ${imported} projects imported
     - ${contactsCreated} contacts generated
     - ${featuredCount} projects marked as featured
+    - ${openSourceCount} projects marked as open source
     - ${skipped} rows skipped
     - ${errors.length} errors
   `);
@@ -290,6 +350,7 @@ async function main() {
   console.log(`   - ${await prisma.project.count()} projects`);
   console.log(`   - ${await prisma.projectContact.count()} contacts`);
   console.log(`   - ${await prisma.project.count({ where: { featured: true } })} featured projects`);
+  console.log(`   - ${await prisma.project.count({ where: { isOpenSource: true } })} open source projects`);
 }
 
 main()

@@ -44,6 +44,10 @@ export const CreateProjectSchema = z.object({
 
   // Metadata
   featured: z.boolean().optional(),
+
+  // Open Source
+  isOpenSource: z.boolean().optional(),
+  githubUrl: z.string().url('Must be a valid URL').optional(),
 }).refine((data) => {
   // If developedBy is Vendor, vendorName is required
   if (data.developedBy === 'Vendor' && !data.vendorName) {
@@ -92,6 +96,10 @@ export const UpdateProjectSchema = z.object({
 
   // Metadata
   featured: z.boolean().optional(),
+
+  // Open Source
+  isOpenSource: z.boolean().optional(),
+  githubUrl: z.string().url('Must be a valid URL').optional(),
 });
 
 // Query/filter schema
@@ -107,6 +115,7 @@ export const ProjectQuerySchema = z.object({
   statusYear: z.string().optional(), // Can be a year or range
   moderationState: ModerationStateSchema.optional(),
   featured: z.enum(['true', 'false']).optional(),
+  isOpenSource: z.enum(['true', 'false']).optional(),
 
   // Pagination
   page: z.string().optional().default('1'),

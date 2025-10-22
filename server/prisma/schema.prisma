@@ -101,6 +101,10 @@ model Project {
   moderationState            ModerationState @default(Draft)
   featured                   Boolean         @default(false) // For featured projects display
 
+  // Open Source
+  isOpenSource               Boolean         @default(false) // Is this an open source project
+  githubUrl                  String?         // GitHub repository URL
+
   // Audit fields
   createdBy                  String?         // User ID (for future auth)
   updatedBy                  String?         // User ID (for future auth)
@@ -119,6 +123,7 @@ model Project {
   @@index([statusYear])
   @@index([moderationState])
   @@index([createdAt])
+  @@index([isOpenSource])
   @@unique([nameEN, organizationId]) // Prevent duplicates within same org
 }
 

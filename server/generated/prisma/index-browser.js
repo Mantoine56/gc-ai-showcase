@@ -149,6 +149,8 @@ exports.Prisma.ProjectScalarFieldEnum = {
   source2: 'source2',
   moderationState: 'moderationState',
   featured: 'featured',
+  isOpenSource: 'isOpenSource',
+  githubUrl: 'githubUrl',
   createdBy: 'createdBy',
   updatedBy: 'updatedBy',
   createdAt: 'createdAt',

@@ -9,6 +9,7 @@ import {
   Star,
   TrendingUp,
   Clock,
+  Github,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
@@ -37,6 +38,7 @@ export function AppSidebar() {
   const projectsNavigation = [
     { title: t('nav.allProjects'), url: "/", icon: Home },
     { title: t('nav.featured'), url: "/?tab=featured", icon: Star },
+    { title: "Open Source", url: "/?tab=opensource", icon: Github },
     { title: t('nav.trending'), url: "/?tab=trending", icon: TrendingUp },
     { title: t('nav.recent'), url: "/?tab=recent", icon: Clock },
   ];
