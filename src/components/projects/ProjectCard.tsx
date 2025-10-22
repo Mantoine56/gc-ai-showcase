@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Eye, Shield, User } from 'lucide-react';
+import { Eye, Shield, User, Building2, CheckCircle2, Code2, Users, Star, Sparkles } from 'lucide-react';
 import { Project, ProjectStatus } from '@/types';
 
 interface ProjectCardProps {
@@ -10,31 +10,41 @@ interface ProjectCardProps {
 }
 
 const ProjectCard = ({ project }: ProjectCardProps) => {
-  const getStatusColor = (status: ProjectStatus) => {
+  const getStatusInfo = (status: ProjectStatus) => {
     switch (status) {
       case ProjectStatus.InProduction:
-        return 'bg-gcds-color-green-100 text-gcds-color-green-900';
+        return {
+          badge: 'bg-gcds-color-green-100 text-gcds-color-green-900 border-gcds-color-green-300',
+          border: 'border-l-gcds-color-green-500',
+          icon: CheckCircle2,
+          label: 'Production'
+        };
       case ProjectStatus.InDevelopment:
-        return 'bg-gcds-color-yellow-100 text-gcds-color-yellow-900';
+        return {
+          badge: 'bg-gcds-color-yellow-100 text-gcds-color-yellow-900 border-gcds-color-yellow-300',
+          border: 'border-l-gcds-color-yellow-500',
+          icon: Code2,
+          label: 'Development'
+        };
       case ProjectStatus.Retired:
-        return 'bg-gcds-color-grayscale-100 text-gcds-color-grayscale-900';
+        return {
+          badge: 'bg-gcds-color-grayscale-100 text-gcds-color-grayscale-900 border-gcds-color-grayscale-300',
+          border: 'border-l-gcds-color-grayscale-400',
+          icon: Users,
+          label: 'Retired'
+        };
       default:
-        return 'bg-gcds-color-grayscale-100 text-gcds-color-grayscale-900';
+        return {
+          badge: 'bg-gcds-color-grayscale-100 text-gcds-color-grayscale-900 border-gcds-color-grayscale-300',
+          border: 'border-l-gcds-color-grayscale-400',
+          icon: Users,
+          label: status
+        };
     }
   };
 
-  const getStatusLabel = (status: ProjectStatus) => {
-    switch (status) {
-      case ProjectStatus.InProduction:
-        return 'Production';
-      case ProjectStatus.InDevelopment:
-        return 'Development';
-      case ProjectStatus.Retired:
-        return 'Retired';
-      default:
-        return status;
-    }
-  };
+  const statusInfo = getStatusInfo(project.status);
+  const StatusIcon = statusInfo.icon;
 
   // Extract capabilities as tags
   const capabilities = project.capabilities
@@ -42,27 +52,31 @@ const ProjectCard = ({ project }: ProjectCardProps) => {
     : [];
 
   return (
-    <Card className="group h-full flex flex-col transition-all duration-300 hover:shadow-card-hover hover:-translate-y-1 bg-gradient-card border-border/50">
-      <CardHeader className="space-y-4">
-        {/* Status and Featured Badge */}
-        <div className="flex items-center justify-between gap-2 flex-wrap">
-          <Badge variant="secondary" className={getStatusColor(project.status)}>
-            {getStatusLabel(project.status)}
+    <Card className={`group h-full flex flex-col transition-all duration-300 hover:shadow-lg hover:-translate-y-1 bg-gradient-card border-l-4 ${statusInfo.border} relative overflow-hidden`}>
+      {/* Featured ribbon */}
+      {project.featured && (
+        <div className="absolute top-3 -right-10 bg-gcds-color-yellow-500 text-white text-xs font-bold px-12 py-1 transform rotate-45 shadow-md z-10">
+          <Star className="h-3 w-3 inline mr-1" />
+          FEATURED
+        </div>
+      )}
+
+      <CardHeader className="space-y-4 pb-3">
+        {/* Status and Compliance Badges */}
+        <div className="flex items-start justify-between gap-2 flex-wrap">
+          <Badge variant="secondary" className={`${statusInfo.badge} border font-semibold shadow-sm`}>
+            <StatusIcon className="h-3.5 w-3.5 mr-1.5" />
+            {statusInfo.label}
           </Badge>
-          <div className="flex items-center gap-2">
-            {project.featured && (
-              <Badge variant="outline" className="text-primary border-primary">
-                Featured
-              </Badge>
-            )}
+          <div className="flex items-center gap-1.5 flex-wrap">
             {project.isAutomatedDecisionSystem && (
-              <Badge variant="outline" className="text-gcds-color-blue-700 border-gcds-color-blue-700" title="Automated Decision System">
+              <Badge variant="outline" className="text-gcds-color-blue-700 border-gcds-color-blue-700 bg-gcds-color-blue-50 shadow-sm" title="Automated Decision System">
                 <Shield className="h-3 w-3 mr-1" />
                 ADS
               </Badge>
             )}
             {project.involvesPersonalInfo && (
-              <Badge variant="outline" className="text-gcds-color-purple-700 border-gcds-color-purple-700" title="Involves Personal Information">
+              <Badge variant="outline" className="text-gcds-color-purple-700 border-gcds-color-purple-700 bg-gcds-color-purple-50 shadow-sm" title="Involves Personal Information">
                 <User className="h-3 w-3 mr-1" />
                 PI
               </Badge>
@@ -71,41 +85,43 @@ const ProjectCard = ({ project }: ProjectCardProps) => {
         </div>
 
         {/* Title and Department */}
-        <div>
-          <h3 className="text-xl font-bold text-card-foreground group-hover:text-primary transition-colors">
+        <div className="space-y-2">
+          <h3 className="text-xl font-bold text-card-foreground group-hover:text-primary transition-colors leading-tight line-clamp-2">
             {project.name}
           </h3>
-          <p className="text-sm text-muted-foreground font-medium mt-1">
-            {project.organization?.nameEN || 'Unknown Organization'}
-          </p>
+          <div className="flex items-center gap-2 text-sm text-muted-foreground">
+            <Building2 className="h-4 w-4 shrink-0 text-gcds-color-blue-600" />
+            <span className="font-medium line-clamp-1">{project.organization?.nameEN || 'Unknown Organization'}</span>
+          </div>
           {project.statusYear && (
-            <p className="text-xs text-muted-foreground mt-1">
+            <p className="text-xs text-muted-foreground flex items-center gap-1.5">
+              <Sparkles className="h-3 w-3" />
               Since {project.statusYear}
             </p>
           )}
         </div>
       </CardHeader>
 
-      <CardContent className="space-y-4 flex-1 flex flex-col">
+      <CardContent className="space-y-3 flex-1 flex flex-col pt-3 pb-4">
         {/* Description */}
-        <p className="text-sm text-muted-foreground leading-relaxed line-clamp-3">
+        <p className="text-sm text-muted-foreground leading-relaxed line-clamp-3 min-h-[60px]">
           {project.description}
         </p>
 
         {/* Capabilities Tags */}
         {capabilities.length > 0 && (
-          <div className="flex flex-wrap gap-2">
+          <div className="flex flex-wrap gap-1.5">
             {capabilities.map((cap) => (
               <Badge
                 key={cap}
                 variant="outline"
-                className="text-xs px-2 py-1 bg-accent/50"
+                className="text-xs px-2.5 py-0.5 bg-gcds-color-blue-50 text-gcds-color-blue-800 border-gcds-color-blue-200 font-medium"
               >
                 {cap}
               </Badge>
             ))}
             {project.capabilities && project.capabilities.split(',').length > 3 && (
-              <Badge variant="outline" className="text-xs px-2 py-1 bg-accent/50">
+              <Badge variant="outline" className="text-xs px-2.5 py-0.5 bg-gcds-color-blue-50 text-gcds-color-blue-800 border-gcds-color-blue-200 font-medium">
                 +{project.capabilities.split(',').length - 3} more
               </Badge>
             )}
@@ -113,28 +129,34 @@ const ProjectCard = ({ project }: ProjectCardProps) => {
         )}
 
         {/* Additional Info */}
-        <div className="mt-auto pt-2 border-t border-border/50">
-          <div className="grid grid-cols-2 gap-2 text-xs text-muted-foreground">
-            <div>
-              <span className="font-semibold">Developed by:</span>
-              <div>{project.developedBy === 'Government' ? 'In-house' : project.developedBy}</div>
-            </div>
-            <div>
-              <span className="font-semibold">Primary Users:</span>
+        <div className="mt-auto pt-3 border-t border-border">
+          <div className="grid grid-cols-2 gap-3 text-xs">
+            <div className="flex items-start gap-2">
+              <Code2 className="h-3.5 w-3.5 text-gcds-color-blue-600 shrink-0 mt-0.5" />
               <div>
-                {project.primaryUsers === 'MembersOfPublic'
-                  ? 'Public'
-                  : project.primaryUsers === 'Employees'
-                  ? 'Staff'
-                  : project.primaryUsers}
+                <div className="font-semibold text-gcds-text-primary">Developed by</div>
+                <div className="text-muted-foreground">{project.developedBy === 'Government' ? 'In-house' : project.developedBy}</div>
+              </div>
+            </div>
+            <div className="flex items-start gap-2">
+              <Users className="h-3.5 w-3.5 text-gcds-color-purple-600 shrink-0 mt-0.5" />
+              <div>
+                <div className="font-semibold text-gcds-text-primary">Primary Users</div>
+                <div className="text-muted-foreground">
+                  {project.primaryUsers === 'MembersOfPublic'
+                    ? 'Public'
+                    : project.primaryUsers === 'Employees'
+                    ? 'Staff'
+                    : project.primaryUsers}
+                </div>
               </div>
             </div>
           </div>
         </div>
       </CardContent>
 
-      <CardFooter className="flex items-center gap-2 pt-4 mt-auto">
-        <Button asChild size="sm" className="flex-1">
+      <CardFooter className="flex items-center gap-2 pt-3 pb-4 bg-gcds-background-secondary/30">
+        <Button asChild size="sm" className="flex-1 group-hover:shadow-md transition-all">
           <Link to={`/project/${project.id}`}>
             <Eye className="mr-2 h-4 w-4" />
             View Details
