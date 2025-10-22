@@ -177,8 +177,8 @@ const EnhancedAIChatSidebar = ({ isOpen, onToggle }: EnhancedAIChatSidebarProps)
         <>
           {/* Status Badge */}
           <div className="p-3 border-b border-gcds-border-secondary">
-            <Badge variant="outline" className="text-xs bg-green-50 text-green-700 border-green-200">
-              <div className="w-2 h-2 bg-green-500 rounded-full mr-2 animate-pulse"></div>
+            <Badge variant="outline" className="text-xs bg-gcds-color-green-100 text-gcds-color-green-900 border-gcds-color-green-300">
+              <div className="w-2 h-2 bg-gcds-color-green-600 rounded-full mr-2 animate-pulse"></div>
               Online - Ready to assist
             </Badge>
           </div>
@@ -206,7 +206,7 @@ const EnhancedAIChatSidebar = ({ isOpen, onToggle }: EnhancedAIChatSidebarProps)
                     >
                       <p className="text-sm leading-relaxed whitespace-pre-wrap">{msg.content}</p>
                       <p className={`text-xs mt-2 ${
-                        msg.type === 'user' ? 'text-blue-100' : 'text-gcds-text-secondary'
+                        msg.type === 'user' ? 'text-gcds-color-blue-100' : 'text-gcds-text-secondary'
                       }`}>
                         {msg.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                       </p>

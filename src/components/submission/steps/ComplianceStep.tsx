@@ -52,7 +52,7 @@ export default function ComplianceStep({ form }: ComplianceStepProps) {
             </FormControl>
             <div className="space-y-1 flex-1">
               <div className="flex items-center gap-2">
-                <Shield className="h-4 w-4 text-blue-600" />
+                <Shield className="h-4 w-4 text-gcds-color-blue-700" />
                 <FormLabel className="text-base font-semibold">
                   Automated Decision System (ADS)
                 </FormLabel>
@@ -72,7 +72,7 @@ export default function ComplianceStep({ form }: ComplianceStepProps) {
           control={form.control}
           name="openGovAiaId"
           render={({ field }) => (
-            <FormItem className="ml-6 pl-4 border-l-2 border-blue-200">
+            <FormItem className="ml-6 pl-4 border-l-2 border-gcds-color-blue-300">
               <FormLabel>Algorithmic Impact Assessment (AIA) ID</FormLabel>
               <FormControl>
                 <Input
@@ -103,7 +103,7 @@ export default function ComplianceStep({ form }: ComplianceStepProps) {
             </FormControl>
             <div className="space-y-1 flex-1">
               <div className="flex items-center gap-2">
-                <User className="h-4 w-4 text-purple-600" />
+                <User className="h-4 w-4 text-gcds-color-purple-700" />
                 <FormLabel className="text-base font-semibold">
                   Involves Personal Information
                 </FormLabel>
@@ -122,7 +122,7 @@ export default function ComplianceStep({ form }: ComplianceStepProps) {
           control={form.control}
           name="personalInformationBanks"
           render={({ field }) => (
-            <FormItem className="ml-6 pl-4 border-l-2 border-purple-200">
+            <FormItem className="ml-6 pl-4 border-l-2 border-gcds-color-purple-300">
               <FormLabel>Personal Information Bank (PIB) References</FormLabel>
               <FormControl>
                 <Textarea
@@ -166,18 +166,18 @@ export default function ComplianceStep({ form }: ComplianceStepProps) {
       />
 
       {/* Help Text */}
-      <div className="bg-blue-50 dark:bg-blue-900/10 border border-blue-200 dark:border-blue-800 rounded-lg p-4">
-        <h4 className="text-sm font-semibold text-blue-900 dark:text-blue-100 mb-2">
+      <div className="bg-gcds-color-blue-100 border border-gcds-color-blue-300 rounded-lg p-4">
+        <h4 className="text-sm font-semibold text-gcds-color-blue-900 mb-2">
           Need Help?
         </h4>
-        <ul className="text-sm text-blue-800 dark:text-blue-200 space-y-1.5">
+        <ul className="text-sm text-gcds-color-blue-900 space-y-1.5">
           <li className="flex items-start gap-2">
             <span className="font-semibold shrink-0">ADS:</span>
-            <span>Review the <a href="https://www.tbs-sct.canada.ca/pol/doc-eng.aspx?id=32592" target="_blank" rel="noopener noreferrer" className="underline hover:text-blue-600">Directive on Automated Decision-Making</a></span>
+            <span>Review the <a href="https://www.tbs-sct.canada.ca/pol/doc-eng.aspx?id=32592" target="_blank" rel="noopener noreferrer" className="underline hover:text-gcds-color-blue-700">Directive on Automated Decision-Making</a></span>
           </li>
           <li className="flex items-start gap-2">
             <span className="font-semibold shrink-0">AIA:</span>
-            <span>Complete an <a href="https://open.canada.ca/aia-eia-js/" target="_blank" rel="noopener noreferrer" className="underline hover:text-blue-600">Algorithmic Impact Assessment</a> if required</span>
+            <span>Complete an <a href="https://open.canada.ca/aia-eia-js/" target="_blank" rel="noopener noreferrer" className="underline hover:text-gcds-color-blue-700">Algorithmic Impact Assessment</a> if required</span>
           </li>
           <li className="flex items-start gap-2">
             <span className="font-semibold shrink-0">Privacy:</span>

@@ -19,12 +19,12 @@ export default function ReviewStep({ form }: ReviewStepProps) {
 
   // Helper to format boolean values
   const formatBoolean = (value: boolean) => value ? (
-    <div className="flex items-center gap-1 text-green-600">
+    <div className="flex items-center gap-1 text-gcds-color-green-700">
       <CheckCircle2 className="h-4 w-4" />
       <span>Yes</span>
     </div>
   ) : (
-    <div className="flex items-center gap-1 text-gray-500">
+    <div className="flex items-center gap-1 text-gcds-color-grayscale-500">
       <XCircle className="h-4 w-4" />
       <span>No</span>
     </div>
@@ -61,22 +61,22 @@ export default function ReviewStep({ form }: ReviewStepProps) {
   const getStatusColor = (status: ProjectStatus) => {
     switch (status) {
       case ProjectStatus.InProduction:
-        return 'bg-green-100 text-green-800';
+        return 'bg-gcds-color-green-100 text-gcds-color-green-900';
       case ProjectStatus.InDevelopment:
-        return 'bg-yellow-100 text-yellow-800';
+        return 'bg-gcds-color-yellow-100 text-gcds-color-yellow-900';
       case ProjectStatus.Retired:
-        return 'bg-gray-100 text-gray-800';
+        return 'bg-gcds-color-grayscale-100 text-gcds-color-grayscale-900';
     }
   };
 
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="bg-blue-50 dark:bg-blue-900/10 border border-blue-200 dark:border-blue-800 rounded-lg p-4">
-        <h3 className="text-lg font-semibold text-blue-900 dark:text-blue-100 mb-2">
+      <div className="bg-gcds-color-blue-100 border border-gcds-color-blue-300 rounded-lg p-4">
+        <h3 className="text-lg font-semibold text-gcds-color-blue-900 mb-2">
           Review Your Submission
         </h3>
-        <p className="text-sm text-blue-800 dark:text-blue-200">
+        <p className="text-sm text-gcds-color-blue-900">
           Please review all information below. You can go back to any step to make changes before submitting.
         </p>
       </div>
@@ -230,8 +230,8 @@ export default function ReviewStep({ form }: ReviewStepProps) {
       </Card>
 
       {/* Final Note */}
-      <div className="bg-green-50 dark:bg-green-900/10 border border-green-200 dark:border-green-800 rounded-lg p-4">
-        <p className="text-sm text-green-800 dark:text-green-200">
+      <div className="bg-gcds-color-green-100 border border-gcds-color-green-300 rounded-lg p-4">
+        <p className="text-sm text-gcds-color-green-900">
           By submitting this form, you confirm that the information provided is accurate and complete to the best of your knowledge.
           The submission will be reviewed by administrators before being published to the public registry.
         </p>

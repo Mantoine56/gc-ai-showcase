@@ -75,11 +75,11 @@ export default function AdvancedFilters({
   const getStatusColor = (status: ProjectStatus) => {
     switch (status) {
       case ProjectStatus.InProduction:
-        return 'bg-gcds-color-green-100 text-gcds-color-green-900 dark:bg-gcds-color-green-900/20 dark:text-gcds-color-green-300';
+        return 'bg-gcds-color-green-100 text-gcds-color-green-900';
       case ProjectStatus.InDevelopment:
-        return 'bg-gcds-color-yellow-100 text-gcds-color-yellow-900 dark:bg-gcds-color-yellow-900/20 dark:text-gcds-color-yellow-300';
+        return 'bg-gcds-color-yellow-100 text-gcds-color-yellow-900';
       case ProjectStatus.Retired:
-        return 'bg-gcds-color-grayscale-100 text-gcds-color-grayscale-900 dark:bg-gcds-color-grayscale-900/20 dark:text-gcds-color-grayscale-300';
+        return 'bg-gcds-color-grayscale-100 text-gcds-color-grayscale-900';
     }
   };
 
@@ -105,7 +105,7 @@ export default function AdvancedFilters({
             <Filter className="h-4 w-4" />
             Filters
             {activeFiltersCount > 0 && (
-              <Badge variant="secondary" className="ml-1 h-5 min-w-[20px] px-1.5 text-xs bg-gcds-background-primary dark:bg-gcds-color-grayscale-900">
+              <Badge variant="secondary" className="ml-1 h-5 min-w-[20px] px-1.5 text-xs bg-gcds-background-primary">
                 {activeFiltersCount}
               </Badge>
             )}
@@ -192,7 +192,7 @@ export default function AdvancedFilters({
                 variant={filterADS ? "default" : "outline"}
                 className={`cursor-pointer transition-all px-3 py-1.5 ${
                   filterADS
-                    ? 'bg-gcds-color-blue-100 text-gcds-color-blue-900 dark:bg-gcds-color-blue-900/20 dark:text-gcds-color-blue-300 hover:brightness-95'
+                    ? 'bg-gcds-color-blue-100 text-gcds-color-blue-900 hover:brightness-95'
                     : 'hover:bg-accent hover:text-accent-foreground'
                 }`}
                 onClick={onADSToggle}
@@ -204,7 +204,7 @@ export default function AdvancedFilters({
                 variant={filterPersonalInfo ? "default" : "outline"}
                 className={`cursor-pointer transition-all px-3 py-1.5 ${
                   filterPersonalInfo
-                    ? 'bg-gcds-color-purple-100 text-gcds-color-purple-900 dark:bg-gcds-color-purple-900/20 dark:text-gcds-color-purple-300 hover:brightness-95'
+                    ? 'bg-gcds-color-purple-100 text-gcds-color-purple-900 hover:brightness-95'
                     : 'hover:bg-accent hover:text-accent-foreground'
                 }`}
                 onClick={onPersonalInfoToggle}
@@ -302,7 +302,7 @@ export default function AdvancedFilters({
 
           {/* Compliance badges */}
           {filterADS && (
-            <Badge className="gap-1 pr-1 pl-2 text-xs bg-gcds-color-blue-100 text-gcds-color-blue-900 dark:bg-gcds-color-blue-900/20 dark:text-gcds-color-blue-300">
+            <Badge className="gap-1 pr-1 pl-2 text-xs bg-gcds-color-blue-100 text-gcds-color-blue-900">
               <Shield className="h-3 w-3 mr-1" />
               ADS
               <Button
@@ -317,7 +317,7 @@ export default function AdvancedFilters({
           )}
 
           {filterPersonalInfo && (
-            <Badge className="gap-1 pr-1 pl-2 text-xs bg-gcds-color-purple-100 text-gcds-color-purple-900 dark:bg-gcds-color-purple-900/20 dark:text-gcds-color-purple-300">
+            <Badge className="gap-1 pr-1 pl-2 text-xs bg-gcds-color-purple-100 text-gcds-color-purple-900">
               <User className="h-3 w-3 mr-1" />
               Personal Info
               <Button

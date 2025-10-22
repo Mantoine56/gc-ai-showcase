@@ -91,13 +91,13 @@ export function ProjectsTable({ projects, isLoading, sortBy, sortOrder, onSortCh
   const getStatusColor = (status: ProjectStatus) => {
     switch (status) {
       case ProjectStatus.InProduction:
-        return 'bg-gcds-color-green-100 text-gcds-color-green-900 dark:bg-gcds-color-green-900/20 dark:text-gcds-color-green-300';
+        return 'bg-gcds-color-green-100 text-gcds-color-green-900';
       case ProjectStatus.InDevelopment:
-        return 'bg-gcds-color-yellow-100 text-gcds-color-yellow-900 dark:bg-gcds-color-yellow-900/20 dark:text-gcds-color-yellow-300';
+        return 'bg-gcds-color-yellow-100 text-gcds-color-yellow-900';
       case ProjectStatus.Retired:
-        return 'bg-gcds-color-grayscale-100 text-gcds-color-grayscale-900 dark:bg-gcds-color-grayscale-900/20 dark:text-gcds-color-grayscale-300';
+        return 'bg-gcds-color-grayscale-100 text-gcds-color-grayscale-900';
       default:
-        return 'bg-gcds-color-grayscale-100 text-gcds-color-grayscale-900 dark:bg-gcds-color-grayscale-900/20 dark:text-gcds-color-grayscale-300';
+        return 'bg-gcds-color-grayscale-100 text-gcds-color-grayscale-900';
     }
   };
 

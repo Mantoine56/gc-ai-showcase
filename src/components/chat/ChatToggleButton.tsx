@@ -21,7 +21,7 @@ const ChatToggleButton = ({ onClick, hasNewMessage = false }: ChatToggleButtonPr
         
         {/* New message indicator */}
         {hasNewMessage && (
-          <Badge className="absolute -top-2 -right-2 h-5 w-5 p-0 bg-red-500 hover:bg-red-500 text-white text-xs flex items-center justify-center rounded-full">
+          <Badge className="absolute -top-2 -right-2 h-5 w-5 p-0 bg-gcds-color-red-600 hover:bg-gcds-color-red-600 text-white text-xs flex items-center justify-center rounded-full">
             1
           </Badge>
         )}
