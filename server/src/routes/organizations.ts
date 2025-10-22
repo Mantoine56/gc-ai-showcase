@@ -19,9 +19,9 @@ router.get(
 
     if (search && typeof search === 'string') {
       where.OR = [
-        { nameEN: { contains: search, mode: 'insensitive' } },
-        { nameFR: { contains: search, mode: 'insensitive' } },
-        { acronym: { contains: search, mode: 'insensitive' } },
+        { nameEN: { contains: search } },
+        { nameFR: { contains: search } },
+        { acronym: { contains: search } },
       ];
     }
 

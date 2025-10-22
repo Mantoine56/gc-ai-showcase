@@ -102,11 +102,13 @@ export class ExcelService {
     }
 
     // Find or create organization
+    // Note: SQLite is case-insensitive by default for LIKE, but not for equals
+    // We'll use a simple string match approach for SQLite compatibility
     let organization = await this.prisma.organization.findFirst({
       where: {
         OR: [
-          { nameEN: { equals: organizationName, mode: 'insensitive' } },
-          { nameFR: { equals: organizationName, mode: 'insensitive' } },
+          { nameEN: { equals: organizationName } },
+          { nameFR: { equals: organizationName } },
         ],
       },
     });
