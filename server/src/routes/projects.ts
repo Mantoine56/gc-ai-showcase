@@ -110,6 +110,18 @@ router.get(
       where.moderationState = 'Published';
     }
 
+    // Build orderBy clause - handle organization sorting specially
+    let orderBy: any = { [sortBy]: sortOrder };
+
+    if (sortBy === 'organization') {
+      // Sort by organization name instead of organizationId
+      orderBy = {
+        organization: {
+          nameEN: sortOrder,
+        },
+      };
+    }
+
     // Execute query
     const [projects, total] = await Promise.all([
       prisma.project.findMany({
@@ -117,7 +129,7 @@ router.get(
         include: {
           organization: true,
         },
-        orderBy: { [sortBy]: sortOrder },
+        orderBy,
         skip,
         take: limitNum,
       }),

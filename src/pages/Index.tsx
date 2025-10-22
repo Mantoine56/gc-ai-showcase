@@ -1,12 +1,14 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { DashboardLayout } from '@/components/layout/DashboardLayout';
 import SearchAndFilter from '@/components/projects/SearchAndFilter';
 import AdvancedFilters from '@/components/projects/AdvancedFilters';
 import ProjectGrid from '@/components/projects/ProjectGrid';
+import { ProjectsTable } from '@/components/projects/ProjectsTable';
 import { ProjectPagination } from '@/components/projects/ProjectPagination';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Input } from '@/components/ui/input';
-import { Search } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Search, LayoutGrid, Table } from 'lucide-react';
 import { TrendingUp, Star, Clock, BarChart3, Building2 } from 'lucide-react';
 import { useProjects, useGlobalStats } from '@/hooks/useProjects';
 import { useOrganizations } from '@/hooks/useOrganizations';
@@ -23,6 +25,17 @@ const Index = () => {
   const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('desc');
   const [activeTab, setActiveTab] = useState('all');
   const [page, setPage] = useState(1);
+
+  // Load view mode from localStorage
+  const [viewMode, setViewMode] = useState<'grid' | 'table'>(() => {
+    const saved = localStorage.getItem('projectViewMode');
+    return (saved === 'table' || saved === 'grid') ? saved : 'grid';
+  });
+
+  // Persist view mode to localStorage
+  useEffect(() => {
+    localStorage.setItem('projectViewMode', viewMode);
+  }, [viewMode]);
 
   // Build filters for API
   const filters: ProjectFilters = useMemo(() => {
@@ -299,33 +312,67 @@ const Index = () => {
               </TabsList>
             </Tabs>
 
-            <div className="w-full lg:w-auto">
-              <AdvancedFilters
-                selectedStatuses={selectedStatuses}
-                onStatusToggle={handleStatusToggle}
-                filterADS={filterADS}
-                onADSToggle={() => setFilterADS(!filterADS)}
-                filterPersonalInfo={filterPersonalInfo}
-                onPersonalInfoToggle={() => setFilterPersonalInfo(!filterPersonalInfo)}
-                selectedDepartments={selectedDepartments}
-                onDepartmentToggle={handleDepartmentToggle}
-                availableDepartments={availableDepartments}
-                sortBy={sortBy}
-                sortOrder={sortOrder}
-                onSortChange={handleSortChange}
-                onClearAll={handleClearAllFilters}
-              />
+            <div className="flex items-center gap-3 w-full lg:w-auto">
+              {/* View Toggle */}
+              <div className="flex items-center gap-1 bg-muted p-1 rounded-lg">
+                <Button
+                  variant={viewMode === 'grid' ? 'default' : 'ghost'}
+                  size="sm"
+                  onClick={() => setViewMode('grid')}
+                  className={`h-7 px-3 ${viewMode === 'grid' ? 'shadow-sm' : ''}`}
+                >
+                  <LayoutGrid className="h-4 w-4" />
+                </Button>
+                <Button
+                  variant={viewMode === 'table' ? 'default' : 'ghost'}
+                  size="sm"
+                  onClick={() => setViewMode('table')}
+                  className={`h-7 px-3 ${viewMode === 'table' ? 'shadow-sm' : ''}`}
+                >
+                  <Table className="h-4 w-4" />
+                </Button>
+              </div>
+
+              <div className="flex-1 lg:flex-none">
+                <AdvancedFilters
+                  selectedStatuses={selectedStatuses}
+                  onStatusToggle={handleStatusToggle}
+                  filterADS={filterADS}
+                  onADSToggle={() => setFilterADS(!filterADS)}
+                  filterPersonalInfo={filterPersonalInfo}
+                  onPersonalInfoToggle={() => setFilterPersonalInfo(!filterPersonalInfo)}
+                  selectedDepartments={selectedDepartments}
+                  onDepartmentToggle={handleDepartmentToggle}
+                  availableDepartments={availableDepartments}
+                  sortBy={sortBy}
+                  sortOrder={sortOrder}
+                  onSortChange={handleSortChange}
+                  onClearAll={handleClearAllFilters}
+                />
+              </div>
             </div>
           </div>
         </div>
 
         {/* Projects Display */}
         <div>
-          <ProjectGrid
-            projects={getTabProjects()}
-            isLoading={isLoading}
-            searchQuery={searchQuery}
-          />
+          {/* Grid or Table View */}
+          {viewMode === 'grid' ? (
+            <ProjectGrid
+              projects={getTabProjects()}
+              isLoading={isLoading}
+              searchQuery={searchQuery}
+            />
+          ) : (
+            <ProjectsTable
+              projects={getTabProjects()}
+              isLoading={isLoading}
+              sortBy={sortBy}
+              sortOrder={sortOrder}
+              onSortChange={handleSortChange}
+            />
+          )}
+
           {error && (
             <div className="text-center py-8 text-gcds-text-danger">
               Error loading projects: {(error as Error).message}
