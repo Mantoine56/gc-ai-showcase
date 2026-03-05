@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { Button } from '@/components/ui/button';
 import { Menu, X, Moon, Sun, Github } from 'lucide-react';
 import { LanguageSwitcher } from '@/components/LanguageSwitcher';
+import { AuthButtons } from '@/components/auth/AuthButtons';
 import gcLogo from '@/assets/gc-logo.png';
 
 const Header = () => {
@@ -96,6 +97,7 @@ const Header = () => {
             >
               {t('header.addProject')}
             </Button>
+            <AuthButtons />
 
             {/* Mobile menu button */}
             <Button

@@ -19,12 +19,23 @@ import {
 import { assistantApi } from '@/lib/api';
 import { Link } from 'react-router-dom';
 
+interface AssistantProjectCard {
+  id: string;
+  nameEN: string;
+  nameFR: string;
+  descriptionEN: string;
+  descriptionFR: string;
+  status: string;
+  organizationNameEN: string;
+  organizationNameFR: string;
+}
+
 interface ChatMessage {
   id: string;
   type: 'user' | 'ai';
   content: string;
   timestamp: Date;
-  projects?: any[];
+  projects?: AssistantProjectCard[];
   suggestions?: string[];
 }
 
@@ -100,7 +111,7 @@ const EnhancedAIChatSidebar = ({ isOpen, onToggle }: EnhancedAIChatSidebarProps)
       const aiMessage: ChatMessage = {
         id: (Date.now() + 1).toString(),
         type: 'ai',
-        content: response.response.message,
+        content: response.response.answer,
         timestamp: new Date(),
         projects: response.response.projects,
         suggestions: response.response.suggestions,
@@ -230,9 +241,9 @@ const EnhancedAIChatSidebar = ({ isOpen, onToggle }: EnhancedAIChatSidebarProps)
                       {msg.projects.map((project) => (
                         <Link key={project.id} to={`/project/${project.id}`}>
                           <Card className="p-3 hover:shadow-md transition-shadow cursor-pointer border border-gcds-border-secondary">
-                            <h4 className="font-semibold text-sm text-gcds-text-primary">{project.name}</h4>
-                            <p className="text-xs text-gcds-text-secondary mt-1">{project.organization}</p>
-                            <p className="text-xs text-gcds-text-secondary mt-1 line-clamp-2">{project.description}</p>
+                            <h4 className="font-semibold text-sm text-gcds-text-primary">{project.nameEN}</h4>
+                            <p className="text-xs text-gcds-text-secondary mt-1">{project.organizationNameEN}</p>
+                            <p className="text-xs text-gcds-text-secondary mt-1 line-clamp-2">{project.descriptionEN}</p>
                             <Badge variant="secondary" className="mt-2 text-xs">
                               {project.status}
                             </Badge>

@@ -27,6 +27,11 @@ export enum ModerationState {
   Archived = 'Archived',
 }
 
+export enum TranslationStatus {
+  Incomplete = 'Incomplete',
+  Ready = 'Ready',
+}
+
 export enum ContactRole {
   Primary = 'Primary',
   Technical = 'Technical',
@@ -59,7 +64,9 @@ export interface Project {
 
   // Core Identity
   aiRegisterId?: string;
-  name: string;
+  nameEN: string;
+  nameFR: string;
+  name: string; // Legacy alias from API
   serviceInventoryId?: string;
 
   // Organization
@@ -67,7 +74,9 @@ export interface Project {
   organization?: Organization;
 
   // Description and Purpose
-  description: string;
+  descriptionEN: string;
+  descriptionFR: string;
+  description: string; // Legacy alias from API
   primaryUsers: PrimaryUsers;
 
   // Development
@@ -79,19 +88,29 @@ export interface Project {
   statusYear?: number;
 
   // Capabilities
-  capabilities?: string;
+  capabilitiesEN?: string;
+  capabilitiesFR?: string;
+  capabilities?: string; // Legacy alias from API
 
   // Compliance and Governance
   isAutomatedDecisionSystem: boolean;
   openGovAiaId?: string;
-  dataSources?: string;
+  dataSourcesEN?: string;
+  dataSourcesFR?: string;
+  dataSources?: string; // Legacy alias from API
   involvesPersonalInfo: boolean;
-  personalInformationBanks?: string;
+  personalInformationBanksEN?: string;
+  personalInformationBanksFR?: string;
+  personalInformationBanks?: string; // Legacy alias from API
   hasUserNotification: boolean;
-  atipRequestRefs?: string;
+  atipRequestRefsEN?: string;
+  atipRequestRefsFR?: string;
+  atipRequestRefs?: string; // Legacy alias from API
 
   // Outcomes
-  outcomes?: string;
+  outcomesEN?: string;
+  outcomesFR?: string;
+  outcomes?: string; // Legacy alias from API
 
   // Contacts
   contacts?: ProjectContact[];
@@ -102,6 +121,12 @@ export interface Project {
 
   // Metadata
   moderationState: ModerationState;
+  translationStatus: TranslationStatus;
+  ownerEntraObjectId?: string;
+  submittedAt?: string;
+  approvedAt?: string;
+  publishedAt?: string;
+  reviewNotes?: string;
   featured: boolean;
 
   // Open Source
@@ -170,7 +195,7 @@ export interface ProjectStats {
 export interface ApiError {
   error: string;
   message?: string;
-  details?: any;
+  details?: unknown;
 }
 
 // Search and filter types
@@ -186,31 +211,47 @@ export interface ProjectFilters {
   isOpenSource?: boolean;
   page?: number;
   limit?: number;
-  sortBy?: 'name' | 'createdAt' | 'updatedAt' | 'status' | 'statusYear';
+  sortBy?: 'name' | 'organization' | 'createdAt' | 'updatedAt' | 'status' | 'statusYear';
   sortOrder?: 'asc' | 'desc';
 }
 
 // Form input types
 export interface CreateProjectInput {
-  name: string;
+  nameEN?: string;
+  nameFR?: string;
+  name?: string;
   serviceInventoryId?: string;
   organizationId: string;
-  description: string;
+  descriptionEN?: string;
+  descriptionFR?: string;
+  description?: string;
   primaryUsers: PrimaryUsers;
   developedBy: DevelopedBy;
   vendorName?: string;
   status: ProjectStatus;
   statusYear?: number;
+  capabilitiesEN?: string;
+  capabilitiesFR?: string;
   capabilities?: string;
   isAutomatedDecisionSystem: boolean;
   openGovAiaId?: string;
+  dataSourcesEN?: string;
+  dataSourcesFR?: string;
   dataSources?: string;
   involvesPersonalInfo: boolean;
+  personalInformationBanksEN?: string;
+  personalInformationBanksFR?: string;
   personalInformationBanks?: string;
   hasUserNotification: boolean;
+  atipRequestRefsEN?: string;
+  atipRequestRefsFR?: string;
   atipRequestRefs?: string;
+  outcomesEN?: string;
+  outcomesFR?: string;
   outcomes?: string;
   featured?: boolean;
+  isOpenSource?: boolean;
+  githubUrl?: string;
 }
 
 export interface UpdateProjectInput extends Partial<CreateProjectInput> {

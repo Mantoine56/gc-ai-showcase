@@ -1,48 +1,48 @@
 import { Router } from 'express';
-import { z } from 'zod';
 import { asyncHandler } from '../middleware/errorHandler';
-import { validateQuery } from '../middleware/validateRequest';
-import { AIAssistantService } from '../services/ai-assistant.service';
 import { prisma } from '../lib/prisma';
+import { AIAssistantService } from '../services/ai-assistant.service';
+import { validateBody, validateQuery } from '../middleware/validateRequest';
+import { AssistantQuerySchema } from '../validation/schemas';
+import { authenticateOptional } from '../middleware/auth';
+import { createRateLimit } from '../middleware/rateLimit';
 
 const router = Router();
 const aiAssistant = new AIAssistantService(prisma);
 
-// Validation schemas
-const QuerySchema = z.object({
-  q: z.string().min(1, 'Query is required'),
-});
+router.use(authenticateOptional);
 
-// POST /api/assistant/query - AI Assistant natural language query
 router.post(
   '/query',
+  createRateLimit({ windowMs: 60_000, max: 30, keyPrefix: 'assistant:query' }),
+  validateBody(AssistantQuerySchema),
   asyncHandler(async (req, res) => {
-    const { query } = req.body;
-
-    if (!query || typeof query !== 'string') {
-      return res.status(400).json({
-        error: 'Query is required and must be a string',
-      });
-    }
-
-    const response = await aiAssistant.query(query);
+    const { query, locale } = req.body as { query: string; locale: 'en' | 'fr' };
+    const response = await aiAssistant.query(query, locale);
 
     res.json({
       success: true,
       query,
+      locale,
       response,
     });
   })
 );
 
-// GET /api/assistant/starters - Get conversation starters
 router.get(
   '/starters',
+  validateQuery(
+    AssistantQuerySchema.pick({
+      locale: true,
+    }).partial()
+  ),
   asyncHandler(async (req, res) => {
-    const starters = await aiAssistant.getConversationStarters();
+    const locale = (req.query.locale as 'en' | 'fr' | undefined) || 'en';
+    const starters = await aiAssistant.getConversationStarters(locale);
 
     res.json({
       success: true,
+      locale,
       starters,
     });
   })

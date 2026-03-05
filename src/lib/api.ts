@@ -12,16 +12,37 @@ import {
 // API base URL from environment variable
 const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001/api';
 
+function getClientAuthHeaders(): Record<string, string> {
+  const authToken = localStorage.getItem('gcaihubAccessToken');
+  const devUserId = localStorage.getItem('gcaihubDevUserId');
+  const devRoles = localStorage.getItem('gcaihubDevRoles') || 'submitter';
+
+  if (authToken) {
+    return { Authorization: `Bearer ${authToken}` };
+  }
+
+  if (devUserId) {
+    return {
+      'x-dev-user-id': devUserId,
+      'x-dev-roles': devRoles,
+    };
+  }
+
+  return {};
+}
+
 /**
  * Generic fetch wrapper with error handling
  */
 async function fetchAPI<T>(endpoint: string, options?: RequestInit): Promise<T> {
   const url = `${API_BASE_URL}${endpoint}`;
+  const authHeaders = getClientAuthHeaders();
 
   try {
     const response = await fetch(url, {
       headers: {
         'Content-Type': 'application/json',
+        ...authHeaders,
         ...options?.headers,
       },
       ...options,
@@ -93,6 +114,41 @@ export const projectsApi = {
     });
   },
 
+  async submit(id: string, reviewNotes?: string): Promise<Project> {
+    return fetchAPI<Project>(`/projects/${id}/submit`, {
+      method: 'POST',
+      body: JSON.stringify({ reviewNotes }),
+    });
+  },
+
+  async requestChanges(id: string, reviewNotes?: string): Promise<Project> {
+    return fetchAPI<Project>(`/projects/${id}/request-changes`, {
+      method: 'POST',
+      body: JSON.stringify({ reviewNotes }),
+    });
+  },
+
+  async approve(id: string, reviewNotes?: string): Promise<Project> {
+    return fetchAPI<Project>(`/projects/${id}/approve`, {
+      method: 'POST',
+      body: JSON.stringify({ reviewNotes }),
+    });
+  },
+
+  async publish(id: string, reviewNotes?: string): Promise<Project> {
+    return fetchAPI<Project>(`/projects/${id}/publish`, {
+      method: 'POST',
+      body: JSON.stringify({ reviewNotes }),
+    });
+  },
+
+  async archive(id: string, reviewNotes?: string): Promise<Project> {
+    return fetchAPI<Project>(`/projects/${id}/archive`, {
+      method: 'POST',
+      body: JSON.stringify({ reviewNotes }),
+    });
+  },
+
   /**
    * Delete (archive) project
    */
@@ -117,6 +173,7 @@ export const projectsApi = {
     featured: number;
     inProduction: number;
     organizations: number;
+    openSource: number;
   }> {
     return fetchAPI('/projects/stats');
   },
@@ -185,6 +242,7 @@ export const registryApi = {
     const response = await fetch(`${API_BASE_URL}/registry/import`, {
       method: 'POST',
       body: formData,
+      headers: getClientAuthHeaders(),
       // Don't set Content-Type header - browser will set it with boundary
     });
 
@@ -214,7 +272,9 @@ export const registryApi = {
     const query = params.toString();
     const endpoint = query ? `/registry/export?${query}` : '/registry/export';
 
-    const response = await fetch(`${API_BASE_URL}${endpoint}`);
+    const response = await fetch(`${API_BASE_URL}${endpoint}`, {
+      headers: getClientAuthHeaders(),
+    });
 
     if (!response.ok) {
       throw new Error('Export failed');
@@ -248,19 +308,36 @@ export const assistantApi = {
   /**
    * Query the AI assistant
    */
-  async query(query: string): Promise<{
+  async query(query: string, locale: 'en' | 'fr' = 'en'): Promise<{
     success: boolean;
     query: string;
+    locale: 'en' | 'fr';
     response: {
-      message: string;
-      projects?: any[];
-      stats?: any;
-      suggestions?: string[];
+      answer: string;
+      projects: Array<{
+        id: string;
+        nameEN: string;
+        nameFR: string;
+        descriptionEN: string;
+        descriptionFR: string;
+        status: string;
+        organizationNameEN: string;
+        organizationNameFR: string;
+        isAutomatedDecisionSystem: boolean;
+        involvesPersonalInfo: boolean;
+        isOpenSource: boolean;
+      }>;
+      citations: Array<{
+        projectId: string;
+        title: string;
+        href: string;
+      }>;
+      suggestions: string[];
     };
   }> {
     return fetchAPI('/assistant/query', {
       method: 'POST',
-      body: JSON.stringify({ query }),
+      body: JSON.stringify({ query, locale }),
     });
   },
 
@@ -269,6 +346,7 @@ export const assistantApi = {
    */
   async getStarters(): Promise<{
     success: boolean;
+    locale: 'en' | 'fr';
     starters: string[];
   }> {
     return fetchAPI('/assistant/starters');
@@ -289,5 +367,18 @@ export const adminApi = {
       url.searchParams.set('includeCodeRequests', String(params.includeCodeRequests));
     }
     return fetchAPI<AdminStatsResponse>(url.toString().replace(API_BASE_URL, ''));
+  },
+};
+
+/**
+ * Auth API
+ */
+export const authApi = {
+  async me(): Promise<{
+    authenticated: boolean;
+    user: { id?: string; email?: string; displayName?: string } | null;
+    roles: Array<'submitter' | 'reviewer' | 'admin'>;
+  }> {
+    return fetchAPI('/auth/me');
   },
 };

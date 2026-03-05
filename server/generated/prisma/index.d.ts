@@ -87,6 +87,14 @@ export const ModerationState: {
 export type ModerationState = (typeof ModerationState)[keyof typeof ModerationState]
 
 
+export const TranslationStatus: {
+  Incomplete: 'Incomplete',
+  Ready: 'Ready'
+};
+
+export type TranslationStatus = (typeof TranslationStatus)[keyof typeof TranslationStatus]
+
+
 export const ContactRole: {
   Primary: 'Primary',
   Technical: 'Technical',
@@ -112,6 +120,10 @@ export const ProjectStatus: typeof $Enums.ProjectStatus
 export type ModerationState = $Enums.ModerationState
 
 export const ModerationState: typeof $Enums.ModerationState
+
+export type TranslationStatus = $Enums.TranslationStatus
+
+export const TranslationStatus: typeof $Enums.TranslationStatus
 
 export type ContactRole = $Enums.ContactRole
 
@@ -1540,6 +1552,12 @@ export namespace Prisma {
     source1: string | null
     source2: string | null
     moderationState: $Enums.ModerationState | null
+    translationStatus: $Enums.TranslationStatus | null
+    ownerEntraObjectId: string | null
+    submittedAt: Date | null
+    approvedAt: Date | null
+    publishedAt: Date | null
+    reviewNotes: string | null
     featured: boolean | null
     isOpenSource: boolean | null
     githubUrl: string | null
@@ -1580,6 +1598,12 @@ export namespace Prisma {
     source1: string | null
     source2: string | null
     moderationState: $Enums.ModerationState | null
+    translationStatus: $Enums.TranslationStatus | null
+    ownerEntraObjectId: string | null
+    submittedAt: Date | null
+    approvedAt: Date | null
+    publishedAt: Date | null
+    reviewNotes: string | null
     featured: boolean | null
     isOpenSource: boolean | null
     githubUrl: string | null
@@ -1620,6 +1644,12 @@ export namespace Prisma {
     source1: number
     source2: number
     moderationState: number
+    translationStatus: number
+    ownerEntraObjectId: number
+    submittedAt: number
+    approvedAt: number
+    publishedAt: number
+    reviewNotes: number
     featured: number
     isOpenSource: number
     githubUrl: number
@@ -1670,6 +1700,12 @@ export namespace Prisma {
     source1?: true
     source2?: true
     moderationState?: true
+    translationStatus?: true
+    ownerEntraObjectId?: true
+    submittedAt?: true
+    approvedAt?: true
+    publishedAt?: true
+    reviewNotes?: true
     featured?: true
     isOpenSource?: true
     githubUrl?: true
@@ -1710,6 +1746,12 @@ export namespace Prisma {
     source1?: true
     source2?: true
     moderationState?: true
+    translationStatus?: true
+    ownerEntraObjectId?: true
+    submittedAt?: true
+    approvedAt?: true
+    publishedAt?: true
+    reviewNotes?: true
     featured?: true
     isOpenSource?: true
     githubUrl?: true
@@ -1750,6 +1792,12 @@ export namespace Prisma {
     source1?: true
     source2?: true
     moderationState?: true
+    translationStatus?: true
+    ownerEntraObjectId?: true
+    submittedAt?: true
+    approvedAt?: true
+    publishedAt?: true
+    reviewNotes?: true
     featured?: true
     isOpenSource?: true
     githubUrl?: true
@@ -1877,6 +1925,12 @@ export namespace Prisma {
     source1: string | null
     source2: string | null
     moderationState: $Enums.ModerationState
+    translationStatus: $Enums.TranslationStatus
+    ownerEntraObjectId: string | null
+    submittedAt: Date | null
+    approvedAt: Date | null
+    publishedAt: Date | null
+    reviewNotes: string | null
     featured: boolean
     isOpenSource: boolean
     githubUrl: string | null
@@ -1936,6 +1990,12 @@ export namespace Prisma {
     source1?: boolean
     source2?: boolean
     moderationState?: boolean
+    translationStatus?: boolean
+    ownerEntraObjectId?: boolean
+    submittedAt?: boolean
+    approvedAt?: boolean
+    publishedAt?: boolean
+    reviewNotes?: boolean
     featured?: boolean
     isOpenSource?: boolean
     githubUrl?: boolean
@@ -1980,6 +2040,12 @@ export namespace Prisma {
     source1?: boolean
     source2?: boolean
     moderationState?: boolean
+    translationStatus?: boolean
+    ownerEntraObjectId?: boolean
+    submittedAt?: boolean
+    approvedAt?: boolean
+    publishedAt?: boolean
+    reviewNotes?: boolean
     featured?: boolean
     isOpenSource?: boolean
     githubUrl?: boolean
@@ -2021,6 +2087,12 @@ export namespace Prisma {
     source1?: boolean
     source2?: boolean
     moderationState?: boolean
+    translationStatus?: boolean
+    ownerEntraObjectId?: boolean
+    submittedAt?: boolean
+    approvedAt?: boolean
+    publishedAt?: boolean
+    reviewNotes?: boolean
     featured?: boolean
     isOpenSource?: boolean
     githubUrl?: boolean
@@ -2062,6 +2134,12 @@ export namespace Prisma {
     source1?: boolean
     source2?: boolean
     moderationState?: boolean
+    translationStatus?: boolean
+    ownerEntraObjectId?: boolean
+    submittedAt?: boolean
+    approvedAt?: boolean
+    publishedAt?: boolean
+    reviewNotes?: boolean
     featured?: boolean
     isOpenSource?: boolean
     githubUrl?: boolean
@@ -2071,7 +2149,7 @@ export namespace Prisma {
     updatedAt?: boolean
   }
 
-  export type ProjectOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "aiRegisterId" | "nameEN" | "nameFR" | "serviceInventoryId" | "organizationId" | "descriptionEN" | "descriptionFR" | "primaryUsers" | "developedBy" | "vendorName" | "status" | "statusYear" | "capabilitiesEN" | "capabilitiesFR" | "isAutomatedDecisionSystem" | "openGovAiaId" | "dataSourcesEN" | "dataSourcesFR" | "involvesPersonalInfo" | "personalInformationBanksEN" | "personalInformationBanksFR" | "hasUserNotification" | "atipRequestRefsEN" | "atipRequestRefsFR" | "outcomesEN" | "outcomesFR" | "source1" | "source2" | "moderationState" | "featured" | "isOpenSource" | "githubUrl" | "createdBy" | "updatedBy" | "createdAt" | "updatedAt", ExtArgs["result"]["project"]>
+  export type ProjectOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "aiRegisterId" | "nameEN" | "nameFR" | "serviceInventoryId" | "organizationId" | "descriptionEN" | "descriptionFR" | "primaryUsers" | "developedBy" | "vendorName" | "status" | "statusYear" | "capabilitiesEN" | "capabilitiesFR" | "isAutomatedDecisionSystem" | "openGovAiaId" | "dataSourcesEN" | "dataSourcesFR" | "involvesPersonalInfo" | "personalInformationBanksEN" | "personalInformationBanksFR" | "hasUserNotification" | "atipRequestRefsEN" | "atipRequestRefsFR" | "outcomesEN" | "outcomesFR" | "source1" | "source2" | "moderationState" | "translationStatus" | "ownerEntraObjectId" | "submittedAt" | "approvedAt" | "publishedAt" | "reviewNotes" | "featured" | "isOpenSource" | "githubUrl" | "createdBy" | "updatedBy" | "createdAt" | "updatedAt", ExtArgs["result"]["project"]>
   export type ProjectInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     organization?: boolean | OrganizationDefaultArgs<ExtArgs>
     codeRequests?: boolean | Project$codeRequestsArgs<ExtArgs>
@@ -2123,6 +2201,12 @@ export namespace Prisma {
       source1: string | null
       source2: string | null
       moderationState: $Enums.ModerationState
+      translationStatus: $Enums.TranslationStatus
+      ownerEntraObjectId: string | null
+      submittedAt: Date | null
+      approvedAt: Date | null
+      publishedAt: Date | null
+      reviewNotes: string | null
       featured: boolean
       isOpenSource: boolean
       githubUrl: string | null
@@ -2586,6 +2670,12 @@ export namespace Prisma {
     readonly source1: FieldRef<"Project", 'String'>
     readonly source2: FieldRef<"Project", 'String'>
     readonly moderationState: FieldRef<"Project", 'ModerationState'>
+    readonly translationStatus: FieldRef<"Project", 'TranslationStatus'>
+    readonly ownerEntraObjectId: FieldRef<"Project", 'String'>
+    readonly submittedAt: FieldRef<"Project", 'DateTime'>
+    readonly approvedAt: FieldRef<"Project", 'DateTime'>
+    readonly publishedAt: FieldRef<"Project", 'DateTime'>
+    readonly reviewNotes: FieldRef<"Project", 'String'>
     readonly featured: FieldRef<"Project", 'Boolean'>
     readonly isOpenSource: FieldRef<"Project", 'Boolean'>
     readonly githubUrl: FieldRef<"Project", 'String'>
@@ -8574,6 +8664,12 @@ export namespace Prisma {
     source1: 'source1',
     source2: 'source2',
     moderationState: 'moderationState',
+    translationStatus: 'translationStatus',
+    ownerEntraObjectId: 'ownerEntraObjectId',
+    submittedAt: 'submittedAt',
+    approvedAt: 'approvedAt',
+    publishedAt: 'publishedAt',
+    reviewNotes: 'reviewNotes',
     featured: 'featured',
     isOpenSource: 'isOpenSource',
     githubUrl: 'githubUrl',
@@ -8724,6 +8820,13 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'TranslationStatus'
+   */
+  export type EnumTranslationStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'TranslationStatus'>
+    
+
+
+  /**
    * Reference to a field of type 'DateTime'
    */
   export type DateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime'>
@@ -8781,6 +8884,12 @@ export namespace Prisma {
     source1?: StringNullableFilter<"Project"> | string | null
     source2?: StringNullableFilter<"Project"> | string | null
     moderationState?: EnumModerationStateFilter<"Project"> | $Enums.ModerationState
+    translationStatus?: EnumTranslationStatusFilter<"Project"> | $Enums.TranslationStatus
+    ownerEntraObjectId?: StringNullableFilter<"Project"> | string | null
+    submittedAt?: DateTimeNullableFilter<"Project"> | Date | string | null
+    approvedAt?: DateTimeNullableFilter<"Project"> | Date | string | null
+    publishedAt?: DateTimeNullableFilter<"Project"> | Date | string | null
+    reviewNotes?: StringNullableFilter<"Project"> | string | null
     featured?: BoolFilter<"Project"> | boolean
     isOpenSource?: BoolFilter<"Project"> | boolean
     githubUrl?: StringNullableFilter<"Project"> | string | null
@@ -8824,6 +8933,12 @@ export namespace Prisma {
     source1?: SortOrderInput | SortOrder
     source2?: SortOrderInput | SortOrder
     moderationState?: SortOrder
+    translationStatus?: SortOrder
+    ownerEntraObjectId?: SortOrderInput | SortOrder
+    submittedAt?: SortOrderInput | SortOrder
+    approvedAt?: SortOrderInput | SortOrder
+    publishedAt?: SortOrderInput | SortOrder
+    reviewNotes?: SortOrderInput | SortOrder
     featured?: SortOrder
     isOpenSource?: SortOrder
     githubUrl?: SortOrderInput | SortOrder
@@ -8871,6 +8986,12 @@ export namespace Prisma {
     source1?: StringNullableFilter<"Project"> | string | null
     source2?: StringNullableFilter<"Project"> | string | null
     moderationState?: EnumModerationStateFilter<"Project"> | $Enums.ModerationState
+    translationStatus?: EnumTranslationStatusFilter<"Project"> | $Enums.TranslationStatus
+    ownerEntraObjectId?: StringNullableFilter<"Project"> | string | null
+    submittedAt?: DateTimeNullableFilter<"Project"> | Date | string | null
+    approvedAt?: DateTimeNullableFilter<"Project"> | Date | string | null
+    publishedAt?: DateTimeNullableFilter<"Project"> | Date | string | null
+    reviewNotes?: StringNullableFilter<"Project"> | string | null
     featured?: BoolFilter<"Project"> | boolean
     isOpenSource?: BoolFilter<"Project"> | boolean
     githubUrl?: StringNullableFilter<"Project"> | string | null
@@ -8914,6 +9035,12 @@ export namespace Prisma {
     source1?: SortOrderInput | SortOrder
     source2?: SortOrderInput | SortOrder
     moderationState?: SortOrder
+    translationStatus?: SortOrder
+    ownerEntraObjectId?: SortOrderInput | SortOrder
+    submittedAt?: SortOrderInput | SortOrder
+    approvedAt?: SortOrderInput | SortOrder
+    publishedAt?: SortOrderInput | SortOrder
+    reviewNotes?: SortOrderInput | SortOrder
     featured?: SortOrder
     isOpenSource?: SortOrder
     githubUrl?: SortOrderInput | SortOrder
@@ -8962,6 +9089,12 @@ export namespace Prisma {
     source1?: StringNullableWithAggregatesFilter<"Project"> | string | null
     source2?: StringNullableWithAggregatesFilter<"Project"> | string | null
     moderationState?: EnumModerationStateWithAggregatesFilter<"Project"> | $Enums.ModerationState
+    translationStatus?: EnumTranslationStatusWithAggregatesFilter<"Project"> | $Enums.TranslationStatus
+    ownerEntraObjectId?: StringNullableWithAggregatesFilter<"Project"> | string | null
+    submittedAt?: DateTimeNullableWithAggregatesFilter<"Project"> | Date | string | null
+    approvedAt?: DateTimeNullableWithAggregatesFilter<"Project"> | Date | string | null
+    publishedAt?: DateTimeNullableWithAggregatesFilter<"Project"> | Date | string | null
+    reviewNotes?: StringNullableWithAggregatesFilter<"Project"> | string | null
     featured?: BoolWithAggregatesFilter<"Project"> | boolean
     isOpenSource?: BoolWithAggregatesFilter<"Project"> | boolean
     githubUrl?: StringNullableWithAggregatesFilter<"Project"> | string | null
@@ -9336,6 +9469,12 @@ export namespace Prisma {
     source1?: string | null
     source2?: string | null
     moderationState?: $Enums.ModerationState
+    translationStatus?: $Enums.TranslationStatus
+    ownerEntraObjectId?: string | null
+    submittedAt?: Date | string | null
+    approvedAt?: Date | string | null
+    publishedAt?: Date | string | null
+    reviewNotes?: string | null
     featured?: boolean
     isOpenSource?: boolean
     githubUrl?: string | null
@@ -9379,6 +9518,12 @@ export namespace Prisma {
     source1?: string | null
     source2?: string | null
     moderationState?: $Enums.ModerationState
+    translationStatus?: $Enums.TranslationStatus
+    ownerEntraObjectId?: string | null
+    submittedAt?: Date | string | null
+    approvedAt?: Date | string | null
+    publishedAt?: Date | string | null
+    reviewNotes?: string | null
     featured?: boolean
     isOpenSource?: boolean
     githubUrl?: string | null
@@ -9420,6 +9565,12 @@ export namespace Prisma {
     source1?: NullableStringFieldUpdateOperationsInput | string | null
     source2?: NullableStringFieldUpdateOperationsInput | string | null
     moderationState?: EnumModerationStateFieldUpdateOperationsInput | $Enums.ModerationState
+    translationStatus?: EnumTranslationStatusFieldUpdateOperationsInput | $Enums.TranslationStatus
+    ownerEntraObjectId?: NullableStringFieldUpdateOperationsInput | string | null
+    submittedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    approvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    reviewNotes?: NullableStringFieldUpdateOperationsInput | string | null
     featured?: BoolFieldUpdateOperationsInput | boolean
     isOpenSource?: BoolFieldUpdateOperationsInput | boolean
     githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -9463,6 +9614,12 @@ export namespace Prisma {
     source1?: NullableStringFieldUpdateOperationsInput | string | null
     source2?: NullableStringFieldUpdateOperationsInput | string | null
     moderationState?: EnumModerationStateFieldUpdateOperationsInput | $Enums.ModerationState
+    translationStatus?: EnumTranslationStatusFieldUpdateOperationsInput | $Enums.TranslationStatus
+    ownerEntraObjectId?: NullableStringFieldUpdateOperationsInput | string | null
+    submittedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    approvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    reviewNotes?: NullableStringFieldUpdateOperationsInput | string | null
     featured?: BoolFieldUpdateOperationsInput | boolean
     isOpenSource?: BoolFieldUpdateOperationsInput | boolean
     githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -9505,6 +9662,12 @@ export namespace Prisma {
     source1?: string | null
     source2?: string | null
     moderationState?: $Enums.ModerationState
+    translationStatus?: $Enums.TranslationStatus
+    ownerEntraObjectId?: string | null
+    submittedAt?: Date | string | null
+    approvedAt?: Date | string | null
+    publishedAt?: Date | string | null
+    reviewNotes?: string | null
     featured?: boolean
     isOpenSource?: boolean
     githubUrl?: string | null
@@ -9544,6 +9707,12 @@ export namespace Prisma {
     source1?: NullableStringFieldUpdateOperationsInput | string | null
     source2?: NullableStringFieldUpdateOperationsInput | string | null
     moderationState?: EnumModerationStateFieldUpdateOperationsInput | $Enums.ModerationState
+    translationStatus?: EnumTranslationStatusFieldUpdateOperationsInput | $Enums.TranslationStatus
+    ownerEntraObjectId?: NullableStringFieldUpdateOperationsInput | string | null
+    submittedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    approvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    reviewNotes?: NullableStringFieldUpdateOperationsInput | string | null
     featured?: BoolFieldUpdateOperationsInput | boolean
     isOpenSource?: BoolFieldUpdateOperationsInput | boolean
     githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -9584,6 +9753,12 @@ export namespace Prisma {
     source1?: NullableStringFieldUpdateOperationsInput | string | null
     source2?: NullableStringFieldUpdateOperationsInput | string | null
     moderationState?: EnumModerationStateFieldUpdateOperationsInput | $Enums.ModerationState
+    translationStatus?: EnumTranslationStatusFieldUpdateOperationsInput | $Enums.TranslationStatus
+    ownerEntraObjectId?: NullableStringFieldUpdateOperationsInput | string | null
+    submittedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    approvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    reviewNotes?: NullableStringFieldUpdateOperationsInput | string | null
     featured?: BoolFieldUpdateOperationsInput | boolean
     isOpenSource?: BoolFieldUpdateOperationsInput | boolean
     githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -10034,6 +10209,24 @@ export namespace Prisma {
     not?: NestedEnumModerationStateFilter<$PrismaModel> | $Enums.ModerationState
   }
 
+  export type EnumTranslationStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.TranslationStatus | EnumTranslationStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.TranslationStatus[]
+    notIn?: $Enums.TranslationStatus[]
+    not?: NestedEnumTranslationStatusFilter<$PrismaModel> | $Enums.TranslationStatus
+  }
+
+  export type DateTimeNullableFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | null
+    notIn?: Date[] | string[] | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
+  }
+
   export type DateTimeFilter<$PrismaModel = never> = {
     equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     in?: Date[] | string[]
@@ -10111,6 +10304,12 @@ export namespace Prisma {
     source1?: SortOrder
     source2?: SortOrder
     moderationState?: SortOrder
+    translationStatus?: SortOrder
+    ownerEntraObjectId?: SortOrder
+    submittedAt?: SortOrder
+    approvedAt?: SortOrder
+    publishedAt?: SortOrder
+    reviewNotes?: SortOrder
     featured?: SortOrder
     isOpenSource?: SortOrder
     githubUrl?: SortOrder
@@ -10155,6 +10354,12 @@ export namespace Prisma {
     source1?: SortOrder
     source2?: SortOrder
     moderationState?: SortOrder
+    translationStatus?: SortOrder
+    ownerEntraObjectId?: SortOrder
+    submittedAt?: SortOrder
+    approvedAt?: SortOrder
+    publishedAt?: SortOrder
+    reviewNotes?: SortOrder
     featured?: SortOrder
     isOpenSource?: SortOrder
     githubUrl?: SortOrder
@@ -10195,6 +10400,12 @@ export namespace Prisma {
     source1?: SortOrder
     source2?: SortOrder
     moderationState?: SortOrder
+    translationStatus?: SortOrder
+    ownerEntraObjectId?: SortOrder
+    submittedAt?: SortOrder
+    approvedAt?: SortOrder
+    publishedAt?: SortOrder
+    reviewNotes?: SortOrder
     featured?: SortOrder
     isOpenSource?: SortOrder
     githubUrl?: SortOrder
@@ -10304,6 +10515,30 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumModerationStateFilter<$PrismaModel>
     _max?: NestedEnumModerationStateFilter<$PrismaModel>
+  }
+
+  export type EnumTranslationStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.TranslationStatus | EnumTranslationStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.TranslationStatus[]
+    notIn?: $Enums.TranslationStatus[]
+    not?: NestedEnumTranslationStatusWithAggregatesFilter<$PrismaModel> | $Enums.TranslationStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumTranslationStatusFilter<$PrismaModel>
+    _max?: NestedEnumTranslationStatusFilter<$PrismaModel>
+  }
+
+  export type DateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | null
+    notIn?: Date[] | string[] | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedDateTimeNullableFilter<$PrismaModel>
+    _max?: NestedDateTimeNullableFilter<$PrismaModel>
   }
 
   export type DateTimeWithAggregatesFilter<$PrismaModel = never> = {
@@ -10593,6 +10828,14 @@ export namespace Prisma {
     set?: $Enums.ModerationState
   }
 
+  export type EnumTranslationStatusFieldUpdateOperationsInput = {
+    set?: $Enums.TranslationStatus
+  }
+
+  export type NullableDateTimeFieldUpdateOperationsInput = {
+    set?: Date | string | null
+  }
+
   export type DateTimeFieldUpdateOperationsInput = {
     set?: Date | string
   }
@@ -10865,6 +11108,24 @@ export namespace Prisma {
     not?: NestedEnumModerationStateFilter<$PrismaModel> | $Enums.ModerationState
   }
 
+  export type NestedEnumTranslationStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.TranslationStatus | EnumTranslationStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.TranslationStatus[]
+    notIn?: $Enums.TranslationStatus[]
+    not?: NestedEnumTranslationStatusFilter<$PrismaModel> | $Enums.TranslationStatus
+  }
+
+  export type NestedDateTimeNullableFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | null
+    notIn?: Date[] | string[] | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
+  }
+
   export type NestedDateTimeFilter<$PrismaModel = never> = {
     equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     in?: Date[] | string[]
@@ -10994,6 +11255,30 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumModerationStateFilter<$PrismaModel>
     _max?: NestedEnumModerationStateFilter<$PrismaModel>
+  }
+
+  export type NestedEnumTranslationStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.TranslationStatus | EnumTranslationStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.TranslationStatus[]
+    notIn?: $Enums.TranslationStatus[]
+    not?: NestedEnumTranslationStatusWithAggregatesFilter<$PrismaModel> | $Enums.TranslationStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumTranslationStatusFilter<$PrismaModel>
+    _max?: NestedEnumTranslationStatusFilter<$PrismaModel>
+  }
+
+  export type NestedDateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | null
+    notIn?: Date[] | string[] | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedDateTimeNullableFilter<$PrismaModel>
+    _max?: NestedDateTimeNullableFilter<$PrismaModel>
   }
 
   export type NestedDateTimeWithAggregatesFilter<$PrismaModel = never> = {
@@ -11234,6 +11519,12 @@ export namespace Prisma {
     source1?: string | null
     source2?: string | null
     moderationState?: $Enums.ModerationState
+    translationStatus?: $Enums.TranslationStatus
+    ownerEntraObjectId?: string | null
+    submittedAt?: Date | string | null
+    approvedAt?: Date | string | null
+    publishedAt?: Date | string | null
+    reviewNotes?: string | null
     featured?: boolean
     isOpenSource?: boolean
     githubUrl?: string | null
@@ -11276,6 +11567,12 @@ export namespace Prisma {
     source1?: string | null
     source2?: string | null
     moderationState?: $Enums.ModerationState
+    translationStatus?: $Enums.TranslationStatus
+    ownerEntraObjectId?: string | null
+    submittedAt?: Date | string | null
+    approvedAt?: Date | string | null
+    publishedAt?: Date | string | null
+    reviewNotes?: string | null
     featured?: boolean
     isOpenSource?: boolean
     githubUrl?: string | null
@@ -11332,6 +11629,12 @@ export namespace Prisma {
     source1?: NullableStringFieldUpdateOperationsInput | string | null
     source2?: NullableStringFieldUpdateOperationsInput | string | null
     moderationState?: EnumModerationStateFieldUpdateOperationsInput | $Enums.ModerationState
+    translationStatus?: EnumTranslationStatusFieldUpdateOperationsInput | $Enums.TranslationStatus
+    ownerEntraObjectId?: NullableStringFieldUpdateOperationsInput | string | null
+    submittedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    approvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    reviewNotes?: NullableStringFieldUpdateOperationsInput | string | null
     featured?: BoolFieldUpdateOperationsInput | boolean
     isOpenSource?: BoolFieldUpdateOperationsInput | boolean
     githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -11374,6 +11677,12 @@ export namespace Prisma {
     source1?: NullableStringFieldUpdateOperationsInput | string | null
     source2?: NullableStringFieldUpdateOperationsInput | string | null
     moderationState?: EnumModerationStateFieldUpdateOperationsInput | $Enums.ModerationState
+    translationStatus?: EnumTranslationStatusFieldUpdateOperationsInput | $Enums.TranslationStatus
+    ownerEntraObjectId?: NullableStringFieldUpdateOperationsInput | string | null
+    submittedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    approvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    reviewNotes?: NullableStringFieldUpdateOperationsInput | string | null
     featured?: BoolFieldUpdateOperationsInput | boolean
     isOpenSource?: BoolFieldUpdateOperationsInput | boolean
     githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -11414,6 +11723,12 @@ export namespace Prisma {
     source1?: string | null
     source2?: string | null
     moderationState?: $Enums.ModerationState
+    translationStatus?: $Enums.TranslationStatus
+    ownerEntraObjectId?: string | null
+    submittedAt?: Date | string | null
+    approvedAt?: Date | string | null
+    publishedAt?: Date | string | null
+    reviewNotes?: string | null
     featured?: boolean
     isOpenSource?: boolean
     githubUrl?: string | null
@@ -11455,6 +11770,12 @@ export namespace Prisma {
     source1?: string | null
     source2?: string | null
     moderationState?: $Enums.ModerationState
+    translationStatus?: $Enums.TranslationStatus
+    ownerEntraObjectId?: string | null
+    submittedAt?: Date | string | null
+    approvedAt?: Date | string | null
+    publishedAt?: Date | string | null
+    reviewNotes?: string | null
     featured?: boolean
     isOpenSource?: boolean
     githubUrl?: string | null
@@ -11525,6 +11846,12 @@ export namespace Prisma {
     source1?: StringNullableFilter<"Project"> | string | null
     source2?: StringNullableFilter<"Project"> | string | null
     moderationState?: EnumModerationStateFilter<"Project"> | $Enums.ModerationState
+    translationStatus?: EnumTranslationStatusFilter<"Project"> | $Enums.TranslationStatus
+    ownerEntraObjectId?: StringNullableFilter<"Project"> | string | null
+    submittedAt?: DateTimeNullableFilter<"Project"> | Date | string | null
+    approvedAt?: DateTimeNullableFilter<"Project"> | Date | string | null
+    publishedAt?: DateTimeNullableFilter<"Project"> | Date | string | null
+    reviewNotes?: StringNullableFilter<"Project"> | string | null
     featured?: BoolFilter<"Project"> | boolean
     isOpenSource?: BoolFilter<"Project"> | boolean
     githubUrl?: StringNullableFilter<"Project"> | string | null
@@ -11620,6 +11947,12 @@ export namespace Prisma {
     source1?: string | null
     source2?: string | null
     moderationState?: $Enums.ModerationState
+    translationStatus?: $Enums.TranslationStatus
+    ownerEntraObjectId?: string | null
+    submittedAt?: Date | string | null
+    approvedAt?: Date | string | null
+    publishedAt?: Date | string | null
+    reviewNotes?: string | null
     featured?: boolean
     isOpenSource?: boolean
     githubUrl?: string | null
@@ -11662,6 +11995,12 @@ export namespace Prisma {
     source1?: string | null
     source2?: string | null
     moderationState?: $Enums.ModerationState
+    translationStatus?: $Enums.TranslationStatus
+    ownerEntraObjectId?: string | null
+    submittedAt?: Date | string | null
+    approvedAt?: Date | string | null
+    publishedAt?: Date | string | null
+    reviewNotes?: string | null
     featured?: boolean
     isOpenSource?: boolean
     githubUrl?: string | null
@@ -11718,6 +12057,12 @@ export namespace Prisma {
     source1?: NullableStringFieldUpdateOperationsInput | string | null
     source2?: NullableStringFieldUpdateOperationsInput | string | null
     moderationState?: EnumModerationStateFieldUpdateOperationsInput | $Enums.ModerationState
+    translationStatus?: EnumTranslationStatusFieldUpdateOperationsInput | $Enums.TranslationStatus
+    ownerEntraObjectId?: NullableStringFieldUpdateOperationsInput | string | null
+    submittedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    approvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    reviewNotes?: NullableStringFieldUpdateOperationsInput | string | null
     featured?: BoolFieldUpdateOperationsInput | boolean
     isOpenSource?: BoolFieldUpdateOperationsInput | boolean
     githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -11760,6 +12105,12 @@ export namespace Prisma {
     source1?: NullableStringFieldUpdateOperationsInput | string | null
     source2?: NullableStringFieldUpdateOperationsInput | string | null
     moderationState?: EnumModerationStateFieldUpdateOperationsInput | $Enums.ModerationState
+    translationStatus?: EnumTranslationStatusFieldUpdateOperationsInput | $Enums.TranslationStatus
+    ownerEntraObjectId?: NullableStringFieldUpdateOperationsInput | string | null
+    submittedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    approvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    reviewNotes?: NullableStringFieldUpdateOperationsInput | string | null
     featured?: BoolFieldUpdateOperationsInput | boolean
     isOpenSource?: BoolFieldUpdateOperationsInput | boolean
     githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -11936,6 +12287,12 @@ export namespace Prisma {
     source1?: string | null
     source2?: string | null
     moderationState?: $Enums.ModerationState
+    translationStatus?: $Enums.TranslationStatus
+    ownerEntraObjectId?: string | null
+    submittedAt?: Date | string | null
+    approvedAt?: Date | string | null
+    publishedAt?: Date | string | null
+    reviewNotes?: string | null
     featured?: boolean
     isOpenSource?: boolean
     githubUrl?: string | null
@@ -11975,6 +12332,12 @@ export namespace Prisma {
     source1?: NullableStringFieldUpdateOperationsInput | string | null
     source2?: NullableStringFieldUpdateOperationsInput | string | null
     moderationState?: EnumModerationStateFieldUpdateOperationsInput | $Enums.ModerationState
+    translationStatus?: EnumTranslationStatusFieldUpdateOperationsInput | $Enums.TranslationStatus
+    ownerEntraObjectId?: NullableStringFieldUpdateOperationsInput | string | null
+    submittedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    approvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    reviewNotes?: NullableStringFieldUpdateOperationsInput | string | null
     featured?: BoolFieldUpdateOperationsInput | boolean
     isOpenSource?: BoolFieldUpdateOperationsInput | boolean
     githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -12016,6 +12379,12 @@ export namespace Prisma {
     source1?: NullableStringFieldUpdateOperationsInput | string | null
     source2?: NullableStringFieldUpdateOperationsInput | string | null
     moderationState?: EnumModerationStateFieldUpdateOperationsInput | $Enums.ModerationState
+    translationStatus?: EnumTranslationStatusFieldUpdateOperationsInput | $Enums.TranslationStatus
+    ownerEntraObjectId?: NullableStringFieldUpdateOperationsInput | string | null
+    submittedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    approvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    reviewNotes?: NullableStringFieldUpdateOperationsInput | string | null
     featured?: BoolFieldUpdateOperationsInput | boolean
     isOpenSource?: BoolFieldUpdateOperationsInput | boolean
     githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -12057,6 +12426,12 @@ export namespace Prisma {
     source1?: NullableStringFieldUpdateOperationsInput | string | null
     source2?: NullableStringFieldUpdateOperationsInput | string | null
     moderationState?: EnumModerationStateFieldUpdateOperationsInput | $Enums.ModerationState
+    translationStatus?: EnumTranslationStatusFieldUpdateOperationsInput | $Enums.TranslationStatus
+    ownerEntraObjectId?: NullableStringFieldUpdateOperationsInput | string | null
+    submittedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    approvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    reviewNotes?: NullableStringFieldUpdateOperationsInput | string | null
     featured?: BoolFieldUpdateOperationsInput | boolean
     isOpenSource?: BoolFieldUpdateOperationsInput | boolean
     githubUrl?: NullableStringFieldUpdateOperationsInput | string | null

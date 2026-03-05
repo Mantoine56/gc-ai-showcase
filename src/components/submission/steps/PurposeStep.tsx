@@ -7,7 +7,6 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form';
-import { Textarea } from '@/components/ui/textarea';
 import {
   Select,
   SelectContent,
@@ -16,70 +15,50 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { PrimaryUsers } from '@/types';
+import BilingualFieldGroup from '../BilingualFieldGroup';
+import { ProjectFormData } from '../projectForm';
 
 interface PurposeStepProps {
-  form: UseFormReturn<any>;
+  form: UseFormReturn<ProjectFormData>;
 }
 
 export default function PurposeStep({ form }: PurposeStepProps) {
-  const description = form.watch('description') || '';
-  const capabilities = form.watch('capabilities') || '';
-
   return (
     <div className="space-y-6">
-      {/* Description */}
-      <FormField
-        control={form.control}
-        name="description"
-        render={({ field }) => (
-          <FormItem>
-            <FormLabel>Project Description *</FormLabel>
-            <FormControl>
-              <Textarea
-                placeholder="Describe what this AI system does, its purpose, and how it's used..."
-                className="min-h-[150px] resize-y"
-                {...field}
-                maxLength={1000}
-              />
-            </FormControl>
-            <FormDescription>
-              Provide a clear, comprehensive description of your AI system's purpose and functionality ({description.length}/1000 characters)
-            </FormDescription>
-            <FormMessage />
-          </FormItem>
-        )}
+      <BilingualFieldGroup
+        form={form}
+        nameEN="descriptionEN"
+        nameFR="descriptionFR"
+        label="Project description"
+        description="Describe what the system does, why it exists, and how it is used."
+        placeholderEN="Describe the AI system in English"
+        placeholderFR="Décrivez le système d'IA en français"
+        englishRequired
+        frenchRequiredForPublish
+        multiline
+        maxLength={1000}
+        minHeightClassName="min-h-[160px] resize-y"
       />
 
-      {/* Capabilities */}
-      <FormField
-        control={form.control}
-        name="capabilities"
-        render={({ field }) => (
-          <FormItem>
-            <FormLabel>Key Capabilities</FormLabel>
-            <FormControl>
-              <Textarea
-                placeholder="e.g., Natural Language Processing, Document Classification, Predictive Analytics..."
-                className="min-h-[100px] resize-y"
-                {...field}
-                maxLength={300}
-              />
-            </FormControl>
-            <FormDescription>
-              List the main AI/ML capabilities of this system, separated by commas ({capabilities.length}/300 characters)
-            </FormDescription>
-            <FormMessage />
-          </FormItem>
-        )}
+      <BilingualFieldGroup
+        form={form}
+        nameEN="capabilitiesEN"
+        nameFR="capabilitiesFR"
+        label="Key capabilities"
+        description="List the major AI or automation capabilities in each language."
+        placeholderEN="e.g., Document classification, semantic search, summarization"
+        placeholderFR="p. ex. classification de documents, recherche sémantique, résumé"
+        multiline
+        maxLength={300}
+        minHeightClassName="min-h-[120px] resize-y"
       />
 
-      {/* Primary Users */}
       <FormField
         control={form.control}
         name="primaryUsers"
         render={({ field }) => (
           <FormItem>
-            <FormLabel>Primary Users *</FormLabel>
+            <FormLabel>Primary users *</FormLabel>
             <Select onValueChange={field.onChange} value={field.value}>
               <FormControl>
                 <SelectTrigger>
@@ -88,34 +67,29 @@ export default function PurposeStep({ form }: PurposeStepProps) {
               </FormControl>
               <SelectContent>
                 <SelectItem value={PrimaryUsers.Employees}>
-                  Employees (Internal Government Staff)
+                  Employees (internal government staff)
                 </SelectItem>
                 <SelectItem value={PrimaryUsers.MembersOfPublic}>
-                  Members of Public (Citizens)
+                  Members of the public
                 </SelectItem>
-                <SelectItem value={PrimaryUsers.Both}>
-                  Both (Employees and Public)
-                </SelectItem>
+                <SelectItem value={PrimaryUsers.Both}>Both</SelectItem>
+                <SelectItem value={PrimaryUsers.Neither}>Neither / indirect users</SelectItem>
               </SelectContent>
             </Select>
-            <FormDescription>
-              Who are the primary intended users of this AI system?
-            </FormDescription>
+            <FormDescription>Choose who directly interacts with the system.</FormDescription>
             <FormMessage />
           </FormItem>
         )}
       />
 
-      {/* Helper Info Box */}
-      <div className="bg-blue-50 dark:bg-blue-900/10 border border-blue-200 dark:border-blue-800 rounded-lg p-4">
-        <h4 className="text-sm font-semibold text-blue-900 dark:text-blue-100 mb-2">
-          Tips for a Great Description
+      <div className="rounded-lg border border-gcds-color-blue-300 bg-gcds-color-blue-100 p-4">
+        <h4 className="mb-2 text-sm font-semibold text-gcds-color-blue-900">
+          Content guidance
         </h4>
-        <ul className="text-sm text-blue-800 dark:text-blue-200 space-y-1 list-disc list-inside">
-          <li>Explain the problem your AI system solves</li>
-          <li>Describe the key features and how they benefit users</li>
-          <li>Mention any specific AI/ML techniques used (if applicable)</li>
-          <li>Be clear and concise - avoid technical jargon when possible</li>
+        <ul className="list-disc space-y-1 pl-5 text-sm text-gcds-color-blue-900">
+          <li>Describe the operational problem, not just the model class.</li>
+          <li>Use public-safe language that can appear in the registry unchanged.</li>
+          <li>Keep English and French meaning aligned so reviewers can publish without rewrite.</li>
         </ul>
       </div>
     </div>

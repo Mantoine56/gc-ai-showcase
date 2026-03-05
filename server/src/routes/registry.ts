@@ -3,8 +3,11 @@ import multer from 'multer';
 import { asyncHandler } from '../middleware/errorHandler';
 import { prisma } from '../lib/prisma';
 import { ExcelService } from '../services/excel.service';
+import { authenticateOptional, authenticateRequired, requireRoles } from '../middleware/auth';
 
 const router = Router();
+
+router.use(authenticateOptional);
 
 // Configure multer for file upload (memory storage)
 const upload = multer({
@@ -31,6 +34,8 @@ const upload = multer({
 // POST /api/registry/import - Import from Excel
 router.post(
   '/import',
+  authenticateRequired,
+  requireRoles('reviewer', 'admin'),
   upload.single('file'),
   asyncHandler(async (req, res) => {
     if (!req.file) {

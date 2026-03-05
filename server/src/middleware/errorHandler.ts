@@ -78,7 +78,13 @@ export const errorHandler = (
   });
 };
 
-export const asyncHandler = (fn: Function) => {
+type AsyncRouteHandler = (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => Promise<unknown> | unknown;
+
+export const asyncHandler = (fn: AsyncRouteHandler) => {
   return (req: Request, res: Response, next: NextFunction) => {
     Promise.resolve(fn(req, res, next)).catch(next);
   };

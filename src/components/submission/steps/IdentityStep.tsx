@@ -1,4 +1,3 @@
-import { UseFormReturn } from 'react-hook-form';
 import {
   FormControl,
   FormDescription,
@@ -15,12 +14,15 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { DevelopedBy } from '@/types';
-import { useOrganizations } from '@/hooks/useOrganizations';
 import { Skeleton } from '@/components/ui/skeleton';
+import { useOrganizations } from '@/hooks/useOrganizations';
+import { DevelopedBy } from '@/types';
+import BilingualFieldGroup from '../BilingualFieldGroup';
+import { ProjectFormData } from '../projectForm';
+import { UseFormReturn } from 'react-hook-form';
 
 interface IdentityStepProps {
-  form: UseFormReturn<any>;
+  form: UseFormReturn<ProjectFormData>;
 }
 
 export default function IdentityStep({ form }: IdentityStepProps) {
@@ -29,29 +31,19 @@ export default function IdentityStep({ form }: IdentityStepProps) {
 
   return (
     <div className="space-y-6">
-      {/* Project Name */}
-      <FormField
-        control={form.control}
-        name="name"
-        render={({ field }) => (
-          <FormItem>
-            <FormLabel>Project Name *</FormLabel>
-            <FormControl>
-              <Input
-                placeholder="Enter the name of your AI system"
-                {...field}
-                maxLength={50}
-              />
-            </FormControl>
-            <FormDescription>
-              A clear, descriptive name for your AI system ({field.value?.length || 0}/50 characters)
-            </FormDescription>
-            <FormMessage />
-          </FormItem>
-        )}
+      <BilingualFieldGroup
+        form={form}
+        nameEN="nameEN"
+        nameFR="nameFR"
+        label="Project name"
+        description="Use the public-facing name of the AI system in both official languages."
+        placeholderEN="Enter the English name of your AI system"
+        placeholderFR="Entrez le nom français de votre système d'IA"
+        englishRequired
+        frenchRequiredForPublish
+        maxLength={50}
       />
 
-      {/* Service Inventory ID */}
       <FormField
         control={form.control}
         name="serviceInventoryId"
@@ -59,20 +51,16 @@ export default function IdentityStep({ form }: IdentityStepProps) {
           <FormItem>
             <FormLabel>Service Inventory ID</FormLabel>
             <FormControl>
-              <Input
-                placeholder="e.g., SI-12345"
-                {...field}
-              />
+              <Input placeholder="e.g., SI-12345" {...field} />
             </FormControl>
             <FormDescription>
-              Optional: Your organization's service inventory identifier
+              Optional internal reference used by your department or agency.
             </FormDescription>
             <FormMessage />
           </FormItem>
         )}
       />
 
-      {/* Organization */}
       <FormField
         control={form.control}
         name="organizationId"
@@ -100,20 +88,19 @@ export default function IdentityStep({ form }: IdentityStepProps) {
               </SelectContent>
             </Select>
             <FormDescription>
-              The Government of Canada department or agency responsible for this AI system
+              The Government of Canada organization responsible for this AI system.
             </FormDescription>
             <FormMessage />
           </FormItem>
         )}
       />
 
-      {/* Developed By */}
       <FormField
         control={form.control}
         name="developedBy"
         render={({ field }) => (
           <FormItem>
-            <FormLabel>Developed By *</FormLabel>
+            <FormLabel>Developed by *</FormLabel>
             <Select onValueChange={field.onChange} value={field.value}>
               <FormControl>
                 <SelectTrigger>
@@ -121,35 +108,29 @@ export default function IdentityStep({ form }: IdentityStepProps) {
                 </SelectTrigger>
               </FormControl>
               <SelectContent>
-                <SelectItem value={DevelopedBy.Government}>Government (In-house)</SelectItem>
+                <SelectItem value={DevelopedBy.Government}>Government (in-house)</SelectItem>
                 <SelectItem value={DevelopedBy.Vendor}>Vendor</SelectItem>
-                <SelectItem value={DevelopedBy.Collaboration}>Collaboration</SelectItem>
+                <SelectItem value={DevelopedBy.Other}>Other / collaboration</SelectItem>
               </SelectContent>
             </Select>
-            <FormDescription>
-              Who developed or is developing this AI system
-            </FormDescription>
+            <FormDescription>Identify who built or is building the system.</FormDescription>
             <FormMessage />
           </FormItem>
         )}
       />
 
-      {/* Vendor Name - Conditional */}
       {developedBy === DevelopedBy.Vendor && (
         <FormField
           control={form.control}
           name="vendorName"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Vendor Name *</FormLabel>
+              <FormLabel>Vendor name *</FormLabel>
               <FormControl>
-                <Input
-                  placeholder="Enter the vendor company name"
-                  {...field}
-                />
+                <Input placeholder="Enter the vendor company name" {...field} />
               </FormControl>
               <FormDescription>
-                Name of the vendor company that developed this system
+                Required when the system is built by an external supplier.
               </FormDescription>
               <FormMessage />
             </FormItem>

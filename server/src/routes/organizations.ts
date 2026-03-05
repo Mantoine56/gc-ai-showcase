@@ -2,12 +2,15 @@ import { Router } from 'express';
 import { prisma } from '../lib/prisma';
 import { asyncHandler, AppError } from '../middleware/errorHandler';
 import { validateBody } from '../middleware/validateRequest';
+import { authenticateOptional, authenticateRequired, requireRoles } from '../middleware/auth';
 import {
   CreateOrganizationSchema,
   UpdateOrganizationSchema,
 } from '../validation/schemas';
 
 const router = Router();
+
+router.use(authenticateOptional);
 
 // GET /api/organizations - List all organizations
 router.get(
@@ -69,6 +72,8 @@ router.get(
 // POST /api/organizations - Create new organization (admin only in production)
 router.post(
   '/',
+  authenticateRequired,
+  requireRoles('admin'),
   validateBody(CreateOrganizationSchema),
   asyncHandler(async (req, res) => {
     const data = req.body;
@@ -84,6 +89,8 @@ router.post(
 // PUT /api/organizations/:id - Update organization (admin only in production)
 router.put(
   '/:id',
+  authenticateRequired,
+  requireRoles('admin'),
   validateBody(UpdateOrganizationSchema),
   asyncHandler(async (req, res) => {
     const { id } = req.params;
@@ -106,6 +113,8 @@ router.put(
 // DELETE /api/organizations/:id - Delete organization (admin only in production)
 router.delete(
   '/:id',
+  authenticateRequired,
+  requireRoles('admin'),
   asyncHandler(async (req, res) => {
     const { id } = req.params;
 

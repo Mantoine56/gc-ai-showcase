@@ -1,11 +1,43 @@
 import { useMemo, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { DashboardLayout } from '@/components/layout/DashboardLayout';
-import { Card } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/dialog';
 import { Switch } from '@/components/ui/switch';
 import { Label } from '@/components/ui/label';
-import { BarChart3, Building2, Star, TrendingUp, ShieldCheck, User2, Loader2 } from 'lucide-react';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Textarea } from '@/components/ui/textarea';
+import {
+  ArrowRight,
+  BarChart3,
+  Building2,
+  Globe2,
+  Loader2,
+  MessageSquare,
+  ShieldCheck,
+  Star,
+  TrendingUp,
+  User2,
+} from 'lucide-react';
 import { useAdminStats } from '@/hooks/useAdminStats';
-import { AdminStatsScope } from '@/types';
+import {
+  useApproveProject,
+  useArchiveProject,
+  useProjects,
+  usePublishProject,
+  useRequestChangesProject,
+} from '@/hooks/useProjects';
+import { useAuthProfile } from '@/hooks/useAuth';
+import { AdminStatsScope, ModerationState, Project, TranslationStatus } from '@/types';
 import {
   ChartContainer,
   ChartTooltip,
@@ -15,10 +47,33 @@ import {
 } from '@/components/ui/chart';
 import { BarChart, Bar, XAxis, YAxis, AreaChart, Area, CartesianGrid, PieChart, Pie, Cell, LabelList, Label as RechartsLabel } from 'recharts';
 
+const STATUS_ORDER = ['InDevelopment', 'InProduction', 'Retired'] as const;
+const STATUS_LABELS: Record<(typeof STATUS_ORDER)[number], string> = {
+  InDevelopment: 'In Development',
+  InProduction: 'In Production',
+  Retired: 'Retired',
+};
+
 // Admin Stats page with Published/All scope toggle and comprehensive charts
 export default function AdminStats() {
-  const [scope, setScope] = useState<AdminStatsScope>('published');
+  const [scope, setScope] = useState<AdminStatsScope>('all');
+  const [queueState, setQueueState] = useState<ModerationState>(ModerationState.Submitted);
+  const [dialogProject, setDialogProject] = useState<Project | null>(null);
+  const [dialogAction, setDialogAction] = useState<ModerationAction | null>(null);
+  const [reviewNotes, setReviewNotes] = useState('');
   const { data, isLoading, error } = useAdminStats({ scope, includeCodeRequests: true });
+  const { data: authProfile } = useAuthProfile();
+  const moderationQueue = useProjects({
+    moderationState: queueState,
+    limit: 8,
+    page: 1,
+    sortBy: 'updatedAt',
+    sortOrder: 'desc',
+  });
+  const approveProject = useApproveProject();
+  const requestChangesProject = useRequestChangesProject();
+  const publishProject = usePublishProject();
+  const archiveProject = useArchiveProject();
 
   const summary = data?.summary;
 
@@ -48,46 +103,22 @@ export default function AdminStats() {
   } as const;
 
   const statusData = useMemo(() => (data?.distributions.status || []).map(s => ({ name: s.key, value: s.count })), [data]);
-
-  // Define a stable order and color mapping for statuses to keep the pie
-  // visually consistent across refreshes and data changes.
-  const STATUS_ORDER = ['InDevelopment', 'InProduction', 'Retired'] as const;
-  const STATUS_LABELS: Record<(typeof STATUS_ORDER)[number], string> = {
-    InDevelopment: 'In Development',
-    InProduction: 'In Production',
-    Retired: 'Retired',
-  };
-  const STATUS_COLORS: Record<(typeof STATUS_ORDER)[number], string> = {
+  const statusColors: Record<(typeof STATUS_ORDER)[number], string> = {
     InDevelopment: palette.blue600,
-    // Use semantic success token from the design system for production
     InProduction: 'hsl(var(--gcds-text-success))',
-    // Neutral, accessible grey for retired
     Retired: 'hsl(var(--gcds-text-secondary))',
   };
-
-  // Build pie data for all known statuses in a fixed order. Missing buckets
-  // render as 0-value slices (keeps colors/positions stable over time).
-  const statusPieData = useMemo(() => {
-    const countsByName = new Map(statusData.map(d => [d.name, d.value]));
-    return STATUS_ORDER.map((key) => ({
-      name: key,
-      value: countsByName.get(key) || 0,
-      fill: STATUS_COLORS[key],
-      displayName: STATUS_LABELS[key],
-    }));
-  }, [statusData]);
-
-  // Expose labels and colors to the shared Chart components (legend/tooltip)
-  const statusChartConfig = useMemo(() => {
-    const config: Record<string, { label: string; color: string }> = {};
-    STATUS_ORDER.forEach((key) => {
-      config[key] = { label: STATUS_LABELS[key], color: STATUS_COLORS[key] };
-    });
-    return config;
-  }, []);
-
-  // Pre-compute total for center label in the donut
-  const statusTotal = useMemo(() => statusPieData.reduce((sum, d) => sum + d.value, 0), [statusPieData]);
+  const statusCountsByName = new Map(statusData.map((entry) => [entry.name, entry.value]));
+  const statusPieData = STATUS_ORDER.map((key) => ({
+    name: key,
+    value: statusCountsByName.get(key) || 0,
+    fill: statusColors[key],
+    displayName: STATUS_LABELS[key],
+  }));
+  const statusChartConfig = Object.fromEntries(
+    STATUS_ORDER.map((key) => [key, { label: STATUS_LABELS[key], color: statusColors[key] }])
+  );
+  const statusTotal = statusPieData.reduce((sum, entry) => sum + entry.value, 0);
   const moderationData = useMemo(() => (data?.distributions.moderationState || []).map(s => ({ name: s.key, value: s.count })), [data]);
   const developedByData = useMemo(() => (data?.distributions.developedBy || []).map(s => ({ name: s.key, value: s.count })), [data]);
   const primaryUsersData = useMemo(() => (data?.distributions.primaryUsers || []).map(s => ({ name: s.key, value: s.count })), [data]);
@@ -112,6 +143,60 @@ export default function AdminStats() {
   const codeRequests = data?.codeRequests;
   const codeRequestsRows = codeRequests?.months.map((m, i) => ({ month: m, created: codeRequests.createdMonthly[i] || 0 })) || [];
   const codeRequestStatusRows = codeRequests?.countsByStatus.map(s => ({ name: s.key, value: s.count })) || [];
+  const moderationCounts = useMemo(() => {
+    const counts = new Map<ModerationState, number>();
+    (data?.distributions.moderationState || []).forEach((item) => {
+      counts.set(item.key as ModerationState, item.count);
+    });
+    return counts;
+  }, [data]);
+  const moderationQueueProjects = moderationQueue.data?.data || [];
+  const moderationQueueTotal = moderationQueue.data?.pagination.total || 0;
+  const moderationQueueError = moderationQueue.error as Error | null;
+  const isModerating =
+    approveProject.isPending ||
+    requestChangesProject.isPending ||
+    publishProject.isPending ||
+    archiveProject.isPending;
+
+  const openModerationDialog = (project: Project, action: ModerationAction) => {
+    setDialogProject(project);
+    setDialogAction(action);
+    setReviewNotes(project.reviewNotes || '');
+  };
+
+  const closeModerationDialog = () => {
+    if (isModerating) return;
+    setDialogProject(null);
+    setDialogAction(null);
+    setReviewNotes('');
+  };
+
+  const handleModerationAction = async () => {
+    if (!dialogProject || !dialogAction) return;
+
+    const payload = {
+      id: dialogProject.id,
+      reviewNotes: reviewNotes.trim() || undefined,
+    };
+
+    switch (dialogAction) {
+      case 'approve':
+        await approveProject.mutateAsync(payload);
+        break;
+      case 'requestChanges':
+        await requestChangesProject.mutateAsync(payload);
+        break;
+      case 'publish':
+        await publishProject.mutateAsync(payload);
+        break;
+      case 'archive':
+        await archiveProject.mutateAsync(payload);
+        break;
+    }
+
+    closeModerationDialog();
+  };
 
   return (
     <DashboardLayout>
@@ -138,6 +223,73 @@ export default function AdminStats() {
           <KpiCard icon={ShieldCheck} label="ADS" value={summary?.adsCount ?? 0} colorClass="text-gcds-color-green-700 bg-gcds-color-green-100" />
           <KpiCard icon={User2} label="Personal Info" value={summary?.personalInfoCount ?? 0} colorClass="text-gcds-color-orange-700 bg-gcds-color-orange-100" />
         </div>
+
+        <Card className="border-gcds-border-secondary">
+          <CardHeader className="space-y-4">
+            <div className="flex flex-col gap-3 lg:flex-row lg:items-start lg:justify-between">
+              <div>
+                <CardTitle className="text-xl text-gcds-text-primary">Moderation queue</CardTitle>
+                <p className="mt-1 text-sm text-gcds-text-secondary">
+                  Review submitted drafts, return entries for changes, and publish only when bilingual content is complete.
+                </p>
+              </div>
+              <div className="flex flex-wrap items-center gap-2 text-sm text-gcds-text-secondary">
+                <Badge variant="outline">Roles: {(authProfile?.roles || []).join(', ') || 'anonymous'}</Badge>
+                <Badge variant="outline">
+                  Active queue: {moderationQueueTotal.toLocaleString()} item{moderationQueueTotal === 1 ? '' : 's'}
+                </Badge>
+              </div>
+            </div>
+            <Tabs value={queueState} onValueChange={(value) => setQueueState(value as ModerationState)}>
+              <TabsList className="grid w-full grid-cols-5 lg:w-auto">
+                <TabsTrigger value={ModerationState.Submitted}>
+                  Submitted ({moderationCounts.get(ModerationState.Submitted) || 0})
+                </TabsTrigger>
+                <TabsTrigger value={ModerationState.Approved}>
+                  Approved ({moderationCounts.get(ModerationState.Approved) || 0})
+                </TabsTrigger>
+                <TabsTrigger value={ModerationState.Draft}>
+                  Draft ({moderationCounts.get(ModerationState.Draft) || 0})
+                </TabsTrigger>
+                <TabsTrigger value={ModerationState.Published}>
+                  Published ({moderationCounts.get(ModerationState.Published) || 0})
+                </TabsTrigger>
+                <TabsTrigger value={ModerationState.Archived}>
+                  Archived ({moderationCounts.get(ModerationState.Archived) || 0})
+                </TabsTrigger>
+              </TabsList>
+              {MODERATION_TABS.map((tab) => (
+                <TabsContent key={tab.value} value={tab.value} className="mt-4">
+                  {moderationQueue.isLoading ? (
+                    <div className="flex items-center gap-3 rounded-lg border border-dashed border-gcds-border-secondary p-6 text-sm text-gcds-text-secondary">
+                      <Loader2 className="h-4 w-4 animate-spin" />
+                      Loading {tab.label.toLowerCase()} queue...
+                    </div>
+                  ) : moderationQueueError ? (
+                    <div className="rounded-lg border border-gcds-color-red-300 bg-gcds-color-red-100 p-4 text-sm text-gcds-color-red-900">
+                      Failed to load moderation queue: {moderationQueueError.message}
+                    </div>
+                  ) : moderationQueueProjects.length === 0 ? (
+                    <div className="rounded-lg border border-dashed border-gcds-border-secondary p-6 text-sm text-gcds-text-secondary">
+                      No {tab.label.toLowerCase()} projects in the current queue.
+                    </div>
+                  ) : (
+                    <div className="grid gap-4 xl:grid-cols-2">
+                      {moderationQueueProjects.map((project) => (
+                        <ModerationProjectCard
+                          key={project.id}
+                          project={project}
+                          queueState={queueState}
+                          onAction={openModerationDialog}
+                        />
+                      ))}
+                    </div>
+                  )}
+                </TabsContent>
+              ))}
+            </Tabs>
+          </CardHeader>
+        </Card>
 
         {/* Loading State */}
         {isLoading && (
@@ -235,13 +387,11 @@ export default function AdminStats() {
                   content={
                     <ChartTooltipContent
                       // Show both absolute number and percent in the tooltip
-                      formatter={(value: number, _name: string, _item, _index, payload) => {
-                        const pct = payload?.percent ? Math.round(payload.percent * 100) : undefined;
+                      formatter={(value: number) => {
                         return (
-                          <>
-                            <span className="font-mono font-medium tabular-nums">{value.toLocaleString()}</span>
-                            {pct !== undefined ? <span className="text-gcds-text-secondary"> ({pct}%)</span> : null}
-                          </>
+                          <span className="font-mono font-medium tabular-nums">
+                            {value.toLocaleString()}
+                          </span>
                         );
                       }}
                       nameKey="name"
@@ -320,7 +470,7 @@ export default function AdminStats() {
               <div className="h-1 w-1 bg-gcds-color-blue-600 rounded-full"></div>
               Top organizations
             </h2>
-            <ChartContainer config={{ count: { label: 'Projects', color: palette.blue } }}>
+            <ChartContainer config={{ count: { label: 'Projects', color: palette.blue600 } }}>
               <BarChart data={orgBarRows}>
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis dataKey="name" interval={0} angle={-30} textAnchor="end" height={60} />
@@ -451,6 +601,56 @@ export default function AdminStats() {
           )}
         </div>
         )}
+
+        <Dialog open={Boolean(dialogProject && dialogAction)} onOpenChange={(open) => !open && closeModerationDialog()}>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>
+                {dialogAction ? MODERATION_ACTION_LABELS[dialogAction].title : 'Moderation action'}
+              </DialogTitle>
+              <DialogDescription>
+                {dialogProject
+                  ? `${dialogProject.nameEN} will move to ${dialogAction ? MODERATION_ACTION_LABELS[dialogAction].nextState : 'the next state'}.`
+                  : 'Confirm the moderation action.'}
+              </DialogDescription>
+            </DialogHeader>
+            <div className="space-y-4">
+              {dialogProject && (
+                <div className="rounded-lg border border-border bg-muted/20 p-4 text-sm">
+                  <div className="font-semibold text-foreground">{dialogProject.nameEN}</div>
+                  <div className="mt-1 text-muted-foreground">
+                    Translation status: {dialogProject.translationStatus}
+                  </div>
+                </div>
+              )}
+              <div className="space-y-2">
+                <Label htmlFor="review-notes">Review notes</Label>
+                <Textarea
+                  id="review-notes"
+                  value={reviewNotes}
+                  onChange={(event) => setReviewNotes(event.target.value)}
+                  placeholder="Capture reviewer context, requested edits, or publish notes."
+                  className="min-h-[140px] resize-y"
+                />
+              </div>
+            </div>
+            <DialogFooter>
+              <Button variant="outline" onClick={closeModerationDialog} disabled={isModerating}>
+                Cancel
+              </Button>
+              <Button onClick={() => void handleModerationAction()} disabled={isModerating}>
+                {isModerating ? (
+                  <>
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    Applying...
+                  </>
+                ) : (
+                  MODERATION_ACTION_LABELS[dialogAction || 'approve'].button
+                )}
+              </Button>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
       </div>
     </DashboardLayout>
   );
@@ -472,4 +672,181 @@ function KpiCard({ icon: Icon, label, value, colorClass }: { icon: any; label: s
   );
 }
 
+type ModerationAction = 'approve' | 'requestChanges' | 'publish' | 'archive';
 
+const MODERATION_TABS: Array<{ value: ModerationState; label: string }> = [
+  { value: ModerationState.Submitted, label: 'Submitted' },
+  { value: ModerationState.Approved, label: 'Approved' },
+  { value: ModerationState.Draft, label: 'Draft' },
+  { value: ModerationState.Published, label: 'Published' },
+  { value: ModerationState.Archived, label: 'Archived' },
+];
+
+const MODERATION_ACTION_LABELS: Record<
+  ModerationAction,
+  { title: string; button: string; nextState: ModerationState }
+> = {
+  approve: {
+    title: 'Approve project',
+    button: 'Approve project',
+    nextState: ModerationState.Approved,
+  },
+  requestChanges: {
+    title: 'Request changes',
+    button: 'Return to draft',
+    nextState: ModerationState.Draft,
+  },
+  publish: {
+    title: 'Publish project',
+    button: 'Publish project',
+    nextState: ModerationState.Published,
+  },
+  archive: {
+    title: 'Archive project',
+    button: 'Archive project',
+    nextState: ModerationState.Archived,
+  },
+};
+
+function translationBadgeVariant(status: TranslationStatus) {
+  return status === TranslationStatus.Ready ? 'default' : 'outline';
+}
+
+function formatModerationDate(project: Project, state: ModerationState) {
+  switch (state) {
+    case ModerationState.Submitted:
+      return project.submittedAt;
+    case ModerationState.Approved:
+      return project.approvedAt;
+    case ModerationState.Published:
+      return project.publishedAt;
+    default:
+      return project.updatedAt;
+  }
+}
+
+function formatModerationLabel(state: ModerationState) {
+  switch (state) {
+    case ModerationState.Submitted:
+      return 'Submitted';
+    case ModerationState.Approved:
+      return 'Approved';
+    case ModerationState.Published:
+      return 'Published';
+    case ModerationState.Archived:
+      return 'Archived';
+    case ModerationState.Draft:
+      return 'Draft';
+  }
+}
+
+function ModerationProjectCard({
+  project,
+  queueState,
+  onAction,
+}: {
+  project: Project;
+  queueState: ModerationState;
+  onAction: (project: Project, action: ModerationAction) => void;
+}) {
+  const lastRelevantDate = formatModerationDate(project, queueState);
+
+  return (
+    <Card className="border-gcds-border-secondary">
+      <CardHeader className="space-y-3">
+        <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+          <div>
+            <CardTitle className="text-lg text-gcds-text-primary">{project.nameEN}</CardTitle>
+            <p className="mt-1 text-sm text-gcds-text-secondary">
+              {project.organization?.nameEN || 'Unknown organization'}
+            </p>
+          </div>
+          <div className="flex flex-wrap gap-2">
+            <Badge variant="outline">{formatModerationLabel(project.moderationState)}</Badge>
+            <Badge variant={translationBadgeVariant(project.translationStatus)}>
+              {project.translationStatus === TranslationStatus.Ready ? 'Publish ready' : 'Translation incomplete'}
+            </Badge>
+          </div>
+        </div>
+      </CardHeader>
+      <CardContent className="space-y-4">
+        <div className="text-sm text-gcds-text-secondary">
+          {project.descriptionEN || 'No description provided.'}
+        </div>
+
+        <div className="grid gap-3 sm:grid-cols-2">
+          <div className="rounded-lg border border-border bg-muted/20 p-3 text-sm">
+            <div className="font-semibold text-foreground">French content</div>
+            <div className="mt-1 text-muted-foreground">
+              {project.nameFR?.trim() && project.descriptionFR?.trim()
+                ? 'Core French fields are present.'
+                : 'Name and description still need French content.'}
+            </div>
+          </div>
+          <div className="rounded-lg border border-border bg-muted/20 p-3 text-sm">
+            <div className="font-semibold text-foreground">
+              {queueState === ModerationState.Submitted ? 'Submitted' : 'Last updated'}
+            </div>
+            <div className="mt-1 text-muted-foreground">
+              {lastRelevantDate ? new Date(lastRelevantDate).toLocaleString() : 'No timestamp available'}
+            </div>
+          </div>
+        </div>
+
+        {project.reviewNotes && (
+          <div className="rounded-lg border border-gcds-color-blue-300 bg-gcds-color-blue-100 p-3 text-sm">
+            <div className="mb-1 flex items-center gap-2 font-semibold text-gcds-color-blue-900">
+              <MessageSquare className="h-4 w-4" />
+              Review notes
+            </div>
+            <p className="whitespace-pre-wrap text-gcds-color-blue-900">{project.reviewNotes}</p>
+          </div>
+        )}
+
+        <div className="flex flex-wrap items-center gap-2">
+          <Button asChild variant="outline" size="sm">
+            <Link to={`/project/${project.id}`}>
+              Open detail
+              <ArrowRight className="ml-2 h-4 w-4" />
+            </Link>
+          </Button>
+
+          {queueState === ModerationState.Submitted && (
+            <>
+              <Button size="sm" onClick={() => onAction(project, 'approve')}>
+                Approve
+              </Button>
+              <Button size="sm" variant="outline" onClick={() => onAction(project, 'requestChanges')}>
+                Return to draft
+              </Button>
+              <Button size="sm" variant="destructive" onClick={() => onAction(project, 'archive')}>
+                Archive
+              </Button>
+            </>
+          )}
+
+          {queueState === ModerationState.Approved && (
+            <>
+              <Button
+                size="sm"
+                onClick={() => onAction(project, 'publish')}
+                disabled={project.translationStatus !== TranslationStatus.Ready}
+              >
+                Publish
+              </Button>
+              <Button size="sm" variant="destructive" onClick={() => onAction(project, 'archive')}>
+                Archive
+              </Button>
+            </>
+          )}
+
+          {(queueState === ModerationState.Published || queueState === ModerationState.Draft) && (
+            <Button size="sm" variant="destructive" onClick={() => onAction(project, 'archive')}>
+              Archive
+            </Button>
+          )}
+        </div>
+      </CardContent>
+    </Card>
+  );
+}

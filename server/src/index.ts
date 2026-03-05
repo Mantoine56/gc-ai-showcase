@@ -9,6 +9,7 @@ import organizationsRouter from './routes/organizations';
 import registryRouter from './routes/registry';
 import assistantRouter from './routes/assistant';
 import adminRouter from './routes/admin';
+import authRouter from './routes/auth';
 
 // Load environment variables
 dotenv.config();
@@ -17,12 +18,32 @@ const app = express();
 const PORT = process.env.PORT || 3001;
 const CLIENT_URL = process.env.CLIENT_URL || 'http://localhost:8080';
 
+function isAllowedOrigin(origin: string | undefined) {
+  if (!origin) return true;
+  if (origin === CLIENT_URL) return true;
+
+  if (process.env.NODE_ENV === 'development') {
+    return /^https?:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/.test(origin);
+  }
+
+  return false;
+}
+
 // Middleware
 app.use(helmet());
-app.use(cors({
-  origin: CLIENT_URL,
-  credentials: true,
-}));
+app.use(
+  cors({
+    origin: (origin, callback) => {
+      if (isAllowedOrigin(origin)) {
+        callback(null, true);
+        return;
+      }
+
+      callback(new Error(`Origin ${origin || 'unknown'} is not allowed by CORS`));
+    },
+    credentials: true,
+  })
+);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -49,6 +70,7 @@ app.use('/api/organizations', organizationsRouter);
 app.use('/api/registry', registryRouter);
 app.use('/api/assistant', assistantRouter);
 app.use('/api/admin', adminRouter);
+app.use('/api/auth', authRouter);
 
 // Serve static files in production
 if (process.env.NODE_ENV === 'production') {

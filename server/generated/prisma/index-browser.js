@@ -148,6 +148,12 @@ exports.Prisma.ProjectScalarFieldEnum = {
   source1: 'source1',
   source2: 'source2',
   moderationState: 'moderationState',
+  translationStatus: 'translationStatus',
+  ownerEntraObjectId: 'ownerEntraObjectId',
+  submittedAt: 'submittedAt',
+  approvedAt: 'approvedAt',
+  publishedAt: 'publishedAt',
+  reviewNotes: 'reviewNotes',
   featured: 'featured',
   isOpenSource: 'isOpenSource',
   githubUrl: 'githubUrl',
@@ -243,6 +249,11 @@ exports.ModerationState = exports.$Enums.ModerationState = {
   Approved: 'Approved',
   Published: 'Published',
   Archived: 'Archived'
+};
+
+exports.TranslationStatus = exports.$Enums.TranslationStatus = {
+  Incomplete: 'Incomplete',
+  Ready: 'Ready'
 };
 
 exports.ContactRole = exports.$Enums.ContactRole = {

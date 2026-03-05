@@ -19,6 +19,7 @@ export const projectKeys = {
   details: () => [...projectKeys.all, 'detail'] as const,
   detail: (id: string) => [...projectKeys.details(), id] as const,
   stats: (id: string) => [...projectKeys.all, 'stats', id] as const,
+  moderation: (id: string) => [...projectKeys.all, 'moderation', id] as const,
 };
 
 /**
@@ -127,6 +128,91 @@ export function useDeleteProject() {
         title: 'Error archiving project',
         description: error.message,
         variant: 'destructive',
+      });
+    },
+  });
+}
+
+export function useSubmitProject() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: ({ id, reviewNotes }: { id: string; reviewNotes?: string }) =>
+      projectsApi.submit(id, reviewNotes),
+    onSuccess: (project) => {
+      queryClient.invalidateQueries({ queryKey: projectKeys.lists() });
+      queryClient.invalidateQueries({ queryKey: projectKeys.detail(project.id) });
+      queryClient.invalidateQueries({ queryKey: ['admin', 'stats'] });
+      toast({
+        title: 'Project submitted',
+        description: `${project.name} was submitted for review.`,
+      });
+    },
+  });
+}
+
+export function useApproveProject() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: ({ id, reviewNotes }: { id: string; reviewNotes?: string }) =>
+      projectsApi.approve(id, reviewNotes),
+    onSuccess: (project) => {
+      queryClient.invalidateQueries({ queryKey: projectKeys.lists() });
+      queryClient.invalidateQueries({ queryKey: projectKeys.detail(project.id) });
+      queryClient.invalidateQueries({ queryKey: ['admin', 'stats'] });
+      toast({
+        title: 'Project approved',
+        description: `${project.name} is approved and ready to publish.`,
+      });
+    },
+  });
+}
+
+export function useRequestChangesProject() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: ({ id, reviewNotes }: { id: string; reviewNotes?: string }) =>
+      projectsApi.requestChanges(id, reviewNotes),
+    onSuccess: (project) => {
+      queryClient.invalidateQueries({ queryKey: projectKeys.lists() });
+      queryClient.invalidateQueries({ queryKey: projectKeys.detail(project.id) });
+      queryClient.invalidateQueries({ queryKey: ['admin', 'stats'] });
+      toast({
+        title: 'Changes requested',
+        description: `${project.name} was returned to draft for updates.`,
+      });
+    },
+  });
+}
+
+export function usePublishProject() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: ({ id, reviewNotes }: { id: string; reviewNotes?: string }) =>
+      projectsApi.publish(id, reviewNotes),
+    onSuccess: (project) => {
+      queryClient.invalidateQueries({ queryKey: projectKeys.lists() });
+      queryClient.invalidateQueries({ queryKey: projectKeys.detail(project.id) });
+      queryClient.invalidateQueries({ queryKey: ['admin', 'stats'] });
+      toast({
+        title: 'Project published',
+        description: `${project.name} is now visible in the public registry.`,
+      });
+    },
+  });
+}
+
+export function useArchiveProject() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: ({ id, reviewNotes }: { id: string; reviewNotes?: string }) =>
+      projectsApi.archive(id, reviewNotes),
+    onSuccess: (project) => {
+      queryClient.invalidateQueries({ queryKey: projectKeys.lists() });
+      queryClient.invalidateQueries({ queryKey: projectKeys.detail(project.id) });
+      queryClient.invalidateQueries({ queryKey: ['admin', 'stats'] });
+      toast({
+        title: 'Project archived',
+        description: `${project.name} has been archived.`,
       });
     },
   });

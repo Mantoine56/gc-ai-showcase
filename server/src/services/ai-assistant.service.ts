@@ -1,146 +1,191 @@
-import { PrismaClient, ProjectStatus, PrimaryUsers } from '../../generated/prisma';
+import {
+  Prisma,
+  PrismaClient,
+  ProjectStatus,
+  PrimaryUsers,
+} from '../../generated/prisma';
+
+type AssistantLocale = 'en' | 'fr';
 
 interface QueryIntent {
-  type: 'search' | 'stats' | 'recommendation' | 'general';
-  entities: {
-    departments?: string[];
-    statuses?: ProjectStatus[];
-    keywords?: string[];
-    compliance?: ('ads' | 'personalInfo')[];
-    primaryUsers?: PrimaryUsers[];
-  };
+  type: 'search' | 'stats' | 'general';
+  statuses?: ProjectStatus[];
+  primaryUsers?: PrimaryUsers[];
+  adsOnly?: boolean;
+  personalInfoOnly?: boolean;
+  keywords: string[];
 }
 
-interface AIResponse {
-  message: string;
-  projects?: any[];
-  stats?: any;
-  suggestions?: string[];
+interface AssistantProjectResult {
+  id: string;
+  nameEN: string;
+  nameFR: string;
+  descriptionEN: string;
+  descriptionFR: string;
+  status: ProjectStatus;
+  organization: {
+    id: string;
+    nameEN: string;
+    nameFR: string;
+  };
+  isAutomatedDecisionSystem: boolean;
+  involvesPersonalInfo: boolean;
+  isOpenSource: boolean;
+  capabilitiesEN: string | null;
+  capabilitiesFR: string | null;
+}
+
+interface AssistantCitation {
+  projectId: string;
+  title: string;
+  href: string;
+}
+
+interface AssistantResponse {
+  answer: string;
+  projects: Array<{
+    id: string;
+    nameEN: string;
+    nameFR: string;
+    descriptionEN: string;
+    descriptionFR: string;
+    status: ProjectStatus;
+    organizationNameEN: string;
+    organizationNameFR: string;
+    isAutomatedDecisionSystem: boolean;
+    involvesPersonalInfo: boolean;
+    isOpenSource: boolean;
+  }>;
+  citations: AssistantCitation[];
+  suggestions: string[];
+}
+
+const DEFAULT_SUGGESTIONS: Record<AssistantLocale, string[]> = {
+  en: [
+    'How many projects are in production?',
+    'Show projects that involve personal information',
+    'List automated decision systems',
+    'Show open source AI projects',
+  ],
+  fr: [
+    'Combien de projets sont en production?',
+    'Montrez les projets qui impliquent des renseignements personnels',
+    'Lister les systèmes de décision automatisée',
+    'Montrez les projets IA open source',
+  ],
+};
+
+const KEYWORD_HINTS = [
+  'chatbot',
+  'vision',
+  'translation',
+  'document',
+  'classification',
+  'prediction',
+  'detection',
+  'fraud',
+  'search',
+];
+
+function parseKeywords(query: string): string[] {
+  const normalized = query.toLowerCase();
+  return KEYWORD_HINTS.filter((keyword) => normalized.includes(keyword));
+}
+
+function localizeField(
+  locale: AssistantLocale,
+  enValue: string | null | undefined,
+  frValue: string | null | undefined
+): string {
+  if (locale === 'fr') return frValue || enValue || '';
+  return enValue || frValue || '';
+}
+
+function truncate(value: string, maxLength: number): string {
+  if (value.length <= maxLength) return value;
+  return `${value.slice(0, maxLength - 1)}…`;
 }
 
 export class AIAssistantService {
-  private prisma: PrismaClient;
+  constructor(private readonly prisma: PrismaClient) {}
 
-  constructor(prisma: PrismaClient) {
-    this.prisma = prisma;
-  }
-
-  /**
-   * Parse natural language query to extract intent and entities
-   */
-  private parseQuery(query: string): QueryIntent {
-    const lowerQuery = query.toLowerCase();
+  private parseIntent(userQuery: string): QueryIntent {
+    const query = userQuery.toLowerCase();
     const intent: QueryIntent = {
       type: 'general',
-      entities: {},
+      keywords: parseKeywords(userQuery),
     };
 
-    // Detect query type
-    if (
-      lowerQuery.includes('how many') ||
-      lowerQuery.includes('count') ||
-      lowerQuery.includes('number of') ||
-      lowerQuery.includes('total')
-    ) {
+    if (query.includes('how many') || query.includes('count') || query.includes('combien')) {
       intent.type = 'stats';
     } else if (
-      lowerQuery.includes('find') ||
-      lowerQuery.includes('show') ||
-      lowerQuery.includes('list') ||
-      lowerQuery.includes('search') ||
-      lowerQuery.includes('looking for')
+      query.includes('show') ||
+      query.includes('find') ||
+      query.includes('list') ||
+      query.includes('montre') ||
+      query.includes('trouve')
     ) {
       intent.type = 'search';
-    } else if (
-      lowerQuery.includes('recommend') ||
-      lowerQuery.includes('suggest') ||
-      lowerQuery.includes('similar')
-    ) {
-      intent.type = 'recommendation';
     }
 
-    // Extract status entities
-    if (lowerQuery.includes('production') || lowerQuery.includes('live')) {
-      intent.entities.statuses = [ProjectStatus.InProduction];
-    } else if (lowerQuery.includes('development') || lowerQuery.includes('dev')) {
-      intent.entities.statuses = [ProjectStatus.InDevelopment];
-    } else if (lowerQuery.includes('retired')) {
-      intent.entities.statuses = [ProjectStatus.Retired];
+    if (query.includes('production') || query.includes('live')) {
+      intent.statuses = ['InProduction'];
+    } else if (query.includes('development') || query.includes('pilot')) {
+      intent.statuses = ['InDevelopment'];
+    } else if (query.includes('retired')) {
+      intent.statuses = ['Retired'];
     }
 
-    // Extract compliance entities
-    const compliance: ('ads' | 'personalInfo')[] = [];
+    if (query.includes('public') || query.includes('citizen')) {
+      intent.primaryUsers = ['MembersOfPublic'];
+    } else if (query.includes('employee') || query.includes('internal')) {
+      intent.primaryUsers = ['Employees'];
+    }
+
     if (
-      lowerQuery.includes('ads') ||
-      lowerQuery.includes('automated decision') ||
-      lowerQuery.includes('decision-making')
+      query.includes('automated decision') ||
+      query.includes('ads') ||
+      query.includes('décision automatis')
     ) {
-      compliance.push('ads');
+      intent.adsOnly = true;
     }
+
     if (
-      lowerQuery.includes('personal info') ||
-      lowerQuery.includes('privacy') ||
-      lowerQuery.includes('pib')
+      query.includes('personal information') ||
+      query.includes('privacy') ||
+      query.includes('renseignements personnels')
     ) {
-      compliance.push('personalInfo');
-    }
-    if (compliance.length > 0) {
-      intent.entities.compliance = compliance;
-    }
-
-    // Extract primary users
-    if (lowerQuery.includes('public') || lowerQuery.includes('citizen')) {
-      intent.entities.primaryUsers = [PrimaryUsers.MembersOfPublic];
-    } else if (lowerQuery.includes('employee') || lowerQuery.includes('staff') || lowerQuery.includes('internal')) {
-      intent.entities.primaryUsers = [PrimaryUsers.Employees];
-    }
-
-    // Extract keywords (simple approach - in production, use NLP)
-    const keywords: string[] = [];
-    const techKeywords = ['chatbot', 'nlp', 'vision', 'translation', 'document', 'classification', 'detection', 'prediction'];
-    techKeywords.forEach(keyword => {
-      if (lowerQuery.includes(keyword)) {
-        keywords.push(keyword);
-      }
-    });
-    if (keywords.length > 0) {
-      intent.entities.keywords = keywords;
+      intent.personalInfoOnly = true;
     }
 
     return intent;
   }
 
-  /**
-   * Build database query from intent
-   */
-  private buildDatabaseQuery(intent: QueryIntent) {
-    const where: any = {
+  private buildWhere(intent: QueryIntent) {
+    const where: Prisma.ProjectWhereInput = {
       moderationState: 'Published',
     };
 
-    if (intent.entities.statuses && intent.entities.statuses.length > 0) {
-      where.status = { in: intent.entities.statuses };
+    if (intent.statuses?.length) {
+      where.status = { in: intent.statuses };
     }
 
-    if (intent.entities.compliance) {
-      if (intent.entities.compliance.includes('ads')) {
-        where.isAutomatedDecisionSystem = true;
-      }
-      if (intent.entities.compliance.includes('personalInfo')) {
-        where.involvesPersonalInfo = true;
-      }
+    if (intent.primaryUsers?.length) {
+      where.primaryUsers = { in: intent.primaryUsers };
     }
 
-    if (intent.entities.primaryUsers && intent.entities.primaryUsers.length > 0) {
-      where.primaryUsers = { in: intent.entities.primaryUsers };
-    }
+    if (intent.adsOnly) where.isAutomatedDecisionSystem = true;
+    if (intent.personalInfoOnly) where.involvesPersonalInfo = true;
 
-    if (intent.entities.keywords && intent.entities.keywords.length > 0) {
-      where.OR = intent.entities.keywords.map(keyword => ({
+    if (intent.keywords.length > 0) {
+      where.AND = intent.keywords.map((keyword) => ({
         OR: [
-          { name: { contains: keyword } },
-          { description: { contains: keyword } },
-          { capabilities: { contains: keyword } },
+          { nameEN: { contains: keyword } },
+          { nameFR: { contains: keyword } },
+          { descriptionEN: { contains: keyword } },
+          { descriptionFR: { contains: keyword } },
+          { capabilitiesEN: { contains: keyword } },
+          { capabilitiesFR: { contains: keyword } },
         ],
       }));
     }
@@ -148,167 +193,167 @@ export class AIAssistantService {
     return where;
   }
 
-  /**
-   * Generate natural language response
-   */
-  private async generateResponse(intent: QueryIntent, query: string): Promise<AIResponse> {
-    const where = this.buildDatabaseQuery(intent);
+  private formatProjectOutput(projects: AssistantProjectResult[]) {
+    return projects.map((project) => ({
+      id: project.id,
+      nameEN: project.nameEN,
+      nameFR: project.nameFR,
+      descriptionEN: project.descriptionEN,
+      descriptionFR: project.descriptionFR,
+      status: project.status,
+      organizationNameEN: project.organization.nameEN,
+      organizationNameFR: project.organization.nameFR,
+      isAutomatedDecisionSystem: project.isAutomatedDecisionSystem,
+      involvesPersonalInfo: project.involvesPersonalInfo,
+      isOpenSource: project.isOpenSource,
+    }));
+  }
 
-    if (intent.type === 'stats') {
-      // Get statistics
-      const totalProjects = await this.prisma.project.count({ where });
-      const statusCounts = await this.prisma.project.groupBy({
-        by: ['status'],
-        where,
-        _count: true,
-      });
+  private buildCitations(projects: AssistantProjectResult[], locale: AssistantLocale): AssistantCitation[] {
+    return projects.slice(0, 5).map((project) => ({
+      projectId: project.id,
+      title: localizeField(locale, project.nameEN, project.nameFR),
+      href: `/project/${project.id}`,
+    }));
+  }
 
-      const stats = {
-        total: totalProjects,
-        byStatus: statusCounts.map(s => ({ status: s.status, count: s._count })),
-      };
+  private getMetadataSafeContext(projects: AssistantProjectResult[], locale: AssistantLocale) {
+    return projects.slice(0, 12).map((project) => ({
+      id: project.id,
+      name: localizeField(locale, project.nameEN, project.nameFR),
+      descriptionSummary: truncate(
+        localizeField(locale, project.descriptionEN, project.descriptionFR),
+        240
+      ),
+      status: project.status,
+      organization: localizeField(locale, project.organization.nameEN, project.organization.nameFR),
+      capabilityTags: localizeField(locale, project.capabilitiesEN, project.capabilitiesFR)
+        .split(',')
+        .map((value) => value.trim())
+        .filter(Boolean)
+        .slice(0, 8),
+      flags: {
+        automatedDecisionSystem: project.isAutomatedDecisionSystem,
+        involvesPersonalInfo: project.involvesPersonalInfo,
+        openSource: project.isOpenSource,
+      },
+    }));
+  }
 
-      let message = `I found ${totalProjects} AI project${totalProjects !== 1 ? 's' : ''}`;
+  private async generateWithOpenAI(
+    userQuery: string,
+    locale: AssistantLocale,
+    projects: AssistantProjectResult[],
+    totalCount: number
+  ): Promise<string | null> {
+    const apiKey = process.env.OPENAI_API_KEY;
+    if (!apiKey) return null;
 
-      if (intent.entities.statuses && intent.entities.statuses.length > 0) {
-        message += ` in ${intent.entities.statuses[0].toLowerCase().replace('In', '')}`;
-      }
+    const model = process.env.OPENAI_ASSISTANT_MODEL || 'gpt-4o-mini';
+    const contextPayload = this.getMetadataSafeContext(projects, locale);
 
-      if (intent.entities.compliance) {
-        if (intent.entities.compliance.includes('ads')) {
-          message += ' that are Automated Decision Systems';
-        }
-        if (intent.entities.compliance.includes('personalInfo')) {
-          message += ' involving personal information';
-        }
-      }
+    const systemPrompt =
+      locale === 'fr'
+        ? 'Vous êtes un assistant du registre IA du gouvernement du Canada. Répondez avec des faits, en français, en vous basant uniquement sur le contexte fourni.'
+        : 'You are the Government of Canada AI registry assistant. Respond factually in English and use only the provided context.';
 
-      message += '. ';
+    const userPrompt = JSON.stringify({
+      query: userQuery,
+      resultCount: totalCount,
+      projects: contextPayload,
+      instructions:
+        locale === 'fr'
+          ? 'Résumez les résultats en 2-4 phrases et mentionnez le nombre de projets trouvés.'
+          : 'Summarize results in 2-4 sentences and mention the number of matching projects.',
+    });
 
-      if (statusCounts.length > 0) {
-        message += 'Breakdown by status: ';
-        message += statusCounts
-          .map(s => `${s._count} ${s.status.toLowerCase().replace('In', '')}`)
-          .join(', ');
-      }
-
-      return {
-        message,
-        stats,
-        suggestions: [
-          'Show me all production projects',
-          'Which projects involve personal information?',
-          'List all chatbot projects',
+    const response = await fetch('https://api.openai.com/v1/chat/completions', {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${apiKey}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        model,
+        temperature: 0.2,
+        messages: [
+          { role: 'system', content: systemPrompt },
+          { role: 'user', content: userPrompt },
         ],
-      };
-    } else if (intent.type === 'search' || intent.type === 'recommendation') {
-      // Search for projects
-      const projects = await this.prisma.project.findMany({
+      }),
+    });
+
+    if (!response.ok) {
+      const body = await response.text();
+      console.error('OpenAI assistant call failed:', response.status, body);
+      return null;
+    }
+
+    const payload = (await response.json()) as {
+      choices?: Array<{ message?: { content?: string } }>;
+    };
+    return payload.choices?.[0]?.message?.content?.trim() || null;
+  }
+
+  private buildDeterministicAnswer(
+    locale: AssistantLocale,
+    intent: QueryIntent,
+    projects: AssistantProjectResult[],
+    totalCount: number
+  ): string {
+    if (intent.type === 'stats') {
+      const inProduction = projects.filter((project) => project.status === 'InProduction').length;
+      if (locale === 'fr') {
+        return `J'ai trouvé ${totalCount} projet(s) correspondant à votre demande. Parmi les résultats affichés, ${inProduction} sont en production.`;
+      }
+      return `I found ${totalCount} matching project(s). Among the displayed results, ${inProduction} are in production.`;
+    }
+
+    if (projects.length === 0) {
+      return locale === 'fr'
+        ? "Je n'ai trouvé aucun projet correspondant. Essayez d'élargir les filtres ou d'utiliser des mots-clés différents."
+        : 'I could not find matching projects. Try broader filters or different keywords.';
+    }
+
+    const leadProject = localizeField(locale, projects[0].nameEN, projects[0].nameFR);
+    if (locale === 'fr') {
+      return `J'ai trouvé ${totalCount} projet(s). Le premier résultat est « ${leadProject} ». Consultez les citations pour ouvrir les fiches projet.`;
+    }
+    return `I found ${totalCount} matching project(s). The top result is "${leadProject}". Use the citations to open project records.`;
+  }
+
+  async query(userQuery: string, locale: AssistantLocale = 'en'): Promise<AssistantResponse> {
+    const intent = this.parseIntent(userQuery);
+    const where = this.buildWhere(intent);
+
+    const [projects, totalCount] = await Promise.all([
+      this.prisma.project.findMany({
         where,
         include: {
           organization: true,
         },
-        take: 5,
-        orderBy: {
-          createdAt: 'desc',
-        },
-      });
+        orderBy: [{ featured: 'desc' }, { createdAt: 'desc' }],
+        take: 12,
+      }),
+      this.prisma.project.count({ where }),
+    ]);
 
-      let message = `I found ${projects.length} project${projects.length !== 1 ? 's' : ''}`;
+    const typedProjects = projects as AssistantProjectResult[];
+    const citations = this.buildCitations(typedProjects, locale);
 
-      if (intent.entities.keywords && intent.entities.keywords.length > 0) {
-        message += ` related to ${intent.entities.keywords.join(', ')}`;
-      }
+    const llmAnswer = await this.generateWithOpenAI(userQuery, locale, typedProjects, totalCount);
+    const answer =
+      llmAnswer || this.buildDeterministicAnswer(locale, intent, typedProjects, totalCount);
 
-      if (intent.entities.statuses && intent.entities.statuses.length > 0) {
-        message += ` in ${intent.entities.statuses[0].toLowerCase().replace('In', '')}`;
-      }
-
-      message += '. ';
-
-      if (projects.length > 0) {
-        message += `Here are the top results: ${projects.map(p => p.name).slice(0, 3).join(', ')}`;
-        if (projects.length > 3) {
-          message += ` and ${projects.length - 3} more`;
-        }
-        message += '. Click on any project card below to see full details.';
-      } else {
-        message += 'Try adjusting your search criteria or browsing all projects.';
-      }
-
-      return {
-        message,
-        projects: projects.map(p => ({
-          id: p.id,
-          name: p.name,
-          description: p.description,
-          status: p.status,
-          organization: p.organization?.nameEN,
-          capabilities: p.capabilities,
-        })),
-        suggestions: projects.length > 0
-          ? [
-              'Tell me more about the first project',
-              'Show similar projects',
-              'What departments are working on this?',
-            ]
-          : [
-              'Show all projects',
-              'What AI projects are in production?',
-              'List projects by department',
-            ],
-      };
-    } else {
-      // General query - provide helpful information
-      const totalProjects = await this.prisma.project.count({
-        where: { moderationState: 'Published' },
-      });
-      const totalOrgs = await this.prisma.organization.count();
-
-      return {
-        message: `Hello! I'm the GC AI Assistant. I can help you explore ${totalProjects} AI projects across ${totalOrgs} government departments. I can answer questions about project status, compliance requirements, technologies used, and much more. What would you like to know?`,
-        suggestions: [
-          'How many AI projects are in production?',
-          'Show me all chatbot projects',
-          'Which projects involve personal information?',
-          'List all projects by Service Canada',
-        ],
-      };
-    }
+    return {
+      answer,
+      projects: this.formatProjectOutput(typedProjects),
+      citations,
+      suggestions: DEFAULT_SUGGESTIONS[locale],
+    };
   }
 
-  /**
-   * Main query handler
-   */
-  async query(userQuery: string): Promise<AIResponse> {
-    try {
-      const intent = this.parseQuery(userQuery);
-      const response = await this.generateResponse(intent, userQuery);
-      return response;
-    } catch (error) {
-      console.error('AI Assistant query error:', error);
-      return {
-        message: 'I apologize, but I encountered an error processing your request. Please try rephrasing your question or contact support if the issue persists.',
-        suggestions: [
-          'Show all projects',
-          'What AI projects are in production?',
-          'Help me find projects',
-        ],
-      };
-    }
-  }
-
-  /**
-   * Get conversation starters
-   */
-  async getConversationStarters(): Promise<string[]> {
-    return [
-      'How many AI projects are in production?',
-      'Show me all chatbot projects',
-      'Which projects are Automated Decision Systems?',
-      'List projects involving personal information',
-      'What departments are using AI?',
-      'Show me projects in development',
-    ];
+  async getConversationStarters(locale: AssistantLocale = 'en'): Promise<string[]> {
+    return DEFAULT_SUGGESTIONS[locale];
   }
 }

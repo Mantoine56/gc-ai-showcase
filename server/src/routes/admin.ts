@@ -3,12 +3,17 @@ import { prisma } from '../lib/prisma';
 import { asyncHandler } from '../middleware/errorHandler';
 import { validateQuery } from '../middleware/validateRequest';
 import { AdminStatsQuerySchema } from '../validation/schemas';
+import { authenticateOptional, authenticateRequired, requireRoles } from '../middleware/auth';
 
 // Admin analytics router (no auth for now)
 // Exposes a single endpoint that returns a comprehensive analytics payload
 // for consumption by the Admin Stats page. A scope toggle allows switching
 // between Published-only data and All moderation states.
 const router = Router();
+
+router.use(authenticateOptional);
+router.use(authenticateRequired);
+router.use(requireRoles('reviewer', 'admin'));
 
 type Scope = 'published' | 'all';
 
@@ -59,7 +64,7 @@ router.get(
     const includeCodeRequests = (req.query.includeCodeRequests as string | undefined) !== 'false';
 
     // Base where filter for projects depending on scope
-    const projectWhere: any = scope === 'published' ? { moderationState: 'Published' } : {};
+    const projectWhere = scope === 'published' ? { moderationState: 'Published' as const } : {};
 
     // Summary counts
     const [
@@ -174,13 +179,13 @@ router.get(
     // Content: capabilities & PIB codes frequency (top 20)
     const contentFields = await prisma.project.findMany({
       where: projectWhere,
-      select: { capabilities: true, personalInformationBanks: true },
+      select: { capabilitiesEN: true, capabilitiesFR: true, personalInformationBanksEN: true, personalInformationBanksFR: true },
     });
     const capabilityCounts = new Map<string, number>();
     const pibCounts = new Map<string, number>();
     for (const row of contentFields) {
-      const cap = (row.capabilities || '').split(/[;,]/).map((s) => s.trim()).filter(Boolean);
-      const pibs = (row.personalInformationBanks || '').split(/[;,]/).map((s) => s.trim()).filter(Boolean);
+      const cap = (row.capabilitiesEN || row.capabilitiesFR || '').split(/[;,]/).map((s) => s.trim()).filter(Boolean);
+      const pibs = (row.personalInformationBanksEN || row.personalInformationBanksFR || '').split(/[;,]/).map((s) => s.trim()).filter(Boolean);
       cap.forEach((c) => capabilityCounts.set(c, (capabilityCounts.get(c) || 0) + 1));
       pibs.forEach((p) => pibCounts.set(p, (pibCounts.get(p) || 0) + 1));
     }
@@ -194,7 +199,13 @@ router.get(
       .map(([key, count]) => ({ key, count }));
 
     // Code requests analytics (optional)
-    let codeRequests: any = undefined;
+    let codeRequests: {
+      total: number;
+      countsByStatus: Array<{ key: string; count: number }>;
+      months: string[];
+      createdMonthly: number[];
+      byProjectTop: Array<{ projectId: string; projectName: string; count: number }>;
+    } | undefined = undefined;
     if (includeCodeRequests) {
       const [crTotal, crStatusGroups, crRows, crTopByProject] = await Promise.all([
         prisma.codeRequest.count(),
@@ -207,9 +218,9 @@ router.get(
       const crTop10 = crTopSorted.slice(0, 10);
       const crProjectIds = crTop10.map((g) => g.projectId);
       const crProjects = crProjectIds.length
-        ? await prisma.project.findMany({ where: { id: { in: crProjectIds } }, select: { id: true, name: true } })
+        ? await prisma.project.findMany({ where: { id: { in: crProjectIds } }, select: { id: true, nameEN: true, nameFR: true } })
         : [];
-      const projectIdToName = new Map(crProjects.map((p) => [p.id, p.name]));
+      const projectIdToName = new Map(crProjects.map((p) => [p.id, p.nameEN || p.nameFR || 'Unknown']));
       codeRequests = {
         total: crTotal,
         countsByStatus: crStatusGroups.map((g) => ({ key: g.status, count: g._count._all })),
@@ -265,5 +276,3 @@ router.get(
 );
 
 export default router;
-
-

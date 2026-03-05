@@ -9,8 +9,10 @@ GC AI Hub is a modern web application designed to provide transparency and facil
 ### Core Functionality
 
 - **Project Registry** - Comprehensive database of AI projects with detailed metadata
+- **Moderation Workflow** - `Draft -> Submitted -> Approved -> Published -> Archived`
+- **Role-Gated Operations** - Submitter/Reviewer/Admin authorization model
 - **Advanced Filtering** - Multi-faceted search and filtering capabilities
-- **AI Assistant** - Natural language query interface for project discovery
+- **AI Assistant** - Deterministic search + optional OpenAI response synthesis (metadata-only context)
 - **Multi-Step Submission** - Guided project submission workflow with validation
 - **Excel Integration** - Import/export projects in Excel format
 - **Responsive Design** - Mobile-first design using Government of Canada Design System (GCDS)
@@ -20,7 +22,7 @@ GC AI Hub is a modern web application designed to provide transparency and facil
 
 - **Type-Safe** - Full TypeScript implementation across frontend and backend
 - **Modern Stack** - React 18, Vite, Express, Prisma ORM
-- **RESTful API** - Well-documented API with OpenAPI/Swagger support
+- **RESTful API** - Bilingual project contract with moderation endpoints
 - **Production-Ready** - Docker deployment with health checks and monitoring
 - **Accessible** - WCAG 2.1 AA compliant with ARIA support
 
@@ -72,7 +74,6 @@ GC AI Hub is a modern web application designed to provide transparency and facil
 5. **Access the application:**
    - Frontend: http://localhost:8080
    - Backend API: http://localhost:3001
-   - API Docs: http://localhost:3001/api-docs
 
 ## Docker Deployment
 
@@ -123,9 +124,19 @@ gcaihub/
 |--------|----------|-------------|
 | GET | `/api/projects` | List all published projects |
 | GET | `/api/projects/:id` | Get single project |
-| POST | `/api/projects` | Create new project |
+| POST | `/api/projects` | Create new draft project (authenticated) |
 | PUT | `/api/projects/:id` | Update project |
-| DELETE | `/api/projects/:id` | Delete project |
+| POST | `/api/projects/:id/submit` | Submit draft for review |
+| POST | `/api/projects/:id/approve` | Approve submitted project |
+| POST | `/api/projects/:id/publish` | Publish approved project (requires FR completeness) |
+| POST | `/api/projects/:id/archive` | Archive project |
+| DELETE | `/api/projects/:id` | Backward-compatible archive endpoint |
+
+### Auth API
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| GET | `/api/auth/me` | Return authenticated user and roles |
 
 ### Organizations API
 
@@ -154,15 +165,15 @@ gcaihub/
 
 **Projects List (`/api/projects`):**
 - `page` - Page number (default: 1)
-- `limit` - Items per page (default: 10, max: 100)
-- `search` - Search term for name/description
+- `limit` - Items per page (default: 20)
+- `query` - Search term for bilingual name/description/capabilities fields
 - `status` - Filter by status (InDevelopment, InProduction, Retired)
 - `organizationId` - Filter by organization
 - `isAutomatedDecisionSystem` - Filter ADS projects (true/false)
 - `involvesPersonalInfo` - Filter PIB projects (true/false)
-- `primaryUsers` - Filter by primary users
-- `sort` - Sort field (createdAt, name, status)
-- `order` - Sort order (asc, desc)
+- `moderationState` - Filter moderation state (reviewer/admin only for non-public states)
+- `sortBy` - Sort field (`name`, `organization`, `createdAt`, `updatedAt`, `status`, `statusYear`)
+- `sortOrder` - Sort order (`asc`, `desc`)
 
 ## Development
 
@@ -174,17 +185,21 @@ npm run dev                 # Start dev server
 npm run build              # Build for production
 npm run preview            # Preview production build
 npm run lint               # Run ESLint
+npm run typecheck          # Run client + server type checks
+npm run test:unit          # Run unit tests
+npm run test:e2e           # Run API contract tests
 
 # Backend
 npm run dev:server         # Start backend dev server
 npm run build              # Build TypeScript
-npm run start              # Start production server
 npm run db:generate        # Generate Prisma client
 npm run db:push            # Push schema to database
 npm run db:seed            # Seed database
+npm run db:migrate:deploy  # Apply migrations in deployment environments
+npm run db:sqlite-to-postgres # Copy data from SQLite source to target DB
 
 # Combined
-npm run dev:all            # Run both frontend and backend
+npm run dev                # Run both frontend and backend
 ```
 
 ### Environment Variables
@@ -192,15 +207,27 @@ npm run dev:all            # Run both frontend and backend
 **Frontend (`.env`):**
 ```env
 VITE_API_URL=http://localhost:3001/api
+VITE_ENTRA_CLIENT_ID=
+VITE_ENTRA_TENANT_ID=
+VITE_ENTRA_REDIRECT_URI=http://localhost:8080
 ```
 
-**Backend (`server/.env`):**
+**Backend (`.env`):**
 ```env
 NODE_ENV=development
 PORT=3001
-DATABASE_URL=file:./database.db
-CORS_ORIGIN=http://localhost:8080
+DATABASE_URL=file:./dev.db
+CLIENT_URL=http://localhost:8080
+ENTRA_CLIENT_ID=
+ENTRA_TENANT_ID=
+ENTRA_ADMIN_GROUP_IDS=
+ENTRA_REVIEWER_GROUP_IDS=
+ENTRA_SUBMITTER_GROUP_IDS=
+OPENAI_API_KEY=
+OPENAI_ASSISTANT_MODEL=gpt-4o-mini
 ```
+
+In local development, the client seeds `x-dev-user-id` and `x-dev-roles` headers automatically so protected endpoints are usable without Entra setup.
 
 ### Database Schema
 

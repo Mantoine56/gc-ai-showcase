@@ -1,54 +1,132 @@
-import { Router } from 'express';
-import { prisma } from '../lib/prisma';
+import { Request, Router } from 'express';
+import { ModerationState, Prisma, ProjectStatus } from '../../generated/prisma';
+import {
+  serializeProject,
+  serializeProjects,
+  toCreateProjectData,
+  toUpdateProjectData,
+} from '../dto/project.dto';
+import {
+  authenticateOptional,
+  authenticateRequired,
+  canEditProject,
+  requireRoles,
+} from '../middleware/auth';
+import { ANONYMOUS_AUTH } from '../types/auth';
 import { asyncHandler, AppError } from '../middleware/errorHandler';
+import { prisma } from '../lib/prisma';
+import { recordAuditEvent } from '../services/audit.service';
+import {
+  assertValidTransition,
+  computeTranslationStatus,
+} from '../services/project-workflow.service';
 import { validateBody, validateQuery } from '../middleware/validateRequest';
 import {
   CreateProjectSchema,
-  UpdateProjectSchema,
+  ModerationNotesSchema,
   ProjectQuerySchema,
+  UpdateProjectSchema,
 } from '../validation/schemas';
 
 const router = Router();
 
+router.use(authenticateOptional);
+
+function isReviewerOrAdmin(req: Request): boolean {
+  const roles = req.auth?.roles || [];
+  return roles.includes('reviewer') || roles.includes('admin');
+}
+
+async function getProjectOrThrow(id: string) {
+  const project = await prisma.project.findUnique({
+    where: { id },
+    include: {
+      organization: true,
+      contacts: {
+        orderBy: { role: 'asc' },
+      },
+      codeRequests: {
+        orderBy: { createdAt: 'desc' },
+        take: 10,
+      },
+    },
+  });
+
+  if (!project) {
+    throw new AppError(404, 'Project not found');
+  }
+
+  return project;
+}
+
+async function transitionProject(
+  projectId: string,
+  nextState: ModerationState,
+  actorId: string | undefined,
+  reviewNotes?: string,
+  auditAction?: string
+) {
+  const existing = await prisma.project.findUnique({ where: { id: projectId } });
+  if (!existing) throw new AppError(404, 'Project not found');
+
+  try {
+    assertValidTransition(existing.moderationState, nextState);
+  } catch (error) {
+    throw new AppError(400, error instanceof Error ? error.message : 'Invalid moderation transition');
+  }
+
+  const now = new Date();
+  const update: Prisma.ProjectUpdateInput = {
+    moderationState: nextState,
+    reviewNotes: reviewNotes?.trim() || existing.reviewNotes,
+  };
+
+  if (nextState === 'Submitted') update.submittedAt = now;
+  if (nextState === 'Approved') update.approvedAt = now;
+  if (nextState === 'Published') update.publishedAt = now;
+
+  const updated = await prisma.project.update({
+    where: { id: projectId },
+    data: update,
+    include: { organization: true },
+  });
+
+  await recordAuditEvent(prisma, {
+    actorId,
+    action: auditAction || `project.${nextState.toLowerCase()}`,
+    entity: 'project',
+    entityId: projectId,
+    diff: JSON.stringify({
+      from: existing.moderationState,
+      to: nextState,
+      reviewNotes: reviewNotes || undefined,
+    }),
+  });
+
+  return updated;
+}
+
 // GET /api/projects/stats - Get global statistics
 router.get(
   '/stats',
-  asyncHandler(async (req, res) => {
-    // Get total count
-    const total = await prisma.project.count({
-      where: { moderationState: 'Published' },
-    });
-
-    // Get featured count
-    const featured = await prisma.project.count({
-      where: {
-        moderationState: 'Published',
-        featured: true,
-      },
-    });
-
-    // Get in production count
-    const inProduction = await prisma.project.count({
-      where: {
-        moderationState: 'Published',
-        status: 'InProduction',
-      },
-    });
-
-    // Get unique organizations count
-    const organizations = await prisma.project.findMany({
-      where: { moderationState: 'Published' },
-      select: { organizationId: true },
-      distinct: ['organizationId'],
-    });
-
-    // Get open source count
-    const openSource = await prisma.project.count({
-      where: {
-        moderationState: 'Published',
-        isOpenSource: true,
-      },
-    });
+  asyncHandler(async (_req, res) => {
+    const [total, featured, inProduction, organizations, openSource] = await Promise.all([
+      prisma.project.count({ where: { moderationState: 'Published' } }),
+      prisma.project.count({
+        where: { moderationState: 'Published', featured: true },
+      }),
+      prisma.project.count({
+        where: { moderationState: 'Published', status: 'InProduction' },
+      }),
+      prisma.project.findMany({
+        where: { moderationState: 'Published' },
+        select: { organizationId: true },
+        distinct: ['organizationId'],
+      }),
+      prisma.project.count({
+        where: { moderationState: 'Published', isOpenSource: true },
+      }),
+    ]);
 
     res.json({
       total,
@@ -79,17 +157,14 @@ router.get(
       limit,
       sortBy,
       sortOrder,
-    } = req.query as any;
+    } = req.query as Record<string, string | undefined>;
 
-    const pageNum = parseInt(page) || 1;
-    const limitNum = parseInt(limit) || 20;
+    const pageNum = Number.parseInt(page || '1', 10) || 1;
+    const limitNum = Number.parseInt(limit || '20', 10) || 20;
     const skip = (pageNum - 1) * limitNum;
 
-    // Build where clause
-    const where: any = {};
+    const where: Prisma.ProjectWhereInput = {};
 
-    // Text search across multiple bilingual fields
-    // Note: SQLite LIKE is case-insensitive by default, so we don't use mode: 'insensitive'
     if (query) {
       where.OR = [
         { nameEN: { contains: query } },
@@ -101,9 +176,8 @@ router.get(
       ];
     }
 
-    // Filters
     if (organizationId) where.organizationId = organizationId;
-    if (status) where.status = status;
+    if (status) where.status = status as ProjectStatus;
     if (isAutomatedDecisionSystem !== undefined) {
       where.isAutomatedDecisionSystem = isAutomatedDecisionSystem === 'true';
     }
@@ -111,41 +185,51 @@ router.get(
       where.involvesPersonalInfo = involvesPersonalInfo === 'true';
     }
     if (statusYear) {
-      where.statusYear = parseInt(statusYear);
+      const parsedYear = Number.parseInt(statusYear, 10);
+      if (!Number.isNaN(parsedYear)) {
+        where.statusYear = parsedYear;
+      }
     }
-    if (moderationState) where.moderationState = moderationState;
-    if (featured !== undefined) {
-      where.featured = featured === 'true';
-    }
-    if (isOpenSource !== undefined) {
-      where.isOpenSource = isOpenSource === 'true';
+    if (featured !== undefined) where.featured = featured === 'true';
+    if (isOpenSource !== undefined) where.isOpenSource = isOpenSource === 'true';
+
+    if (moderationState && moderationState !== 'Published' && !isReviewerOrAdmin(req)) {
+      throw new AppError(403, 'Only reviewers and admins can access non-public moderation states');
     }
 
-    // Default to only showing published projects for non-authenticated users (MVP)
-    if (!moderationState) {
+    if (moderationState) {
+      where.moderationState = moderationState as ModerationState;
+    } else {
       where.moderationState = 'Published';
     }
 
-    // Build orderBy clause - handle organization sorting specially
-    let orderBy: any = { [sortBy]: sortOrder };
+    const requestedSort = sortBy || 'createdAt';
+    const requestedOrder: Prisma.SortOrder = sortOrder === 'asc' ? 'asc' : 'desc';
 
-    if (sortBy === 'organization') {
-      // Sort by organization name instead of organizationId
+    let orderBy: Prisma.ProjectOrderByWithRelationInput = { createdAt: requestedOrder };
+    if (requestedSort === 'organization') {
       orderBy = {
         organization: {
-          nameEN: sortOrder,
+          nameEN: requestedOrder,
         },
       };
+    } else if (
+      requestedSort === 'name' ||
+      requestedSort === 'createdAt' ||
+      requestedSort === 'updatedAt' ||
+      requestedSort === 'status' ||
+      requestedSort === 'statusYear'
+    ) {
+      orderBy = { [requestedSort]: requestedOrder } as Prisma.ProjectOrderByWithRelationInput;
     }
 
-    // Execute query
     const [projects, total] = await Promise.all([
       prisma.project.findMany({
         where,
         include: {
           organization: true,
           contacts: {
-            orderBy: { role: 'asc' }, // Order by role: Primary, Technical, Business
+            orderBy: { role: 'asc' },
           },
         },
         orderBy,
@@ -156,7 +240,7 @@ router.get(
     ]);
 
     res.json({
-      data: projects,
+      data: serializeProjects(projects),
       pagination: {
         page: pageNum,
         limit: limitNum,
@@ -172,121 +256,228 @@ router.get(
   '/:id',
   asyncHandler(async (req, res) => {
     const { id } = req.params;
+    const project = await getProjectOrThrow(id);
 
-    const project = await prisma.project.findUnique({
-      where: { id },
-      include: {
-        organization: true,
-        contacts: {
-          orderBy: { role: 'asc' }, // Order by role: Primary, Technical, Business
-        },
-        codeRequests: {
-          orderBy: { createdAt: 'desc' },
-          take: 10,
-        },
-      },
-    });
-
-    if (!project) {
+    if (
+      project.moderationState !== 'Published' &&
+      !isReviewerOrAdmin(req) &&
+      !canEditProject(req.auth || ANONYMOUS_AUTH, project.ownerEntraObjectId)
+    ) {
       throw new AppError(404, 'Project not found');
     }
 
-    res.json(project);
+    res.json(serializeProject(project));
   })
 );
 
-// POST /api/projects - Create new project
+// POST /api/projects - Create new draft project
 router.post(
   '/',
+  authenticateRequired,
+  requireRoles('submitter', 'reviewer', 'admin'),
   validateBody(CreateProjectSchema),
   asyncHandler(async (req, res) => {
     const data = req.body;
+    const actorId = req.auth?.userId;
 
-    // For MVP, all new projects start as Published (no moderation)
-    // In production, this would be Draft and require admin approval
     const project = await prisma.project.create({
-      data: {
-        ...data,
-        moderationState: 'Published',
-      },
+      data: toCreateProjectData(data, actorId),
       include: {
         organization: true,
       },
     });
 
-    res.status(201).json(project);
+    await recordAuditEvent(prisma, {
+      actorId,
+      action: 'project.create',
+      entity: 'project',
+      entityId: project.id,
+      diff: JSON.stringify({
+        moderationState: project.moderationState,
+        translationStatus: project.translationStatus,
+      }),
+    });
+
+    res.status(201).json(serializeProject(project));
   })
 );
 
 // PUT /api/projects/:id - Update project
 router.put(
   '/:id',
+  authenticateRequired,
+  requireRoles('submitter', 'reviewer', 'admin'),
   validateBody(UpdateProjectSchema),
   asyncHandler(async (req, res) => {
     const { id } = req.params;
-    const data = req.body;
+    const patch = req.body;
+    const actor = req.auth;
 
-    // Check if project exists
     const existing = await prisma.project.findUnique({ where: { id } });
-    if (!existing) {
-      throw new AppError(404, 'Project not found');
+    if (!existing) throw new AppError(404, 'Project not found');
+
+    if (!canEditProject(actor || ANONYMOUS_AUTH, existing.ownerEntraObjectId)) {
+      throw new AppError(403, 'You do not have permission to update this project');
     }
 
     const project = await prisma.project.update({
       where: { id },
-      data,
-      include: {
-        organization: true,
-      },
+      data: toUpdateProjectData(existing, patch),
+      include: { organization: true },
     });
 
-    res.json(project);
+    await recordAuditEvent(prisma, {
+      actorId: actor?.userId,
+      action: 'project.update',
+      entity: 'project',
+      entityId: id,
+    });
+
+    res.json(serializeProject(project));
   })
 );
 
-// DELETE /api/projects/:id - Soft delete (archive) project
+// POST /api/projects/:id/submit - Submit a draft for review
+router.post(
+  '/:id/submit',
+  authenticateRequired,
+  requireRoles('submitter', 'reviewer', 'admin'),
+  validateBody(ModerationNotesSchema),
+  asyncHandler(async (req, res) => {
+    const project = await getProjectOrThrow(req.params.id);
+    const auth = req.auth || ANONYMOUS_AUTH;
+
+    if (!canEditProject(auth, project.ownerEntraObjectId)) {
+      throw new AppError(403, 'You do not have permission to submit this project');
+    }
+
+    const updated = await transitionProject(
+      project.id,
+      'Submitted',
+      auth.userId,
+      req.body.reviewNotes
+    );
+    res.json(serializeProject(updated));
+  })
+);
+
+// POST /api/projects/:id/request-changes - Return a submitted project to draft
+router.post(
+  '/:id/request-changes',
+  authenticateRequired,
+  requireRoles('reviewer', 'admin'),
+  validateBody(ModerationNotesSchema),
+  asyncHandler(async (req, res) => {
+    const updated = await transitionProject(
+      req.params.id,
+      'Draft',
+      req.auth?.userId,
+      req.body.reviewNotes,
+      'project.request_changes'
+    );
+    res.json(serializeProject(updated));
+  })
+);
+
+// POST /api/projects/:id/approve - Approve a submitted project
+router.post(
+  '/:id/approve',
+  authenticateRequired,
+  requireRoles('reviewer', 'admin'),
+  validateBody(ModerationNotesSchema),
+  asyncHandler(async (req, res) => {
+    const updated = await transitionProject(
+      req.params.id,
+      'Approved',
+      req.auth?.userId,
+      req.body.reviewNotes
+    );
+    res.json(serializeProject(updated));
+  })
+);
+
+// POST /api/projects/:id/publish - Publish an approved project
+router.post(
+  '/:id/publish',
+  authenticateRequired,
+  requireRoles('reviewer', 'admin'),
+  validateBody(ModerationNotesSchema),
+  asyncHandler(async (req, res) => {
+    const existing = await getProjectOrThrow(req.params.id);
+    if (existing.translationStatus !== 'Ready') {
+      throw new AppError(
+        400,
+        'Cannot publish: bilingual content is incomplete. Fill the required English and French publish fields first.'
+      );
+    }
+
+    const updated = await transitionProject(
+      existing.id,
+      'Published',
+      req.auth?.userId,
+      req.body.reviewNotes
+    );
+
+    const patched = await prisma.project.update({
+      where: { id: updated.id },
+      data: {
+        translationStatus: computeTranslationStatus(updated),
+      },
+      include: { organization: true },
+    });
+
+    res.json(serializeProject(patched));
+  })
+);
+
+// POST /api/projects/:id/archive - Archive a project
+router.post(
+  '/:id/archive',
+  authenticateRequired,
+  requireRoles('reviewer', 'admin'),
+  validateBody(ModerationNotesSchema),
+  asyncHandler(async (req, res) => {
+    const updated = await transitionProject(
+      req.params.id,
+      'Archived',
+      req.auth?.userId,
+      req.body.reviewNotes
+    );
+    res.json(serializeProject(updated));
+  })
+);
+
+// DELETE /api/projects/:id - Backward-compatible archive endpoint
 router.delete(
   '/:id',
+  authenticateRequired,
+  requireRoles('reviewer', 'admin'),
   asyncHandler(async (req, res) => {
-    const { id } = req.params;
-
-    // Check if project exists
-    const existing = await prisma.project.findUnique({ where: { id } });
-    if (!existing) {
-      throw new AppError(404, 'Project not found');
-    }
-
-    // Soft delete by setting moderation state to Archived
-    const project = await prisma.project.update({
-      where: { id },
-      data: {
-        moderationState: 'Archived',
-      },
+    const updated = await transitionProject(
+      req.params.id,
+      'Archived',
+      req.auth?.userId
+    );
+    res.json({
+      message: 'Project archived successfully',
+      project: serializeProject(updated),
     });
-
-    res.json({ message: 'Project archived successfully', project });
   })
 );
 
-// GET /api/projects/:id/stats - Get project statistics (for future use)
+// GET /api/projects/:id/stats - Get project statistics
 router.get(
   '/:id/stats',
   asyncHandler(async (req, res) => {
     const { id } = req.params;
-
     const project = await prisma.project.findUnique({ where: { id } });
-    if (!project) {
-      throw new AppError(404, 'Project not found');
-    }
+    if (!project) throw new AppError(404, 'Project not found');
 
     const codeRequestCount = await prisma.codeRequest.count({
       where: { projectId: id },
     });
 
-    res.json({
-      codeRequests: codeRequestCount,
-      // Future: views, bookmarks, etc.
-    });
+    res.json({ codeRequests: codeRequestCount });
   })
 );
 

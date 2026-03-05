@@ -39,6 +39,11 @@ enum ModerationState {
   Archived
 }
 
+enum TranslationStatus {
+  Incomplete
+  Ready
+}
+
 enum ContactRole {
   Primary
   Technical
@@ -98,8 +103,14 @@ model Project {
   source2 String? // Hidden/internal
 
   // Metadata and Moderation
-  moderationState ModerationState @default(Draft)
-  featured        Boolean         @default(false) // For featured projects display
+  moderationState    ModerationState   @default(Draft)
+  translationStatus  TranslationStatus @default(Incomplete)
+  ownerEntraObjectId String?
+  submittedAt        DateTime?
+  approvedAt         DateTime?
+  publishedAt        DateTime?
+  reviewNotes        String?
+  featured           Boolean           @default(false) // For featured projects display
 
   // Open Source
   isOpenSource Boolean @default(false) // Is this an open source project
@@ -125,6 +136,8 @@ model Project {
   @@index([moderationState])
   @@index([createdAt])
   @@index([isOpenSource])
+  @@index([ownerEntraObjectId])
+  @@index([translationStatus])
 }
 
 // Project Contact model
