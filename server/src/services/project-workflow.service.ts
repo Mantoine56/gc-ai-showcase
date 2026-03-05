@@ -47,15 +47,19 @@ type TranslationStatusInput = Pick<
   | 'atipRequestRefsFR'
   | 'outcomesEN'
   | 'outcomesFR'
+  | 'involvesPersonalInfo'
 >;
 
-const REQUIRED_BILINGUAL_FIELDS: TranslationFieldBase[] = ['name', 'description'];
-const OPTIONAL_BILINGUAL_FIELDS: TranslationFieldBase[] = [
+const REQUIRED_BILINGUAL_FIELDS: TranslationFieldBase[] = [
+  'name',
+  'description',
   'capabilities',
   'dataSources',
+  'outcomes',
+];
+const OPTIONAL_BILINGUAL_FIELDS: TranslationFieldBase[] = [
   'personalInformationBanks',
   'atipRequestRefs',
-  'outcomes',
 ];
 
 function hasValue(value: string | null | undefined): boolean {
@@ -79,7 +83,25 @@ export function hasFrenchContentForPublish(project: TranslationStatusInput): boo
     return false;
   }
 
+  const personalInformationBanksValid = project.involvesPersonalInfo
+    ? (() => {
+        const { en, fr } = getBilingualValues(project, 'personalInformationBanks');
+        return hasValue(en) && hasValue(fr);
+      })()
+    : true;
+
+  if (!personalInformationBanksValid) {
+    return false;
+  }
+
   return OPTIONAL_BILINGUAL_FIELDS.every((field) => {
+    if (field === 'personalInformationBanks') {
+      const { en, fr } = getBilingualValues(project, field);
+      const enHasValue = hasValue(en);
+      const frHasValue = hasValue(fr);
+      return (!enHasValue && !frHasValue) || (enHasValue && frHasValue);
+    }
+
     const { en, fr } = getBilingualValues(project, field);
     const enHasValue = hasValue(en);
     const frHasValue = hasValue(fr);

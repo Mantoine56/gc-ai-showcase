@@ -79,6 +79,12 @@ test('toUpdateProjectData keeps translation incomplete until french fields are e
   const translated = toUpdateProjectData(existing as any, {
     nameFR: 'Projet A',
     descriptionFR: 'Description FR',
+    capabilitiesEN: 'Search',
+    capabilitiesFR: 'Recherche',
+    dataSourcesEN: 'Internal registry',
+    dataSourcesFR: 'Registre interne',
+    outcomesEN: 'Faster service',
+    outcomesFR: 'Service plus rapide',
   });
   assert.equal(translated.translationStatus, TranslationStatus.Ready);
 });

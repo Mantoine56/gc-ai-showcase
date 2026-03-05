@@ -85,6 +85,7 @@ export default function OperationsStep({ form }: OperationsStepProps) {
         description="List the operational or training data sources that support the system."
         placeholderEN="Describe the English data-source summary"
         placeholderFR="Décrivez le résumé français des sources de données"
+        publishRequired
         multiline
         minHeightClassName="min-h-[120px] resize-y"
       />
@@ -109,6 +110,7 @@ export default function OperationsStep({ form }: OperationsStepProps) {
         description="Summarize the outcomes that can be publicly disclosed."
         placeholderEN="Describe the results, impact, or benefits in English"
         placeholderFR="Décrivez les résultats, l'impact ou les avantages en français"
+        publishRequired
         multiline
         maxLength={500}
         minHeightClassName="min-h-[140px] resize-y"

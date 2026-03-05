@@ -16,12 +16,12 @@ import ReviewStep from './steps/ReviewStep';
 import {
   getDraftReadiness,
   getInitialProjectFormValues,
-  getPublishReadiness,
   ProjectFormData,
   projectSchema,
   STEP_FIELDS,
   toProjectPayload,
 } from './projectForm';
+import { getPublishReadiness } from '@/lib/projectReadiness';
 
 interface SubmissionWizardProps {
   initialData?: Partial<Project & CreateProjectInput>;

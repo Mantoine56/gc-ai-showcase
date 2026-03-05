@@ -21,6 +21,7 @@ interface BilingualFieldGroupProps {
   placeholderEN: string;
   placeholderFR: string;
   englishRequired?: boolean;
+  publishRequired?: boolean;
   frenchRequiredForPublish?: boolean;
   multiline?: boolean;
   maxLength?: number;
@@ -40,6 +41,7 @@ export default function BilingualFieldGroup({
   placeholderEN,
   placeholderFR,
   englishRequired = false,
+  publishRequired = false,
   frenchRequiredForPublish = true,
   multiline = false,
   maxLength,
@@ -58,7 +60,7 @@ export default function BilingualFieldGroup({
         </div>
         <div className="flex flex-wrap gap-2">
           <Badge variant={hasText(englishValue) ? 'default' : 'outline'}>
-            EN {englishRequired ? 'required' : 'optional'}
+            EN {englishRequired ? 'draft gate' : publishRequired ? 'publish gate' : 'optional'}
           </Badge>
           <Badge variant={hasText(frenchValue) ? 'default' : 'outline'}>
             FR {frenchRequiredForPublish ? 'publish gate' : 'optional'}
@@ -83,7 +85,11 @@ export default function BilingualFieldGroup({
                 />
               </FormControl>
               <FormDescription>
-                {englishRequired ? 'Required before a draft can be submitted.' : 'Optional field.'}
+                {englishRequired
+                  ? 'Required before a draft can be submitted.'
+                  : publishRequired
+                    ? 'Required before this project can be published.'
+                    : 'Optional field.'}
                 {maxLength ? ` ${field.value?.length || 0}/${maxLength} characters.` : ''}
               </FormDescription>
               <FormMessage />
@@ -108,7 +114,9 @@ export default function BilingualFieldGroup({
               </FormControl>
               <FormDescription>
                 {frenchRequiredForPublish
-                  ? 'Required for publish readiness when this content exists in English.'
+                  ? publishRequired
+                    ? 'Required before this project can be published.'
+                    : 'Required for publish readiness when this content exists in English.'
                   : 'Optional field.'}
                 {maxLength ? ` ${field.value?.length || 0}/${maxLength} characters.` : ''}
               </FormDescription>

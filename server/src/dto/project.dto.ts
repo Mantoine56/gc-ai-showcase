@@ -110,6 +110,7 @@ export function toCreateProjectData(
     atipRequestRefsFR,
     outcomesEN,
     outcomesFR,
+    involvesPersonalInfo: Boolean(data.involvesPersonalInfo),
   });
 
   return {
@@ -236,6 +237,10 @@ export function toUpdateProjectData(
     atipRequestRefsFR: nextAtipRequestRefsFR,
     outcomesEN: nextOutcomesEN,
     outcomesFR: nextOutcomesFR,
+    involvesPersonalInfo:
+      patch.involvesPersonalInfo !== undefined
+        ? patch.involvesPersonalInfo
+        : existing.involvesPersonalInfo,
   });
 
   const update: Prisma.ProjectUpdateInput = {

@@ -7,9 +7,9 @@ import { DevelopedBy, PrimaryUsers, ProjectStatus } from '@/types';
 import { Activity, Building2, CheckCircle2, Globe2, Shield, Target, XCircle } from 'lucide-react';
 import {
   getDraftReadiness,
-  getPublishReadiness,
   ProjectFormData,
 } from '../projectForm';
+import { getPublishReadiness } from '@/lib/projectReadiness';
 
 interface ReviewStepProps {
   form: UseFormReturn<ProjectFormData>;

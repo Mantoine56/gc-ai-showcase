@@ -28,14 +28,15 @@ test('computeTranslationStatus requires french fields to be present', () => {
       descriptionFR: 'Description',
       capabilitiesEN: 'Search',
       capabilitiesFR: 'Recherche',
-      dataSourcesEN: null,
-      dataSourcesFR: null,
+      dataSourcesEN: 'Internal registry',
+      dataSourcesFR: 'Registre interne',
       personalInformationBanksEN: null,
       personalInformationBanksFR: null,
       atipRequestRefsEN: null,
       atipRequestRefsFR: null,
-      outcomesEN: null,
-      outcomesFR: null,
+      outcomesEN: 'Faster service',
+      outcomesFR: 'Service plus rapide',
+      involvesPersonalInfo: false,
     }),
     'Ready'
   );
@@ -56,6 +57,7 @@ test('computeTranslationStatus requires french fields to be present', () => {
       atipRequestRefsFR: null,
       outcomesEN: null,
       outcomesFR: null,
+      involvesPersonalInfo: false,
     }),
     'Incomplete'
   );
@@ -70,14 +72,38 @@ test('computeTranslationStatus requires both languages when optional content is 
       descriptionFR: 'Description',
       capabilitiesEN: 'Search',
       capabilitiesFR: '',
-      dataSourcesEN: null,
-      dataSourcesFR: null,
+      dataSourcesEN: 'Internal registry',
+      dataSourcesFR: 'Registre interne',
       personalInformationBanksEN: null,
       personalInformationBanksFR: null,
       atipRequestRefsEN: null,
       atipRequestRefsFR: null,
-      outcomesEN: null,
-      outcomesFR: null,
+      outcomesEN: 'Faster service',
+      outcomesFR: 'Service plus rapide',
+      involvesPersonalInfo: false,
+    }),
+    'Incomplete'
+  );
+});
+
+test('computeTranslationStatus requires bilingual publishable sections and PIB references when personal info is involved', () => {
+  assert.equal(
+    computeTranslationStatus({
+      nameEN: 'Name',
+      nameFR: 'Nom',
+      descriptionEN: 'Description',
+      descriptionFR: 'Description',
+      capabilitiesEN: 'Search',
+      capabilitiesFR: 'Recherche',
+      dataSourcesEN: 'Internal registry',
+      dataSourcesFR: 'Registre interne',
+      personalInformationBanksEN: '',
+      personalInformationBanksFR: '',
+      atipRequestRefsEN: '',
+      atipRequestRefsFR: '',
+      outcomesEN: 'Faster service',
+      outcomesFR: 'Service plus rapide',
+      involvesPersonalInfo: true,
     }),
     'Incomplete'
   );

@@ -11,10 +11,12 @@ import ProjectDetail from "./pages/ProjectDetail";
 import NotFound from "./pages/NotFound";
 
 const SubmitProject = lazy(() => import("./pages/SubmitProject"));
+const EditProject = lazy(() => import("./pages/EditProject"));
 const Resources = lazy(() => import("./pages/Resources"));
 const About = lazy(() => import("./pages/About"));
 const Accessibility = lazy(() => import("./pages/Accessibility"));
 const AdminStats = lazy(() => import("./pages/AdminStats"));
+const ReviewQueue = lazy(() => import("./pages/ReviewQueue"));
 
 const queryClient = new QueryClient();
 
@@ -35,6 +37,14 @@ const App = () => (
           <Routes>
             <Route path="/" element={<Index />} />
             <Route path="/project/:id" element={<ProjectDetail />} />
+            <Route
+              path="/project/:id/edit"
+              element={
+                <LazyPage>
+                  <EditProject />
+                </LazyPage>
+              }
+            />
             <Route
               path="/submit"
               element={
@@ -72,6 +82,14 @@ const App = () => (
               element={
                 <LazyPage>
                   <AdminStats />
+                </LazyPage>
+              }
+            />
+            <Route
+              path="/admin/review"
+              element={
+                <LazyPage>
+                  <ReviewQueue />
                 </LazyPage>
               }
             />

@@ -6,12 +6,14 @@ import {
   Info,
   Plus,
   BarChart3,
+  ClipboardCheck,
   Star,
   TrendingUp,
   Clock,
   Github,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useAuthProfile } from "@/hooks/useAuth";
 
 import {
   Sidebar,
@@ -31,8 +33,11 @@ export function AppSidebar() {
   const location = useLocation();
   const navigate = useNavigate();
   const { t } = useTranslation('common');
+  const { data: authProfile } = useAuthProfile();
   const currentPath = location.pathname;
   const isCollapsed = state === "collapsed";
+  const roles = new Set(authProfile?.roles || []);
+  const canReview = roles.has('reviewer') || roles.has('admin');
 
   // Main navigation items - Projects section
   const projectsNavigation = [
@@ -50,9 +55,12 @@ export function AppSidebar() {
   ];
 
   // Other navigation items
-  const otherNavigation = [
-    { title: t('nav.adminStats'), url: "/admin/stats", icon: BarChart3 },
-  ];
+  const otherNavigation = canReview
+    ? [
+        { title: t('nav.reviewQueue'), url: "/admin/review", icon: ClipboardCheck },
+        { title: t('nav.adminStats'), url: "/admin/stats", icon: BarChart3 },
+      ]
+    : [];
 
   const isActive = (path: string) => {
     // Handle tab-based navigation (e.g., /?tab=featured)
@@ -145,19 +153,22 @@ export function AppSidebar() {
           </SidebarGroupContent>
         </SidebarGroup>
 
-        <SidebarSeparator className="mx-[var(--gcds-spacing-300)] my-1" />
+        {otherNavigation.length > 0 && (
+          <>
+            <SidebarSeparator className="mx-[var(--gcds-spacing-300)] my-1" />
 
-        {/* Other Section */}
-        <SidebarGroup className="px-[var(--gcds-spacing-300)] py-[var(--gcds-spacing-300)] flex-1">
-          {!isCollapsed && (
-            <SidebarGroupLabel className="text-[length:var(--gcds-font-sizes-caption)] font-semibold text-[hsl(var(--gcds-text-secondary))] uppercase tracking-wider px-2 mb-1.5">
-              {t('sidebar.more')}
-            </SidebarGroupLabel>
-          )}
-          <SidebarGroupContent>
-            {renderNavSection(otherNavigation)}
-          </SidebarGroupContent>
-        </SidebarGroup>
+            <SidebarGroup className="px-[var(--gcds-spacing-300)] py-[var(--gcds-spacing-300)] flex-1">
+              {!isCollapsed && (
+                <SidebarGroupLabel className="text-[length:var(--gcds-font-sizes-caption)] font-semibold text-[hsl(var(--gcds-text-secondary))] uppercase tracking-wider px-2 mb-1.5">
+                  {t('sidebar.more')}
+                </SidebarGroupLabel>
+              )}
+              <SidebarGroupContent>
+                {renderNavSection(otherNavigation)}
+              </SidebarGroupContent>
+            </SidebarGroup>
+          </>
+        )}
 
         {/* Quick Action - Fixed at bottom */}
         {!isCollapsed && (

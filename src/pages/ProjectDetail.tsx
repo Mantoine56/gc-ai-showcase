@@ -22,10 +22,12 @@ import {
   TrendingUp,
   Github,
   ExternalLink,
+  Pencil,
 } from 'lucide-react';
 import { useProject } from '@/hooks/useProjects';
 import { useLocalizedField } from '@/hooks/useLocalizedField';
-import { ProjectStatus, PrimaryUsers, DevelopedBy } from '@/types';
+import { useAuthProfile } from '@/hooks/useAuth';
+import { ProjectStatus, PrimaryUsers, DevelopedBy, ModerationState } from '@/types';
 import { ContactSection } from '@/components/projects/ContactSection';
 
 const ProjectDetail = () => {
@@ -33,6 +35,7 @@ const ProjectDetail = () => {
   const { t } = useTranslation('pages');
   const getField = useLocalizedField();
   const { data: project, isLoading, error } = useProject(id!);
+  const { data: authProfile } = useAuthProfile();
 
   if (isLoading) {
     return (
@@ -124,6 +127,16 @@ const ProjectDetail = () => {
   const personalInformationBanks = projectPIBs
     ? projectPIBs.split(',').map(p => p.trim())
     : [];
+  const roles = new Set(authProfile?.roles || []);
+  const canReview = roles.has('reviewer') || roles.has('admin');
+  const canEditDraft =
+    project.moderationState === ModerationState.Draft &&
+    Boolean(
+      canReview ||
+        (authProfile?.authenticated &&
+          authProfile.user?.id &&
+          authProfile.user.id === project.ownerEntraObjectId)
+    );
 
   return (
     <DashboardLayout>
@@ -202,6 +215,16 @@ const ProjectDetail = () => {
               )}
             </div>
           </div>
+          {canEditDraft && (
+            <div className="pt-2">
+              <Button asChild variant="outline">
+                <Link to={`/project/${project.id}/edit`}>
+                  <Pencil className="mr-2 h-4 w-4" />
+                  Edit draft
+                </Link>
+              </Button>
+            </div>
+          )}
         </div>
 
         {/* Main Content Grid */}

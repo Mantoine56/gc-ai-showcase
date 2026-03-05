@@ -48,6 +48,7 @@ export default function PurposeStep({ form }: PurposeStepProps) {
         description="List the major AI or automation capabilities in each language."
         placeholderEN="e.g., Document classification, semantic search, summarization"
         placeholderFR="p. ex. classification de documents, recherche sémantique, résumé"
+        publishRequired
         multiline
         maxLength={300}
         minHeightClassName="min-h-[120px] resize-y"

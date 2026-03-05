@@ -112,6 +112,7 @@ export default function ComplianceStep({ form }: ComplianceStepProps) {
             description="If PIB references are required, capture them in both languages before publish."
             placeholderEN="e.g., PIB-2024-001, PIB-2024-002"
             placeholderFR="p. ex. FRP-2024-001, FRP-2024-002"
+            publishRequired
             multiline
             minHeightClassName="min-h-[100px] resize-y"
           />

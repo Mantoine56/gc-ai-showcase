@@ -404,7 +404,8 @@ router.post(
   validateBody(ModerationNotesSchema),
   asyncHandler(async (req, res) => {
     const existing = await getProjectOrThrow(req.params.id);
-    if (existing.translationStatus !== 'Ready') {
+    const translationStatus = computeTranslationStatus(existing);
+    if (translationStatus !== 'Ready') {
       throw new AppError(
         400,
         'Cannot publish: bilingual content is incomplete. Fill the required English and French publish fields first.'
@@ -421,7 +422,7 @@ router.post(
     const patched = await prisma.project.update({
       where: { id: updated.id },
       data: {
-        translationStatus: computeTranslationStatus(updated),
+        translationStatus,
       },
       include: { organization: true },
     });

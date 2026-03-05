@@ -6,6 +6,7 @@ import {
   ProjectStatus,
   TranslationStatus,
 } from '@/types';
+import { getPublishReadiness, ReadinessItem } from '@/lib/projectReadiness';
 
 const requiredText = (label: string, max: number) =>
   z
@@ -101,25 +102,9 @@ export const STEP_FIELDS: Record<number, Array<keyof ProjectFormData>> = {
   ],
 };
 
-type BilingualFieldBase =
-  | 'name'
-  | 'description'
-  | 'capabilities'
-  | 'dataSources'
-  | 'personalInformationBanks'
-  | 'atipRequestRefs'
-  | 'outcomes';
-
 type FormInitialData = Partial<CreateProjectInput> & {
   translationStatus?: TranslationStatus;
 };
-
-export interface ReadinessItem {
-  key: string;
-  label: string;
-  complete: boolean;
-  required: boolean;
-}
 
 function hasText(value: string | null | undefined): boolean {
   return Boolean(value?.trim());
@@ -128,25 +113,6 @@ function hasText(value: string | null | undefined): boolean {
 function normalizeOptionalText(value: string | undefined) {
   const trimmed = value?.trim();
   return trimmed ? trimmed : undefined;
-}
-
-function getPair(data: Partial<ProjectFormData>, field: BilingualFieldBase) {
-  return {
-    en: data[`${field}EN` as keyof ProjectFormData] as string | undefined,
-    fr: data[`${field}FR` as keyof ProjectFormData] as string | undefined,
-  };
-}
-
-function isRequiredPairComplete(data: Partial<ProjectFormData>, field: BilingualFieldBase) {
-  const pair = getPair(data, field);
-  return hasText(pair.en) && hasText(pair.fr);
-}
-
-function isOptionalPairComplete(data: Partial<ProjectFormData>, field: BilingualFieldBase) {
-  const pair = getPair(data, field);
-  const enHasValue = hasText(pair.en);
-  const frHasValue = hasText(pair.fr);
-  return (!enHasValue && !frHasValue) || (enHasValue && frHasValue);
 }
 
 export function getDraftReadiness(data: Partial<ProjectFormData>) {
@@ -177,55 +143,6 @@ export function getDraftReadiness(data: Partial<ProjectFormData>) {
       required: true,
     },
     { key: 'status', label: 'Status', complete: hasText(data.status), required: true },
-  ];
-
-  return {
-    items,
-    completeCount: items.filter((item) => item.complete).length,
-    totalCount: items.length,
-    isReady: items.every((item) => item.complete),
-  };
-}
-
-export function getPublishReadiness(data: Partial<ProjectFormData>) {
-  const items: ReadinessItem[] = [
-    { key: 'name', label: 'Name (EN/FR)', complete: isRequiredPairComplete(data, 'name'), required: true },
-    {
-      key: 'description',
-      label: 'Description (EN/FR)',
-      complete: isRequiredPairComplete(data, 'description'),
-      required: true,
-    },
-    {
-      key: 'capabilities',
-      label: 'Capabilities',
-      complete: isOptionalPairComplete(data, 'capabilities'),
-      required: false,
-    },
-    {
-      key: 'dataSources',
-      label: 'Data sources',
-      complete: isOptionalPairComplete(data, 'dataSources'),
-      required: false,
-    },
-    {
-      key: 'personalInformationBanks',
-      label: 'PIB references',
-      complete: isOptionalPairComplete(data, 'personalInformationBanks'),
-      required: false,
-    },
-    {
-      key: 'atipRequestRefs',
-      label: 'ATIP references',
-      complete: isOptionalPairComplete(data, 'atipRequestRefs'),
-      required: false,
-    },
-    {
-      key: 'outcomes',
-      label: 'Outcomes',
-      complete: isOptionalPairComplete(data, 'outcomes'),
-      required: false,
-    },
   ];
 
   return {
