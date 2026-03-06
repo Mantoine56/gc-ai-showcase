@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -29,6 +29,12 @@ interface SubmissionWizardProps {
     data: CreateProjectInput,
     options: { submitForReview: boolean }
   ) => Promise<void>;
+  onAutosave?: (data: CreateProjectInput) => Promise<void>;
+  autosaveState?: {
+    status: 'idle' | 'saving' | 'saved' | 'error';
+    savedAt?: number | null;
+    message?: string;
+  };
   onCancel: () => void;
   isEdit?: boolean;
 }
@@ -44,12 +50,17 @@ const STEPS = [
 export default function SubmissionWizard({
   initialData,
   onSubmit,
+  onAutosave,
+  autosaveState,
   onCancel,
   isEdit = false,
 }: SubmissionWizardProps) {
   const [currentStep, setCurrentStep] = useState(1);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [pendingAction, setPendingAction] = useState<'draft' | 'submit' | null>(null);
+  const lastSavedPayloadRef = useRef(
+    JSON.stringify(toProjectPayload(getInitialProjectFormValues(initialData)))
+  );
 
   const form = useForm<ProjectFormData>({
     resolver: zodResolver(projectSchema),
@@ -61,6 +72,47 @@ export default function SubmissionWizard({
   const draftReadiness = useMemo(() => getDraftReadiness(formValues), [formValues]);
   const publishReadiness = useMemo(() => getPublishReadiness(formValues), [formValues]);
   const progress = (currentStep / STEPS.length) * 100;
+  const autosaveMessage = useMemo(() => {
+    if (!isEdit || !onAutosave) return null;
+
+    switch (autosaveState?.status) {
+      case 'saving':
+        return 'Autosaving draft...';
+      case 'saved':
+        return autosaveState.savedAt
+          ? `Autosaved at ${new Date(autosaveState.savedAt).toLocaleTimeString()}`
+          : 'Draft autosaved';
+      case 'error':
+        return autosaveState.message || 'Autosave failed';
+      default:
+        return 'Autosave enabled for draft edits';
+    }
+  }, [autosaveState, isEdit, onAutosave]);
+
+  useEffect(() => {
+    if (!isEdit || !onAutosave || isSubmitting) {
+      return;
+    }
+
+    const payload = toProjectPayload(formValues);
+    const snapshot = JSON.stringify(payload);
+
+    if (snapshot === lastSavedPayloadRef.current) {
+      return;
+    }
+
+    const timeoutId = window.setTimeout(() => {
+      void onAutosave(payload)
+        .then(() => {
+          lastSavedPayloadRef.current = snapshot;
+        })
+        .catch(() => {
+          // Error state is surfaced by the caller so the wizard can stay passive here.
+        });
+    }, 1200);
+
+    return () => window.clearTimeout(timeoutId);
+  }, [formValues, isEdit, isSubmitting, onAutosave]);
 
   const handleNext = async () => {
     const isValid = await form.trigger(STEP_FIELDS[currentStep] || []);
@@ -77,7 +129,9 @@ export default function SubmissionWizard({
     setIsSubmitting(true);
     setPendingAction(submitForReview ? 'submit' : 'draft');
     try {
-      await onSubmit(toProjectPayload(data), { submitForReview });
+      const payload = toProjectPayload(data);
+      await onSubmit(payload, { submitForReview });
+      lastSavedPayloadRef.current = JSON.stringify(payload);
     } catch (error) {
       console.error('Submission error:', error);
     } finally {
@@ -116,6 +170,9 @@ export default function SubmissionWizard({
                 <CardDescription className="mt-2">
                   Step {currentStep} of {STEPS.length}: {STEPS[currentStep - 1].name}
                 </CardDescription>
+                {autosaveMessage && (
+                  <div className="mt-2 text-xs text-muted-foreground">{autosaveMessage}</div>
+                )}
               </div>
               <div className="text-left lg:text-right">
                 <div className="text-sm text-muted-foreground">Progress</div>

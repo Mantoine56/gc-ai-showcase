@@ -173,6 +173,11 @@ export interface AuditLog {
   createdAt: string;
 }
 
+export interface ProjectAuditEntry extends AuditLog {
+  actorDisplayName?: string;
+  actorEmail?: string;
+}
+
 // API Response types
 export interface PaginatedResponse<T> {
   data: T[];

@@ -18,6 +18,7 @@ export const projectKeys = {
   list: (filters: ProjectFilters) => [...projectKeys.lists(), filters] as const,
   details: () => [...projectKeys.all, 'detail'] as const,
   detail: (id: string) => [...projectKeys.details(), id] as const,
+  audit: (id: string) => [...projectKeys.all, 'audit', id] as const,
   stats: (id: string) => [...projectKeys.all, 'stats', id] as const,
   moderation: (id: string) => [...projectKeys.all, 'moderation', id] as const,
 };
@@ -42,6 +43,15 @@ export function useProject(id: string) {
     queryFn: () => projectsApi.getById(id),
     enabled: !!id,
     staleTime: 1000 * 60 * 5, // 5 minutes
+  });
+}
+
+export function useProjectAudit(id: string, enabled = true) {
+  return useQuery({
+    queryKey: projectKeys.audit(id),
+    queryFn: () => projectsApi.getAudit(id),
+    enabled: enabled && !!id,
+    staleTime: 30_000,
   });
 }
 

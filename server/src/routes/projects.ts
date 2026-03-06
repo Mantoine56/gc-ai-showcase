@@ -62,7 +62,7 @@ async function getProjectOrThrow(id: string) {
 async function transitionProject(
   projectId: string,
   nextState: ModerationState,
-  actorId: string | undefined,
+  actor: Request['auth'],
   reviewNotes?: string,
   auditAction?: string
 ) {
@@ -92,7 +92,10 @@ async function transitionProject(
   });
 
   await recordAuditEvent(prisma, {
-    actorId,
+    actorId: actor?.userId,
+    actorEmail: actor?.email,
+    actorDisplayName: actor?.displayName,
+    actorRoles: actor?.roles,
     action: auditAction || `project.${nextState.toLowerCase()}`,
     entity: 'project',
     entityId: projectId,
@@ -270,6 +273,53 @@ router.get(
   })
 );
 
+// GET /api/projects/:id/audit - Get audit history for a project
+router.get(
+  '/:id/audit',
+  authenticateRequired,
+  asyncHandler(async (req, res) => {
+    const project = await getProjectOrThrow(req.params.id);
+    const auth = req.auth || ANONYMOUS_AUTH;
+
+    if (!isReviewerOrAdmin(req) && !canEditProject(auth, project.ownerEntraObjectId)) {
+      throw new AppError(403, 'You do not have permission to view this audit history');
+    }
+
+    const auditEntries = await prisma.auditLog.findMany({
+      where: {
+        entity: 'project',
+        entityId: project.id,
+      },
+      include: {
+        actor: {
+          select: {
+            displayName: true,
+            email: true,
+          },
+        },
+      },
+      orderBy: {
+        createdAt: 'desc',
+      },
+      take: 25,
+    });
+
+    res.json(
+      auditEntries.map((entry) => ({
+        id: entry.id,
+        actorId: entry.actorId || undefined,
+        actorDisplayName: entry.actor?.displayName || undefined,
+        actorEmail: entry.actor?.email || undefined,
+        action: entry.action,
+        entity: entry.entity,
+        entityId: entry.entityId,
+        diff: entry.diff || undefined,
+        createdAt: entry.createdAt.toISOString(),
+      }))
+    );
+  })
+);
+
 // POST /api/projects - Create new draft project
 router.post(
   '/',
@@ -289,6 +339,9 @@ router.post(
 
     await recordAuditEvent(prisma, {
       actorId,
+      actorEmail: req.auth?.email,
+      actorDisplayName: req.auth?.displayName,
+      actorRoles: req.auth?.roles,
       action: 'project.create',
       entity: 'project',
       entityId: project.id,
@@ -328,6 +381,9 @@ router.put(
 
     await recordAuditEvent(prisma, {
       actorId: actor?.userId,
+      actorEmail: actor?.email,
+      actorDisplayName: actor?.displayName,
+      actorRoles: actor?.roles,
       action: 'project.update',
       entity: 'project',
       entityId: id,
@@ -354,7 +410,7 @@ router.post(
     const updated = await transitionProject(
       project.id,
       'Submitted',
-      auth.userId,
+      auth,
       req.body.reviewNotes
     );
     res.json(serializeProject(updated));
@@ -371,7 +427,7 @@ router.post(
     const updated = await transitionProject(
       req.params.id,
       'Draft',
-      req.auth?.userId,
+      req.auth,
       req.body.reviewNotes,
       'project.request_changes'
     );
@@ -389,7 +445,7 @@ router.post(
     const updated = await transitionProject(
       req.params.id,
       'Approved',
-      req.auth?.userId,
+      req.auth,
       req.body.reviewNotes
     );
     res.json(serializeProject(updated));
@@ -415,7 +471,7 @@ router.post(
     const updated = await transitionProject(
       existing.id,
       'Published',
-      req.auth?.userId,
+      req.auth,
       req.body.reviewNotes
     );
 
@@ -441,7 +497,7 @@ router.post(
     const updated = await transitionProject(
       req.params.id,
       'Archived',
-      req.auth?.userId,
+      req.auth,
       req.body.reviewNotes
     );
     res.json(serializeProject(updated));
@@ -457,7 +513,7 @@ router.delete(
     const updated = await transitionProject(
       req.params.id,
       'Archived',
-      req.auth?.userId
+      req.auth
     );
     res.json({
       message: 'Project archived successfully',

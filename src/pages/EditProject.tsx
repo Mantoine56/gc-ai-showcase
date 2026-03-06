@@ -1,8 +1,10 @@
+import { useCallback, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
+import { useQueryClient } from '@tanstack/react-query';
 import { DashboardLayout } from '@/components/layout/DashboardLayout';
 import SubmissionWizard from '@/components/submission/SubmissionWizard';
 import { Button } from '@/components/ui/button';
-import { useProject, useUpdateProject } from '@/hooks/useProjects';
+import { projectKeys, useProject, useUpdateProject } from '@/hooks/useProjects';
 import { CreateProjectInput, ModerationState } from '@/types';
 import { toast } from 'sonner';
 import { projectsApi } from '@/lib/api';
@@ -10,8 +12,48 @@ import { projectsApi } from '@/lib/api';
 export default function EditProject() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
   const { data: project, isLoading, error } = useProject(id || '');
   const updateProject = useUpdateProject();
+  const [autosaveState, setAutosaveState] = useState<{
+    status: 'idle' | 'saving' | 'saved' | 'error';
+    savedAt?: number | null;
+    message?: string;
+  }>({
+    status: 'idle',
+    savedAt: null,
+  });
+
+  const handleAutosave = useCallback(
+    async (data: CreateProjectInput) => {
+      if (!id) return;
+
+      setAutosaveState((current) => ({
+        status: 'saving',
+        savedAt: current.savedAt || null,
+      }));
+
+      try {
+        const autosavedProject = await projectsApi.update(id, data);
+        queryClient.setQueryData(projectKeys.detail(id), autosavedProject);
+        setAutosaveState({
+          status: 'saved',
+          savedAt: Date.now(),
+        });
+      } catch (autosaveError) {
+        setAutosaveState((current) => ({
+          status: 'error',
+          savedAt: current.savedAt || null,
+          message:
+            autosaveError instanceof Error
+              ? autosaveError.message
+              : 'An unexpected autosave error occurred',
+        }));
+        throw autosaveError;
+      }
+    },
+    [id, queryClient]
+  );
 
   const handleSubmit = async (
     data: CreateProjectInput,
@@ -24,6 +66,8 @@ export default function EditProject() {
 
       if (options.submitForReview && updatedProject.moderationState === ModerationState.Draft) {
         await projectsApi.submit(updatedProject.id);
+        await queryClient.invalidateQueries({ queryKey: projectKeys.detail(updatedProject.id) });
+        await queryClient.invalidateQueries({ queryKey: projectKeys.lists() });
         toast.success('Draft updated and submitted', {
           description: 'The updated draft is now back in the reviewer queue.',
         });
@@ -33,6 +77,10 @@ export default function EditProject() {
         });
       }
 
+      setAutosaveState({
+        status: 'saved',
+        savedAt: Date.now(),
+      });
       navigate(`/project/${updatedProject.id}`);
     } catch (submitError) {
       console.error('Update failed:', submitError);
@@ -91,6 +139,8 @@ export default function EditProject() {
         <SubmissionWizard
           initialData={project}
           onSubmit={handleSubmit}
+          onAutosave={handleAutosave}
+          autosaveState={autosaveState}
           onCancel={() => navigate(`/project/${project.id}`)}
           isEdit
         />

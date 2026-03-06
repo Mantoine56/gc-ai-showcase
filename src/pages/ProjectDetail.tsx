@@ -24,11 +24,12 @@ import {
   ExternalLink,
   Pencil,
 } from 'lucide-react';
-import { useProject } from '@/hooks/useProjects';
+import { useProject, useProjectAudit } from '@/hooks/useProjects';
 import { useLocalizedField } from '@/hooks/useLocalizedField';
 import { useAuthProfile } from '@/hooks/useAuth';
 import { ProjectStatus, PrimaryUsers, DevelopedBy, ModerationState } from '@/types';
 import { ContactSection } from '@/components/projects/ContactSection';
+import { ProjectAuditTimeline } from '@/components/projects/ProjectAuditTimeline';
 
 const ProjectDetail = () => {
   const { id } = useParams<{ id: string }>();
@@ -36,6 +37,16 @@ const ProjectDetail = () => {
   const getField = useLocalizedField();
   const { data: project, isLoading, error } = useProject(id!);
   const { data: authProfile } = useAuthProfile();
+  const roles = new Set(authProfile?.roles || []);
+  const canReview = roles.has('reviewer') || roles.has('admin');
+  const canViewInternalActivity = Boolean(
+    authProfile?.authenticated &&
+      (canReview ||
+        (authProfile.user?.id &&
+          project?.ownerEntraObjectId &&
+          authProfile.user.id === project.ownerEntraObjectId))
+  );
+  const auditTimeline = useProjectAudit(id || '', canViewInternalActivity);
 
   if (isLoading) {
     return (
@@ -127,8 +138,6 @@ const ProjectDetail = () => {
   const personalInformationBanks = projectPIBs
     ? projectPIBs.split(',').map(p => p.trim())
     : [];
-  const roles = new Set(authProfile?.roles || []);
-  const canReview = roles.has('reviewer') || roles.has('admin');
   const canEditDraft =
     project.moderationState === ModerationState.Draft &&
     Boolean(
@@ -556,6 +565,14 @@ const ProjectDetail = () => {
                 )}
               </CardContent>
             </Card>
+
+            {canViewInternalActivity && (
+              <ProjectAuditTimeline
+                entries={auditTimeline.data}
+                isLoading={auditTimeline.isLoading}
+                error={auditTimeline.error as Error | null}
+              />
+            )}
           </div>
         </div>
       </div>

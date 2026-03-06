@@ -7,6 +7,7 @@ import {
   UpdateProjectInput,
   ImportResult,
   AdminStatsResponse,
+  ProjectAuditEntry,
 } from '@/types';
 
 // API base URL from environment variable
@@ -163,6 +164,10 @@ export const projectsApi = {
    */
   async getStats(id: string): Promise<{ codeRequests: number }> {
     return fetchAPI(`/projects/${id}/stats`);
+  },
+
+  async getAudit(id: string): Promise<ProjectAuditEntry[]> {
+    return fetchAPI<ProjectAuditEntry[]>(`/projects/${id}/audit`);
   },
 
   /**

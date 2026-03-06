@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "concurrently \"npm run dev:client\" \"npm run dev:server\"",
     "dev:client": "vite",
-    "dev:server": "nodemon --watch server --exec tsx server/src/index.ts",
+    "dev:server": "tsx watch server/src/index.ts",
     "build": "npm run build:client && npm run build:server",
     "build:client": "vite build",
     "build:server": "tsc --project server/tsconfig.json",
@@ -16,7 +16,7 @@
     "typecheck": "npm run typecheck:client && npm run typecheck:server",
     "typecheck:client": "tsc --project tsconfig.app.json --noEmit",
     "typecheck:server": "tsc --project server/tsconfig.json --noEmit",
-    "test:unit": "tsx --test server/src/dto/project.dto.test.ts server/src/services/project-workflow.service.test.ts",
+    "test:unit": "tsx --test server/src/dto/project.dto.test.ts server/src/services/project-workflow.service.test.ts server/src/services/audit.service.test.ts",
     "test:e2e": "tsx --test server/src/api-contract.e2e.test.ts",
     "preview": "vite preview",
     "db:generate": "prisma generate --schema=server/prisma/schema.prisma",
